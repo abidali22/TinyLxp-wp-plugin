@@ -23,11 +23,11 @@
 
 /*
   Plugin Name: Tiny Lxp
-  Plugin URI: https://github.com/i-do-dev/wordpress-lti-platform
+  Plugin URI: https://github.com/i-do-dev/TinyLxp-wp-plugin
   Description: This plugin allows WordPress to act as a Platform using the IMS Learning Tools Interoperability (Tiny LXP) specification.
   Version: 2.0.3
   Author: Waqar Muneer
-  Author URI: https://github.com/i-do-dev/wordpress-lti-platform
+  Author URI: https://github.com/i-do-dev/TinyLxp-wp-plugin
   License: GPL3
  */
 
@@ -71,10 +71,10 @@ function run_tiny_lxp_platform()
 
 // Function to run on plugin activation
 function my_plugin_activation_function() {
-    $theme = wp_get_theme('tiny-lxp');
+    $theme = wp_get_theme('TinyLxp-wp-theme');
 
     if ($theme->exists()) {
-        switch_theme('tiny-lxp');
+        switch_theme('TinyLxp-wp-theme');
     }
 }
 

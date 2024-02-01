@@ -2,7 +2,7 @@
   "name": "celtic/lti",
   "description": "PHP class library for building LTI integrations",
   "keywords": ["LTI"],
-  "homepage": "https://github.com/i-do-dev/wordpress-lti-platform",
+  "homepage": "https://github.com/i-do-dev/TinyLxp-wp-plugin",
   "type": "library",
   "license": "LGPL-3.0-or-later",
   "authors": [

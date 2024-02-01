@@ -89,14 +89,6 @@ class Rest_Lxp_Assignment
 								return false;
 							}
 						}
-					),					
-					'class_id' => array(
-						'required' => true,
-						'type' => 'integer',
-						'description' => 'assignment class id',
-						'validate_callback' => function($param, $request, $key) {
-							return intval( $param ) > 0;
-						}
 					),
 					'teacher_id' => array(
 						'required' => true,
@@ -176,8 +168,8 @@ class Rest_Lxp_Assignment
 		$group_id = $request->get_param('group_id');
 		$calendar_selection_info = json_decode($request->get_param('calendar_selection_info'));
 		
-		$start = new DateTime($calendar_selection_info->startStr, new DateTimeZone('UTC'));
-		$end = new DateTime($calendar_selection_info->endStr, new DateTimeZone('UTC'));
+		$start = new DateTime($calendar_selection_info->start);
+		$end = new DateTime($calendar_selection_info->end);
 		
 		$start_date = $start->format('Y-m-d');
 		$start_time = $start->format('H:i:s');
@@ -185,7 +177,7 @@ class Rest_Lxp_Assignment
 
 		$end_date = $end->format('Y-m-d');
 		$end_time = $end->format('H:i:s');
-		
+
 		global $wpdb;		
 		foreach ($lesson_ids as $lesson_id) {
 			$lesson_post = get_post($lesson_id);
@@ -404,7 +396,7 @@ class Rest_Lxp_Assignment
 			$event["id"] = $assignment->ID;
 			$event["start"] = $calendar_selection_info->start;
 			$event["end"] = $calendar_selection_info->end;
-			$event["allDay"] = $calendar_selection_info->allDay;
+			$event["allDay"] = $calendar_selection_info && property_exists($calendar_selection_info, 'allDay') ? $calendar_selection_info->allDay : false;
 			$event["title"] = $lxp_lesson_post->post_title;
 			$event["segment"] = implode("-", explode(" ", strtolower($lxp_lesson_post->post_title))) ;
 			$event['course'] = $course ? $course->post_title : '';

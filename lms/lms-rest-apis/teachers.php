@@ -12,10 +12,10 @@ class Rest_Lxp_Teacher
 			return false;
 		}
 
-		register_rest_route('lms/v1', '/teacher/treks/assigned', array(
+		register_rest_route('lms/v1', '/teacher/students', array(
 			array(
 				'methods' => WP_REST_Server::EDITABLE,
-				'callback' => array('Rest_Lxp_Teacher', 'get_restricted_courses'),
+				'callback' => array('Rest_Lxp_Teacher', 'teacher_students'),
 				'permission_callback' => '__return_true'
 			)
 		));
@@ -24,6 +24,14 @@ class Rest_Lxp_Teacher
 			array(
 				'methods' => WP_REST_Server::EDITABLE,
 				'callback' => array('Rest_Lxp_Teacher', 'set_restricted_courses'),
+				'permission_callback' => '__return_true'
+			)
+		));
+
+		register_rest_route('lms/v1', '/teacher/treks/restricted', array(
+			array(
+				'methods' => WP_REST_Server::EDITABLE,
+				'callback' => array('Rest_Lxp_Teacher', 'get_restricted_courses'),
 				'permission_callback' => '__return_true'
 			)
 		));
@@ -43,7 +51,7 @@ class Rest_Lxp_Teacher
 				'permission_callback' => '__return_true'
 			)
 		));
-		
+
 		register_rest_route('lms/v1', '/teachers/import', array(
 			array(
 				'methods' => WP_REST_Server::EDITABLE,
@@ -51,7 +59,7 @@ class Rest_Lxp_Teacher
 				'permission_callback' => '__return_true'
 			),
 		));
-
+		
 		register_rest_route('lms/v1', '/teachers/save', array(
 			array(
 				'methods' => WP_REST_Server::EDITABLE,
@@ -64,6 +72,10 @@ class Rest_Lxp_Teacher
 					   'description' => 'user email name',  
 					   'format' => 'email',
 					   'validate_callback' => function($param, $request, $key) {
+							if (strlen(trim($request->get_param('user_email'))) == 0) {
+								return false;
+							}
+							
 							$user_by_email = get_user_by("email", trim($request->get_param('user_email')));
 							$user_by_login = get_user_by("login", trim($request->get_param('user_email')));
 							if ( $user_by_email && intval($request->get_param('teacher_post_id')) > 0 && $user_by_email->data->user_email !== trim($request->get_param('user_email_default')) ) {
@@ -113,15 +125,7 @@ class Rest_Lxp_Teacher
 						'validate_callback' => function($param, $request, $key) {
 							return strlen( $param ) > 0;
 						}
-					),
-					'about' => array(
-						'required' => false,
-						'type' => 'string',
-						'description' => 'user about description',
-						'validate_callback' => function($param, $request, $key) {
-							return strlen( $param ) > 1;
-						}
-					),
+					)
 			   )
 			),
 		));
@@ -162,7 +166,7 @@ class Rest_Lxp_Teacher
 			   )
 			),
 		));
-		
+
 		register_rest_route('lms/v1', '/teacher/courses/saved', array(
 			array(
 				'methods' => WP_REST_Server::EDITABLE,
@@ -172,7 +176,35 @@ class Rest_Lxp_Teacher
 		));
 	}
 
-	// get restricted treks
+	public static function lxp_get_school_students($school_id)
+	{
+		$school_query = new WP_Query( array( 
+			'post_type' => TL_STUDENT_CPT, 
+			'post_status' => array( 'publish' ),
+			'posts_per_page'   => -1,        
+			'meta_query' => array(
+				array('key' => 'lxp_student_school_id', 'value' => $school_id, 'compare' => '=')
+			)
+		) );
+		
+		$posts = $school_query->get_posts();
+		return $posts;
+	}
+
+	public static function teacher_students($request) {
+		$teacher_post =  get_post(intval($request->get_param('teacher_id')));
+		$teacher_school_id = get_post_meta($teacher_post->ID, 'lxp_teacher_school_id', true);
+		$students = self::lxp_get_school_teacher_students($teacher_school_id, $teacher_post->ID);
+		$students = array_map(function($student_post) {
+			$student_id = $student_post->ID;
+			$user_data = get_userdata(get_post_meta($student_id, 'lxp_student_admin_id', true))->data;
+			$user = ["ID" => $user_data->ID, "display_name" => $user_data->display_name, "user_email" => $user_data->user_email, "user_login" => $user_data->user_login];
+			return array('post' => $student_post, 'user' => $user);
+		}, array_values($students));
+		return wp_send_json_success( ["students" => ($students ? $students : array())] );
+	}
+
+	// get restricted courses
 	public static function get_restricted_courses($request) {
 		$teacher_post_id = intval($request->get_param('teacher_post_id'));
 		$restricted_courses = get_post_meta($teacher_post_id, 'restricted_courses');
@@ -184,10 +216,10 @@ class Rest_Lxp_Teacher
 		$teacher_post_id = intval($request->get_param('teacher_post_id'));
 		$course_ids = $request->get_param('treks');
 		$course_ids = $course_ids ? $course_ids : array();
-		// add treacher 'restricted_course' post metadata and remove existing
+		// add teacher 'restricted_course' post metadata and remove existing
 		delete_post_meta($teacher_post_id, 'restricted_courses');
-		foreach ($course_ids as $trek_id) {
-			add_post_meta($teacher_post_id, 'restricted_courses', $trek_id);
+		foreach ($course_ids as $course_id) {
+			add_post_meta($teacher_post_id, 'restricted_courses', $course_id);
 		}
 		return wp_send_json_success(get_post_meta($teacher_post_id, 'restricted_courses'));
 	}
@@ -195,15 +227,15 @@ class Rest_Lxp_Teacher
 	public static function treks_saved($request) {
 		$teacher_post_id = intval($request->get_param('teacher_post_id'));
 		$is_saved = boolval($request->get_param('is_saved'));
-		$trek_id = intval($request->get_param('trek_id'));
-		// add/delete treacher 'treks_saved' post metadata
+		$course_id = intval($request->get_param('course_id'));
+		// add/delete teacher 'courses_saved' post metadata
 		if ($is_saved) {
-			add_post_meta($teacher_post_id, 'treks_saved', $trek_id);
+			add_post_meta($teacher_post_id, 'courses_saved', $course_id);
 		} else {
-			delete_post_meta($teacher_post_id, 'treks_saved', $trek_id);
+			delete_post_meta($teacher_post_id, 'courses_saved', $course_id);
 		}
 
-		return wp_send_json_success(get_post_meta($teacher_post_id, 'treks_saved'));
+		return wp_send_json_success(get_post_meta($teacher_post_id, 'courses_saved'));
 	}
 
 	public static function create($request) {		
@@ -296,10 +328,10 @@ class Rest_Lxp_Teacher
 				// Define attachment metadata
 				$attach_data = wp_generate_attachment_metadata( $attach_id, $file );
 	
-				// restrict metadata to attachment
+				// Assign metadata to attachment
 				wp_update_attachment_metadata( $attach_id, $attach_data );
 	
-				// And finally restrict featured image to post
+				// And finally assign featured image to post
 				set_post_thumbnail( $teacher_post_id, $attach_id );	
 			}	
 		} */
@@ -423,9 +455,8 @@ class Rest_Lxp_Teacher
 						}		
 					}
 					fclose($handle);
-					return wp_send_json_success("teachers imported successfully.");
 				}
-				
+				return wp_send_json_success("teachers imported successfully.");
 			} else {
 				return  wp_send_json_error("File could not uploaded.", 400);
 			} 
@@ -437,6 +468,24 @@ class Rest_Lxp_Teacher
 		return wp_send_json_success("");
 	}
 
+	public static function lxp_get_school_teacher_students($school_id, $teacher_id)
+	{
+		$school_query = new WP_Query( array( 
+			'post_type' => TL_STUDENT_CPT, 
+			'post_status' => array( 'publish' ),
+			'posts_per_page'   => -1,        
+			'meta_query' => array(
+				array('key' => 'lxp_student_school_id', 'value' => $school_id, 'compare' => '='),
+				array('key' => 'lxp_teacher_id', 'value' => $teacher_id, 'compare' => '=')
+			),
+			'orderby' => 'title',
+			'order' => 'ASC'
+		) );
+		
+		$posts = $school_query->get_posts();
+		return $posts;
+	}
+	
 	public static function courses_saved($request) {
 		$teacher_post_id = intval($request->get_param('teacher_post_id'));
 		$is_saved = boolval($request->get_param('is_saved'));

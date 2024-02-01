@@ -3,7 +3,7 @@
   "version": "2.0.3",
   "description": "Plugin to allow WordPress to act as an Tiny LXP platform",
   "keywords": ["wordpress", "plugin", "LTI", "platform", "tool"],
-  "homepage": "https://github.com/i-do-dev/wordpress-lti-platform",
+  "homepage": "https://github.com/TinyLxp-wp-plugin/TinyLxp-wp-plugin",
   "type": "wordpress-plugin",
   "license": "GPL-3.0",
   "authors": [
@@ -13,7 +13,7 @@
     }
   ],
   "support": {
-    "docs": "https://github.com/i-do-dev/wordpress-lti-platform"
+    "docs": "https://github.com/i-do-dev/TinyLxp-wp-plugin"
   },
   "require": {
     "celtic/lti": "^4.7.2"
