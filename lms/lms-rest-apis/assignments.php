@@ -406,12 +406,71 @@ class Rest_Lxp_Assignment
 		}, $assignment_query->get_posts());
 	}
 
+	public static function get_student_assignments_calendar_events($student_id)
+	{
+		$assignment_query = new WP_Query( array( 
+			'post_type' => TL_ASSIGNMENT_CPT, 
+			'post_status' => array( 'publish' ),
+			'posts_per_page'   => -1,        
+			'meta_query' => array(
+				array('key' => 'lxp_student_ids', 'value' => $student_id, 'compare' => 'IN')
+			)
+		) );
+		
+		return array_map(function($assignment) {
+			$calendar_selection_info = json_decode(get_post_meta($assignment->ID, 'calendar_selection_info', true));
+			$lxp_lesson_post = get_post(get_post_meta($assignment->ID, 'lxp_lesson_id', true));
+			$course = get_post(get_post_meta($assignment->ID, 'course_id', true));
+			$args = array( 'posts_per_page' => -1, 'post_type' => TL_LESSON_CPT, 'meta_query' => array(array('key'   => 'tl_course_id', 'value' =>  $course->ID)));
+			$lessons = get_posts($args);
+			$digital_journal_link = null;
+			foreach($lessons as $lesson){ 
+				if ( $lxp_lesson_post->ID === $lesson->ID ) {
+					 $digital_journal_link = get_permalink($lesson->ID); 
+				}; 
+			}
+			$digital_journal_link = $digital_journal_link ? $digital_journal_link . '?assignment_id=' . $assignment->ID : '';
+			$event = array();
+			$event["id"] = $assignment->ID;
+			$event["start"] = $calendar_selection_info->start;
+			$event["end"] = $calendar_selection_info->end;
+			$event["allDay"] = $calendar_selection_info && property_exists($calendar_selection_info, 'allDay') ? $calendar_selection_info->allDay : false;
+			$event["title"] = $lxp_lesson_post->post_title;
+			$event["segment"] = implode("-", explode(" ", strtolower($lxp_lesson_post->post_title))) ;
+			$event['course'] = $course ? $course->post_title : '';
+			$event["calendar_selection_info"] = json_encode($calendar_selection_info);
+			$event["digital_journal_link"] = $digital_journal_link;
+			return $event;
+		}, $assignment_query->get_posts());
+	}
     public static function calendar_events($request) {
 		$userdata = get_userdata($request->get_param('user_id'));
-		$teacher_post = self::lxp_get_teacher_post($userdata->data->ID);
-		return self::get_teacher_assignments_calendar_events($teacher_post->ID);
+		$userRole = count($userdata->roles) > 0 ? array_values($userdata->roles)[0] : '';
+		if ($userRole === 'lxp_student') {
+			$student_post = self::lxp_get_student_post($userdata->data->ID);
+			return self::get_student_assignments_calendar_events($student_post->ID);
+		} else if ($userRole === 'lxp_teacher') {
+			$teacher_post = self::lxp_get_teacher_post($userdata->data->ID);
+			return self::get_teacher_assignments_calendar_events($teacher_post->ID);
+		} else {
+			return [];
+		}
 	}
 
+	public static function lxp_get_student_post($student_id)
+	{
+		$school_query = new WP_Query( array( 
+			'post_type' => TL_STUDENT_CPT, 
+			'post_status' => array( 'publish' ),
+			'posts_per_page'   => -1,        
+			'meta_query' => array(
+				array('key' => 'lxp_student_admin_id', 'value' => $student_id, 'compare' => '=')
+			)
+		) );
+		
+		$posts = $school_query->get_posts();
+		return count($posts) > 0 ? $posts[0] : null;
+	}
 	
 	public static function lxp_get_teacher_post($lxp_teacher_admin_id)
 	{
