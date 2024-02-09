@@ -131,25 +131,25 @@ class Rest_Lxp_Assignment
 					   'format' => 'email'
 				   ),
 				   'login_name' => array(
-					'required' => true,
-					'type' => 'string',
-					'description' => 'user login name name'
-				),
-				'first_name' => array(
-					'required' => true,
-					'type' => 'string',
-					'description' => 'user first name',
-				),
-				'last_name' => array(
-					'required' => true,
-					'type' => 'string',
-					'description' => 'user last name',
-				),
-				'id' => array(
-					'required' => true,
-					'type' => 'integer',
-					'description' => 'user account id',
-				),
+						'required' => true,
+						'type' => 'string',
+						'description' => 'user login name name'
+					),
+					'first_name' => array(
+						'required' => true,
+						'type' => 'string',
+						'description' => 'user first name',
+					),
+					'last_name' => array(
+						'required' => true,
+						'type' => 'string',
+						'description' => 'user last name',
+					),
+					'id' => array(
+						'required' => true,
+						'type' => 'integer',
+						'description' => 'user account id',
+					),
 				   
 			   )
 			),
@@ -307,15 +307,7 @@ class Rest_Lxp_Assignment
 		$students = array_map(function ($student) use ($assignment_id) {
 			$attempted = self::lxp_user_assignment_attempted($assignment_id, $student->ID);
 			$submission = self::lxp_get_assignment_submissions($assignment_id, $student->ID);
-			/* 
-			if ($attempted && is_null($submission)) {
-				$status = 'In Progress';
-			}else if ($attempted && !is_null($submission)) {
-				$status = 'Completed';
-			} else {
-				$status = 'To Do';
-			}
- 			*/
+
 			 $status = 'To Do';
 			 if ($attempted && !is_null($submission) && !$submission['lti_user_id'] && !$submission['submission_id']) {
 				 $status = 'In Progress';
@@ -335,8 +327,7 @@ class Rest_Lxp_Assignment
 		return wp_send_json_success($students);
 	}
 
-	public static function lxp_get_assignment_submissions($assignment_id, $student_post_id)
-	{
+	public static function lxp_get_assignment_submissions($assignment_id, $student_post_id) {
 		$query = new WP_Query( array( 'post_type' => TL_ASSIGNMENT_SUBMISSION_CPT , 'posts_per_page'   => -1, 'post_status' => array( 'publish' ), 
 									'meta_query' => array(
 										array('key' => 'lxp_assignment_id', 'value' => $assignment_id, 'compare' => '='),
@@ -368,12 +359,15 @@ class Rest_Lxp_Assignment
 	}
 
 	public static function lxp_user_assignment_attempted($assignment_id, $user_id) {
-		$query = new WP_Query( array( 'post_type' => TL_ASSIGNMENT_CPT , 'posts_per_page'   => -1, 'post_status' => array( 'publish' ), 'p' => $assignment_id,
-									'meta_query' => array(
-										array('key' => 'attempted_students', 'value' => $user_id, 'compare' => 'IN')
-									)
-								)
-							);
+		$query = new WP_Query( array( 
+			'post_type' => TL_ASSIGNMENT_CPT ,
+			'posts_per_page'   => -1, 
+			'post_status' => array( 'publish' ), 
+			'p' => $assignment_id,
+			'meta_query' => array( 
+				array('key' => 'attempted_students', 'value' => $user_id, 'compare' => 'IN') 
+			)
+		) );
 		$assignment_posts = $query->get_posts();
 		return count($assignment_posts) > 0 ? true : false;
 	}
@@ -406,8 +400,7 @@ class Rest_Lxp_Assignment
 		}, $assignment_query->get_posts());
 	}
 
-	public static function get_student_assignments_calendar_events($student_id)
-	{
+	public static function get_student_assignments_calendar_events($student_id) {
 		$assignment_query = new WP_Query( array( 
 			'post_type' => TL_ASSIGNMENT_CPT, 
 			'post_status' => array( 'publish' ),
@@ -443,6 +436,7 @@ class Rest_Lxp_Assignment
 			return $event;
 		}, $assignment_query->get_posts());
 	}
+
     public static function calendar_events($request) {
 		$userdata = get_userdata($request->get_param('user_id'));
 		$userRole = count($userdata->roles) > 0 ? array_values($userdata->roles)[0] : '';
@@ -457,8 +451,7 @@ class Rest_Lxp_Assignment
 		}
 	}
 
-	public static function lxp_get_student_post($student_id)
-	{
+	public static function lxp_get_student_post($student_id) {
 		$school_query = new WP_Query( array( 
 			'post_type' => TL_STUDENT_CPT, 
 			'post_status' => array( 'publish' ),
@@ -472,8 +465,7 @@ class Rest_Lxp_Assignment
 		return count($posts) > 0 ? $posts[0] : null;
 	}
 	
-	public static function lxp_get_teacher_post($lxp_teacher_admin_id)
-	{
+	public static function lxp_get_teacher_post($lxp_teacher_admin_id) {
 		$teacher_query = new WP_Query( array( 
 			'post_type' => TL_TEACHER_CPT, 
 			'post_status' => array( 'publish' ),
@@ -509,8 +501,7 @@ class Rest_Lxp_Assignment
 		return wp_send_json_success(array("assignment" => $assignment));
 	}
 
-    public static function update_assignment()
-	{
+    public static function update_assignment() {
         $user_data = array(
             'ID' => $_POST['id'],
             'user_login' => $_POST['login_name'],
