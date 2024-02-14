@@ -4,7 +4,7 @@ var currentSectionState = "create";
 var currentsectionId = 0;
 
 (function (wp) {
-  var TinyLXPPlatformProps = wp.element.createElement(wp.primitives.SVG, {
+  var TinyLXPPlatformIcon = wp.element.createElement(wp.primitives.SVG, {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24"
   }, wp.element.createElement(wp.primitives.Path, {
@@ -14,7 +14,7 @@ var currentsectionId = 0;
   var TinyLXPPlatformButton = function (props) {
     return wp.element.createElement(
       wp.blockEditor.RichTextToolbarButton, {
-      icon: TinyLXPPlatformProps,
+      icon: TinyLXPPlatformIcon,
       title: 'Tiny LXP tool',
       onClick: function () {
         if (typeof props.value.start === 'undefined') {
@@ -32,9 +32,9 @@ var currentsectionId = 0;
     );
   }
   wp.richText.registerFormatType(
-    'tiny-lxp-platform-format/insert-tool', {
+    'lti-platform-format/insert-tool', {
     title: 'Tiny LXP tool',
-    tagName: 'tinylxpplatformtool',
+    tagName: 'ltiplatformtool',
     className: null,
     edit: TinyLXPPlatformButton,
   }
@@ -47,18 +47,18 @@ var currentsectionId = 0;
 
     function deeplink() {
       var urlParams = new URLSearchParams(window.location.search);
-      window.open('../?tiny-lxp-platform&deeplink&post=' + encodeURIComponent(urlParams.get('post')) + '&tool=' + encodeURIComponent($("input[name='tool']:checked").val()), '_blank', 'width=1000,height=800');
+      window.open('../?lti-platform&deeplink&post=' + encodeURIComponent(urlParams.get('post')) + '&tool=' + encodeURIComponent($("input[name='tool']:checked").val()), '_blank', 'width=1000,height=800');
       $('.tiny-lxp-platform-modal').removeClass('active');
     }
 
-    $.get('../?tiny-lxp-platform&tools', function (response) {
+    $.get('../?lti-platform&tools', function (response) {
       $('#wpwrap').append(response);
       $('.tiny-lxp-platform-tool').on('change', function () {
         $('#tiny-lxp-platform-select').prop('disabled', false);
       });
 
       $('#tiny-lxp-platform-select').on('click', function () {
-        $.get('../?tiny-lxp-platform&usecontentitem&tool=' + encodeURIComponent($("input[name='tool']:checked").val()), function (response) {
+        $.get('../?lti-platform&usecontentitem&tool=' + encodeURIComponent($("input[name='tool']:checked").val()), function (response) {
           if (response.useContentItem) {
             deeplink();
           } else {
@@ -69,7 +69,7 @@ var currentsectionId = 0;
               deeplink();
             }
             var id = Math.random().toString(16).substr(2, 8);
-            window.TinyLXPPlatformProps.onChange(window.wp.richText.insert(window.TinyLXPPlatformProps.value, '[tiny-lxp-platform tool=' + $("input[name='tool']:checked").val() + ' id=' + id + ']' + window.TinyLXPPlatformText + '[/tiny-lxp-platform]'));
+            window.TinyLXPPlatformProps.onChange(window.wp.richText.insert(window.TinyLXPPlatformProps.value, '[lti-platform tool=' + $("input[name='tool']:checked").val() + ' id=' + id + ']' + window.TinyLXPPlatformText + '[/lti-platform]'));
             window.TinyLXPPlatformProps.onFocus();
             $('.tiny-lxp-platform-modal').removeClass('active');
           }
@@ -104,7 +104,7 @@ var currentsectionId = 0;
       $('body').on('click', '.chip-close', function () {
         if (confirm("Are you sure you want to remove?") == true) {
           var sectionId = $(this).parent('div').attr('identifier');
-          var host = window.location.origin + '/wordpress/wp-json/lms/v1/delete/trek/section';
+          var host = window.location.origin + '/wp-json/lms/v1/delete/trek/section';
           jQuery.ajax({
             type: "post",
             dataType: "json",
@@ -135,7 +135,7 @@ var currentsectionId = 0;
         var options = '';
         var courseId = $('#course_select_options').find(":selected").val();
         var postID = $('#post_ID').val();
-        var host = window.location.origin + '/wordpress/wp-json/lms/v1/get/playlists';
+        var host = window.location.origin + '/wp-json/lms/v1/get/playlists';
         jQuery.ajax({
           type: "get",
           dataType: "json",
@@ -188,7 +188,7 @@ var currentsectionId = 0;
         var content = CKEDITOR.instances['ck-editor-id'].getData();
         var sort = $('#trek_sort').val();
         var postID = $('#post_ID').val();
-        var host = window.location.origin + '/wordpress/wp-json/lms/v1/store/trek/section';
+        var host = window.location.origin + '/wp-json/lms/v1/store/trek/section';
         $("[identifier=" + window.currentsectionId + "]").find('.edit-trek-options').removeClass("active-edit-trek-option");
         $("[identifier=" + window.currentsectionId + "]").find('.chip-close').removeClass("active-chip-close");
         $("[identifier=" + window.currentsectionId + "]").removeClass("edit-playlist-chip");
@@ -261,7 +261,7 @@ var currentsectionId = 0;
         $("[identifier=" + sectionId + "]").find('.chip-close').css("visibility", "hidden");
         $("[identifier=" + sectionId + "]").addClass("edit-playlist-chip");
         window.currentsectionId = sectionId;
-        var host = window.location.origin + '/wordpress/wp-json/lms/v1/get/trek/section';
+        var host = window.location.origin + '/wp-json/lms/v1/get/trek/section';
         jQuery.ajax({
           type: "get",
           dataType: "json",
@@ -290,7 +290,7 @@ var currentsectionId = 0;
       $('body').on('click', '#school_remove_lxp_user', function () {
         if (confirm("Are you sure you want to remove?") == true) {
           var userId = $(this).attr('lxp_user_id');
-          var host = window.location.origin + '/wordpress/wp-json/lms/v1/delete/school/lxp/user';
+          var host = window.location.origin + '/wp-json/lms/v1/delete/school/lxp/user';
           jQuery.ajax({
             type: "post",
             dataType: "json",
