@@ -549,15 +549,14 @@ class Tiny_LXP_Platform_Public
         $platform = new Tiny_LXP_Platform_Platform(Tiny_LXP_Platform::$tinyLxpPlatformDataConnector);
         LTI\Tool::$defaultTool = $tool;
         $platform->handleRequest();
-
-        $html = <<< EOD
+        $html = " 
         <html>
-        <head>
+            <head>
             <title>Content</title>
-            <script>
+            <script type=\"text/javascript\">
             var wdw = window.opener;
-
-EOD;
+            </script>
+            ";
         if ($platform->ok) {
             $linktext = $tool->name;
             $item = $platform->contentItem;
@@ -588,49 +587,47 @@ EOD;
             }
             $activity = isset($item->custom['activity']) ? $item->custom['activity'] : "";
             $plugin_name = Tiny_LXP_Platform::get_plugin_name();
-            $html .= <<< EOD
-            if (!wdw.LtiPlatformText) {
-                wdw.LtiPlatformText = '{$linktext}';
-            }
-            var id = Math.random().toString(16).substr(2, 8);
-            var tinyLxpToolUrl =  wdw.document.getElementById("tiny_lxp_tool_url");
-            var tinyLxpToolCode =  wdw.document.getElementById("tiny_lxp_tool_code");
-            var tinyLxpContetntTitle =  wdw.document.getElementById("tiny_lxp_content_title");
-            var tinyLxpCustomAttr =  wdw.document.getElementById("tiny_lxp_custom_attr");
-            var tinyLxpPostAttrId =  wdw.document.getElementById("tiny_lxp_post_attr_id");
-            if(tinyLxpToolUrl){
-                tinyLxpToolUrl.value= "{$item->url}";
-                tinyLxpToolCode.value= "{$code}";
-                tinyLxpContetntTitle.value= "{$item->title}";
-                tinyLxpCustomAttr.value= "custom=activity={$activity}";
-                tinyLxpPostAttrId.value= "{$randomId}";
-               var title =  wdw.document.getElementById("title");
-               if(title){
-                title.value = "{$item->title}";
-                wdw.document.getElementById("title-prompt-text").classList.add("screen-reader-text");
-               }else{
-                wdw.document.getElementsByClassName("wp-block wp-block-post-title")[0].innerHTML="{$item->title}";
-               }     
-            }else{
-                wdw.LtiPlatformProps.onChange(wdw.wp.richText.insert(wdw.LtiPlatformProps.value, '[{$plugin_name} {$attr}]' + wdw.LtiPlatformText + '[/{$plugin_name}]'));
-                wdw.LtiPlatformProps.onFocus();
-            }
-            window.close();
-            EOD;
+            
+            $html .= "<script type=\"text/javascript\">
+                if (!wdw.LtiPlatformText) {
+                    wdw.LtiPlatformText = '{$linktext}';
+                }
+                var id = Math.random().toString(16).substr(2, 8);
+                var tinyLxpToolUrl =  wdw.document.getElementById('lti_tool_url');
+                var tinyLxpToolCode =  wdw.document.getElementById('lti_tool_code');
+                var tinyLxpContetntTitle =  wdw.document.getElementById('lti_content_title');
+                var tinyLxpCustomAttr =  wdw.document.getElementById('lti_custom_attr');
+                var tinyLxpPostAttrId =  wdw.document.getElementById('lti_post_attr_id');
+                if(tinyLxpToolUrl){
+                    tinyLxpToolUrl.value= '{$item->url}';
+                    tinyLxpToolCode.value= '{$code}';
+                    tinyLxpContetntTitle.value= '{$item->title}';
+                    tinyLxpCustomAttr.value= 'custom=activity={$activity}';
+                    tinyLxpPostAttrId.value= '{$randomId}';
+                   var title =  wdw.document.getElementById('title');
+                   if(title){
+                    title.value = '{$item->title}';
+                    wdw.document.getElementById('title-prompt-text').classList.add('screen-reader-text');
+                   }else{
+                    wdw.document.getElementsByClassName('wp-block wp-block-post-title')[0].innerHTML='{$item->title}';
+                   }     
+                }else{
+                    wdw.LtiPlatformProps.onChange(wdw.wp.richText.insert(wdw.LtiPlatformProps.value, '[{$plugin_name} {$attr}]' + wdw.LtiPlatformText + '[/{$plugin_name}]'));
+                    wdw.LtiPlatformProps.onFocus();
+                }
+                window.close();
+            </script>";
         } else {
-            $html .= <<< EOD
-            window.close();
-            wdw.alert('Sorry, unable to verify the selected content');
-
-        EOD;
+            $html .= "<script>
+                window.close();
+                wdw.alert('Sorry, unable to verify the selected content');
+            </script>";
         }
-        $html .= <<< EOD
-        </script>
-        </head>
+        $html .= "<script></head>
         <body>
         </body>
-        </html>
-    EOD;
+        </html></script>";
+
         $allowed = array('html' => array(), 'head' => array(), 'title' => array(), 'script' => array(), 'body' => array());
         echo wp_kses($html, $allowed);
     }
