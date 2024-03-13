@@ -48,3 +48,16 @@ class TL_Admin_Menu
 		// );
     }
 }
+
+add_action('admin_menu', 'add_custom_post_type_menu');
+function add_custom_post_type_menu() {
+    add_menu_page(
+        'LXP Dashboard', // Page title
+        'LXP Dashboard', // Menu title
+        'manage_options', // Capability
+        '../dashboard', // Menu slug
+        '', // Callback function (optional, leave empty if not needed)
+        'dashicons-admin-post', // Icon (optional)
+        25 // Position in the menu
+    );
+}
