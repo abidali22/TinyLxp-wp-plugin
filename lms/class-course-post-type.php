@@ -46,9 +46,9 @@
          add_filter( 'single_template', function ( $page_template, $type ) {
             global $post;
             if ( $post->post_type == "tl_course" ) {
-               $page_template = dirname( __FILE__ ) . '/templates/course/single-tl_course.php';
-         }
-         return $page_template;
+               $page_template = dirname( __FILE__ ) . '/templates/tinyLxpTheme/single-tl_course.php';
+            }
+            return $page_template;
          },20, 2);
       }
 		global $wpdb;

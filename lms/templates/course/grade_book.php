@@ -19,7 +19,7 @@ Template Name: gradebook-template
 
     <div class="wp-site-blocks">
         <header class="wp-block-template-part site-header">
-            <?php block_header_area(); ?>
+            <?php //block_header_area(); ?>
         </header>
         <div id="primary" class="content-area">
             <main id="main" class="site-main" role="main" style="overflow-y:auto;width:98%;">

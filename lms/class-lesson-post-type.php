@@ -68,7 +68,7 @@
          add_filter( 'single_template', function ( $page_template, $type ) {
             global $post;
             if ( $post->post_type == "tl_lesson" ) {
-               $page_template = dirname( __FILE__ ) . '/templates/course/single-tl_lesson.php';
+               $page_template = dirname( __FILE__ ) . '/templates/tinyLxpTheme/single-tl_lesson.php';
          }
          return $page_template;
          },20, 2);
