@@ -1,8 +1,9 @@
 <?php
-get_template_part('lxp/functions');
+$livePath = dirname( __FILE__ );
+require_once $livePath.'/lxp/functions.php';
 lxp_login_check();
 
-$treks_src = get_stylesheet_directory_uri() . '/treks-src';
+$treks_src = content_url().'/plugins/TinyLxp-wp-plugin/lms/templates/tinyLxpTheme/treks-src/';
 // Start the loop.
 $courseId =  isset($_GET['courseid']) ? $_GET['courseid'] : get_post_meta($post->ID, 'tl_course_id', true);
 $args = array(
@@ -55,7 +56,7 @@ while (have_posts()) : the_post();
     <body>
         <nav class="navbar navbar-expand-lg bg-light">
             <div class="container-fluid">
-                <?php get_template_part('trek/header-logo'); ?>
+                <?php include $livePath.'/trek/header-logo.php'; ?>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -72,7 +73,7 @@ while (have_posts()) : the_post();
                     </div>
                     <div class="d-flex" role="search">
                         <div class="header-notification-user">
-                            <?php get_template_part('trek/user-profile-block') ?>
+                            <?php include $livePath.'/trek/user-profile-block.php'; ?>
                         </div>
                     </div>
                 </div>
@@ -83,7 +84,7 @@ while (have_posts()) : the_post();
         <section class="main-container">
             <!-- Nav Section -->
             <nav class="nav-section">
-                <?php get_template_part('trek/navigation') ?>
+                <?php include $livePath.'/trek/navigation.php'; ?>
             </nav>
 
             <!-- Reminders: section-->

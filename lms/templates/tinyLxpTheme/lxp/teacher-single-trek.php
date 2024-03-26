@@ -259,7 +259,7 @@ $trek_sections = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}trek_sections 
   <body>
     
     <!-- Calendar Modal -->
-    <?php get_template_part('trek/parts/assign-calendar'); ?>
+    <?php include $livePath.'/trek/parts/assign-calendar.php'; ?>
     <!-- <div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -302,7 +302,7 @@ $trek_sections = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}trek_sections 
     <!-- Menu -->
     <nav class="navbar navbar-expand-lg treks-nav">
       <div class="container-fluid">
-        <?php get_template_part('trek/header-logo'); ?>
+        <?php include $livePath.'/trek/header-logo.php'; ?>
         <button
           class="navbar-toggler"
           type="button"
@@ -328,7 +328,7 @@ $trek_sections = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}trek_sections 
           </div>
           <div class="d-flex" role="search">
             <div class="header-notification-user">
-              <?php get_template_part('trek/user-profile-block'); ?>
+              <?php include $livePath.'/trek/user-profile-block.php'; ?>
             </div>
           </div>
         </div>
@@ -339,7 +339,7 @@ $trek_sections = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}trek_sections 
     <section class="main-container">
       <!-- Nav Section -->
       <nav class="nav-section">
-        <?php get_template_part('trek/navigation') ?>
+        <?php include $livePath.'/trek/navigation.php'; ?>
       </nav>
 
       <!-- My TREKs breadcrumbs -->
@@ -882,7 +882,7 @@ $trek_sections = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}trek_sections 
       }
     </script>
 
-    <?php get_template_part('lxp/assignment-stats-modal', 'assignment-stats-modal'); ?>
+    <?php include $livePath.'/lxp/assignment-stats-modal.php'; ?>
 
     <script type="text/javascript">
       function fetch_students(students_ids, trek_title, trek_segment) {

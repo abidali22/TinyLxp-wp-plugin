@@ -171,7 +171,6 @@ $assignment = isset($_GET['assignment_id']) ? lxp_get_assignment($_GET['assignme
 							$mark_as_graded = get_post_meta($assignment_submission['ID'], 'mark_as_graded', true);
 							if ($mark_as_graded === 'true') {
 								$slides = get_assignment_lesson_slides($assignment->ID);
-								get_template_part("lxp/grade-book", "grade-book", array('slides' => $slides, 'assignment_submission' => $assignment_submission)); 
 								$args['slides'] = $slides;
 								$args['assignment_submission'] = $assignment_submission;
 								include $livePath.'/lxp/grade-book.php';

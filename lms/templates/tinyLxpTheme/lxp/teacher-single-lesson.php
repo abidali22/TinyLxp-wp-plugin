@@ -68,7 +68,7 @@ $toolUrl = $toolUrl . $queryParam;
 <body>
 	<nav class="navbar navbar-expand-lg bg-light">
 		<div class="container-fluid">
-			<?php get_template_part('trek/header-logo'); ?>
+			<?php include $livePath.'/trek/header-logo.php'; ?>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -87,7 +87,7 @@ $toolUrl = $toolUrl . $queryParam;
 				</div>
 				<div class="d-flex" role="search">
 					<div class="header-notification-user">
-						<?php get_template_part('trek/user-profile-block') ?>
+						<?php include $livePath.'/trek/user-profile-block.php'; ?>
 					</div>
 				</div>
 			</div>
@@ -99,7 +99,7 @@ $toolUrl = $toolUrl . $queryParam;
 		<section class="main-container nav_container">
 			<!-- Nav Section -->
 			<nav class="nav-section nav_section_interpendence">
-				<?php get_template_part('trek/navigation') ?>
+				<?php include $livePath.'/trek/navigation.php'; ?>
 				<!-- <ul>
 					<li class="nav-section-selected">
 						<img src="<?php echo $treks_src; ?>/assets/img/nav_dashboard-dots.svg" />

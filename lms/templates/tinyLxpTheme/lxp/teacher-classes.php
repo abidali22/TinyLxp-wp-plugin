@@ -1,5 +1,4 @@
 <?php
-// get_template_part('lxp/functions');
 global $treks_src;
 global $userdata;
 

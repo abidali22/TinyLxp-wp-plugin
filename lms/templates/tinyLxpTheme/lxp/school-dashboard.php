@@ -1,6 +1,4 @@
 <?php
-// get_template_part('lxp/functions');
-// global $treks_src;
 $school_post = lxp_get_user_school_post();
 $teachers = lxp_get_school_teachers($school_post->ID);
 
@@ -241,9 +239,6 @@ $classes = array_merge($default_classes, $classes);
     <?php include $livePath.'/lxp/school-teacher-modal.php'; ?>
 
     <?php
-        
-        // $teacher_post = isset($_GET['teacher_id']) && $_GET['teacher_id'] != 0 ? get_post($_GET['teacher_id']) : null;
-        get_template_part('lxp/school-student-modal', 'student-modal', array("school_post" => $school_post, "teachers" => $teachers)); 
         $args['school_post'] = $school_post;
         $args['teachers'] = $teachers;
         include $livePath.'/lxp/school-student-modal.php';

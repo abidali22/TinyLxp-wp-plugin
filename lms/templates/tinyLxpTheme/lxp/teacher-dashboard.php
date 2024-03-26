@@ -341,7 +341,6 @@
       </div>
     </section>
   </section>
-  <?php // get_template_part('lxp/assignment-stats-modal', 'assignment-stats-modal'); ?>
   <?php include $livePath.'/lxp/assignment-stats-modal.php'; ?>
 
   <script src="<?php echo $treks_src; ?>/js/Animated-Circular-Progress-Bar-with-jQuery-Canvas-Circle-Progress/dist/circle-progress.js"></script>

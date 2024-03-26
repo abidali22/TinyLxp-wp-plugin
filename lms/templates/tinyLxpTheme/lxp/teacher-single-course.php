@@ -815,7 +815,6 @@
       }
     </script>
 
-    <?php // get_template_part('lxp/assignment-stats-modal', 'assignment-stats-modal'); ?>
     <?php include $livePath.'/lxp/assignment-stats-modal.php'; ?>
 
     <script type="text/javascript">

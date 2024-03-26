@@ -134,15 +134,10 @@ $toolUrl = $toolUrl . $queryParam;
 						$mark_as_graded = get_post_meta($assignment_submission['ID'], 'mark_as_graded', true);
 						if ($mark_as_graded === 'true') {
 							$slides = get_assignment_lesson_slides($assignment->ID);
-							// get_template_part("lxp/grade-book", "grade-book", array('slides' => $slides, 'assignment_submission' => $assignment_submission)); 
 							$args['slides'] = $slides;
 							$args['assignment_submission'] = $assignment_submission;
 							include $livePath.'/lxp/grade-book.php';
-							// get_template_part(
-							// 	"lxp/teacher-grading-feedback-view-modal", 
-							// 	"teacher-grading-feedback-view-modal", 
-							// 	array('assignment_submission_id' => $assignment_submission['ID'] )
-							// );
+							
 							$args['assignment_submission_id'] = $assignment_submission['ID'];
 							include $livePath.'/lxp/teacher-grading-feedback-view-modal.php';
 						} else {

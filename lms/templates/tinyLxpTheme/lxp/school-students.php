@@ -1,6 +1,4 @@
 <?php
-// get_template_part('lxp/functions');
-// $treks_src = get_stylesheet_directory_uri() . '/treks-src';
 $school_post = lxp_get_user_school_post();
 $school_students = lxp_get_school_students($school_post->ID);
 $teachers = lxp_get_school_teachers($school_post->ID);
@@ -315,7 +313,6 @@ if (isset($_GET['teacher_id']) && $_GET['teacher_id'] != 0) {
         crossorigin="anonymous"></script>
     
     <?php
-        // get_template_part('lxp/school-student-modal', 'student-modal', array("school_post" => $school_post, "teachers" => $teachers));
         $args['school_post'] = $school_post;
         $args['teachers'] = $teachers;
         include $livePath.'/lxp/school-student-modal.php';

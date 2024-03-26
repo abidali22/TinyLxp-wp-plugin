@@ -1,7 +1,5 @@
 <?php
-//get_template_part('lxp/functions');
 lxp_login_check();
-// $treks_src = get_stylesheet_directory_uri() . '/treks-src';
 $school_post = lxp_get_user_school_post();
 $teachers = lxp_get_school_teachers($school_post->ID);
 ?>

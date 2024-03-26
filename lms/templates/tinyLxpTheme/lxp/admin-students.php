@@ -1,5 +1,4 @@
 <?php
-// get_template_part('lxp/functions');
 global $treks_src;
 
 // get all user with role lxp_client_admin
@@ -385,7 +384,6 @@ if(isset($_GET['school_id']) && isset($_GET['teacher_id'])) {
     <?php 
         //if(isset($_GET['teacher_id'])) {
         if( $school_post ) {
-            get_template_part('lxp/admin-student-modal', 'student-modal', array("school_post" => $school_post, "teachers" => $district_schools_teachers)); 
             $args['school_post'] = $school_post;
             $args['teachers'] = $district_schools_teachers;
             include $livePath.'/lxp/admin-student-modal.php';

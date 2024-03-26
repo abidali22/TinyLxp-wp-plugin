@@ -1,6 +1,5 @@
 <?php
 global $treks_src;
-//get_template_part('lxp/functions');
 lxp_login_check();
 // get all user with role lxp_client_admin
 $lxp_client_admin_users = get_users(array('role' => 'lxp_client_admin'));
