@@ -14,11 +14,11 @@ if ($submit_status) {
     $mark_as_graded = $assignment_submission ? get_post_meta($assignment_submission['ID'], 'mark_as_graded', true) : null;
 
     $local_user_id = get_post_meta($student_id, 'lxp_student_admin_id', true);
-    $post   = get_post(get_post_meta($_GET['assignment'], 'course_id', true));
+    $post = get_post(get_post_meta($_GET['assignment'], 'course_id', true));
     // Start the loop.
     $args = array(
         'posts_per_page'   => -1,
-        'post_type'        => 'tl_lesson',
+        'post_type'        => TL_LESSON_CPT,
         'meta_query' => array(
             array(
                 'key'   => 'tl_course_id',
@@ -31,14 +31,11 @@ if ($submit_status) {
     global $wpdb;
     foreach ($lessons as $key => $lesson) {
         $current_lesson_id = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "tiny_lms_grades WHERE lesson_id = " . $lesson->ID . " AND user_id= " . $local_user_id);
-
         if( empty($current_lesson_id) == false ){
             $give_lesson = $current_lesson_id[0];
         }
-        // $lessonIds[] = $lesson->ID;  
     }
-
-    $lesson_score = (isset($give_lesson->score)) ? $give_lesson->score : 0;
+    $lesson_score = (isset($give_lesson->score)) ? ($give_lesson->score * 100 .' / 100') : '---';
 }
 ?>
 
@@ -55,7 +52,7 @@ if ($submit_status) {
             <div class="col-md-3">
                 <div class="row justify-content-end">
                     <div class="col-md-12">
-                        <a href="<?php echo site_url('grade-assignment/?assignment=' . $_GET['assignment'] . '&student='. $_GET['student'] . '&lesson_id=' . $give_lesson->lesson_id . '&student_id=' . $local_user_id); ?>" rel="permalink" class="primary-btn lx-space summary_link">
+                        <a href="<?php echo site_url('grade-assignment/?assignment=' . $_GET['assignment'] . '&student='. $_GET['student'] . '&lesson_id=' . $lxp_lesson_post->ID . '&student_id=' . $local_user_id); ?>" rel="permalink" class="primary-btn lx-space summary_link">
                         View Summary</a>
                     </div>
                 </div>
@@ -91,7 +88,7 @@ if ($submit_status) {
                 <div class="student_grade_card border">
                     <span class="student_slide green_slide"><?php echo $lxp_lesson_post->post_title; ?></span>
                     <p>&nbsp;</p>
-                    <h2 class="gray_grade"> <?php echo $lesson_score * 100; ?> / 100 </h2>
+                    <h2 class="gray_grade"> <?php echo $lesson_score; ?> </h2>
                     <br />
                     <a href="#"><span class="badge bg-secondary" style="margin-bottom:18px;"> Auto-graded </span></a>
                     <br />
@@ -103,3 +100,21 @@ if ($submit_status) {
         </div>
     </div> 
 </div>
+
+<?php
+    // function getMetaScore($assignment_id, $student_id) {
+        
+        
+    //     $assignment_submission_posts = get_post($assignment_id);
+    //     var_dump($assignment_submission_posts); exit;
+    //     if ($assignment_submission_posts) {
+    //         $assignment_submission_post = $assignment_submission_posts[0]->ID;
+    //         $submission = get_post_meta($assignment_submission_post);
+    //         if ($submission && isset($submission['score_raw']) && isset($submission['score_max'])) {
+    //             return $submission['score_raw'][0] .' / '. $submission['score_max'][0];
+    //         } else {
+    //             return '---';
+    //         }
+    //     }
+    // }
+?>
