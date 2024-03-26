@@ -340,12 +340,12 @@ $trek_sections = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}trek_sections 
         <?php include $livePath.'/trek/navigation.php'; ?>
       </nav>
 
-      <!-- My TREKs breadcrumbs -->
+      <!-- My Courses breadcrumbs -->
       <section class="my-trk-bc-section">
         <div class="my-trk-bc-section-div">
           <!-- breadcrumbs -->
           <img class="bc-img-1" src="<?php echo $treks_src; ?>/assets/img/bc_img.svg" />
-          <p>My TREKs</p>
+          <p>My Courses</p>
 
           <?php $tekversion = get_post_meta(get_the_ID(), 'tekversion', true); ?>
           <?php if ($tekversion && $tekversion == '2017') { ?>
@@ -360,7 +360,7 @@ $trek_sections = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}trek_sections 
           <p><?php the_title(); ?></p>
         </div>
       </section>
-      <!-- My TREKs Detail -->
+      <!-- My Courses Detail -->
       <section class="my-trk-detail-section">
         <div class="my-trk-detail-section-div">
           <!-- TREKs image  -->

@@ -4,7 +4,7 @@
   padding: 0 64px 32px;
 }
 
-/* My TREKs breadcrumbs - */
+/* My Courses breadcrumbs - */
 
 @media only screen and (max-width: 400px) {
   .my-trk-bc-section-div .bc-img-1 {
@@ -40,7 +40,7 @@
   margin-right: 25px;
 }
 
-/*  My TREKs Detail */
+/*  My Courses Detail */
 @media only screen and (max-width: 844px) {
   .my-trk-detail-section-div {
     flex-direction: column;

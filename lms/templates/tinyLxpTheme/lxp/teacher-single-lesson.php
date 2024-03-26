@@ -18,19 +18,18 @@ $trekPermaLink="";
 
 
 $args = array(
-	'post_type' => 'tl_trek',
+	'post_type' => TL_COURSE_CPT,
 	'orderby'    => 'ID',
 	'post_status' => 'publish,draft',
 	'order'    => 'DESC',
 	'posts_per_page' => -1
  );
- $treks = get_posts($args);
+$courses = get_posts($args);
+foreach( $courses as  $course){
 
-foreach( $treks as  $trek){
-	$trekCourseId = get_post_meta($trek->ID, 'tl_course_id', true);
-	if($trekCourseId == $lessonCourseId ){
-		$trekTitle = $trek->post_title;
-		$trekPermaLink = get_permalink($trek->ID);
+	if($course->ID == $lessonCourseId ){
+		$trekTitle = $course->post_title;
+		$trekPermaLink = get_permalink($course->ID);
 	}
 
 }
@@ -123,14 +122,9 @@ $toolUrl = $toolUrl . $queryParam;
 			<div class="treks_practice_bx">
 				<div class="practice_flx">
 					<img src="<?php echo $treks_src; ?>/assets/img/nav_Treks.svg" />
-					<p class="practice_text">My TREKs</p>
+					<p class="practice_text">My Courses</p>
 				</div>
 				<div class="practice_flx">
-
-
-				
-
-
 					<img src="<?php echo $treks_src; ?>/assets/img/bc_arrow_right.svg" />
 					<p class="practice_text"><a  style = "color: #979797 !important;text-decoration: none !important;" href="<?php echo $trekPermaLink ?> "  target="_self"><?php echo $trekTitle ?></a></p>
 				</div>

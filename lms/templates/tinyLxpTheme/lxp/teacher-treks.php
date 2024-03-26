@@ -212,7 +212,7 @@ while (have_posts()) : the_post();
                         <div class="container">
                             <div class="row">
                                 <div class="col col-md-2">
-                                    <h2 style="margin-top: 8px;">My TREKs</h2>
+                                    <h2 style="margin-top: 8px;">My Courses</h2>
                                 </div>  
                                 <div class="col col-md-3">
                                     <select id="tekversion-drop-down" class="form-select" aria-label="Default select example">

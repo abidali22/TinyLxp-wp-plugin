@@ -306,7 +306,7 @@
         <?php include $livePath.'/trek/navigation.php'; ?>
       </nav>
 
-      <!-- My TREKs breadcrumbs -->
+      <!-- My Courses breadcrumbs -->
       <section class="my-trk-bc-section">
         <div class="my-trk-bc-section-div">
           <!-- breadcrumbs -->
