@@ -1,6 +1,4 @@
 <?php
-// $treks_src = get_stylesheet_directory_uri() . '/treks-src';
-
 // if (isset($_GET['assignment_id'])) {
 // 	$student_post = lxp_get_student_post(get_current_user_id());
 // 	lxp_check_assignment_submission($_GET['assignment_id'], $student_post->ID);

@@ -1,6 +1,4 @@
 <?php
-$treks_src = get_stylesheet_directory_uri() . '/treks-src';
-
 $content = get_post_meta($post->ID);
 
 $attrId =  isset($content['lti_post_attr_id'][0]) ? $content['lti_post_attr_id'][0] : "";

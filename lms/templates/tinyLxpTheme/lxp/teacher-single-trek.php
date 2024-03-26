@@ -10,8 +10,6 @@ if (!in_array($post->ID, $treks_assigned)) {
   exit;
 }
 
-//$treks_src = plugin_dir_url( __FILE__ ) . 'treks-src';
-$treks_src = get_stylesheet_directory_uri() . '/treks-src';
 // Start the loop.
 $courseId =  isset($_GET['courseid']) ? $_GET['courseid'] : get_post_meta($post->ID, 'tl_course_id', true);
 $args = array(
