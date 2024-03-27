@@ -322,6 +322,7 @@
         <!-- Tabs Table -->
         <?php 
           $slides = get_assignment_lesson_slides( intval($_GET['assignment']) );
+          $assignment_type = get_post_meta($_GET['assignment'], 'assignment_type');
           $args['slides'] = $slides;
           if (isset($_GET['slide']) && intval($_GET['slide']) === intval($slides->data->totalSlides)) {
             // get_template_part("lxp/grade-book", "grade-book", array('slides' => $slides, 'assignment_submission' => $assignment_submission));
@@ -402,7 +403,7 @@
             <iframe style="border: none;width: 100%;height: 400px;" class="" src="<?php echo site_url() ?>?lti-platform&post=<?php echo $_GET['lesson_id'] ?>&id=jcfvxikc&is_summary=1&student_id=<?php echo $_GET['student_id'] ?>"  allowfullscreen></iframe>
           <?php
           } else {
-            ( is_object($slides) == false ) ? include $livePath.'/lxp/teacher-video-grade.php' 
+            ( $assignment_type[0] == 'video_activity' ) ? include $livePath.'/lxp/teacher-video-grade.php' 
               : include $livePath.'/lxp/teacher-grade.php';
           }
         ?>

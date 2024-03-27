@@ -14,27 +14,12 @@ if ($submit_status) {
     $mark_as_graded = $assignment_submission ? get_post_meta($assignment_submission['ID'], 'mark_as_graded', true) : null;
 
     $local_user_id = get_post_meta($student_id, 'lxp_student_admin_id', true);
-    $post = get_post(get_post_meta($_GET['assignment'], 'course_id', true));
-    // Start the loop.
-    $args = array(
-        'posts_per_page'   => -1,
-        'post_type'        => TL_LESSON_CPT,
-        'meta_query' => array(
-            array(
-                'key'   => 'tl_course_id',
-                'value' =>  $post->ID
-            )
-        )
-    );
-    $lessons = get_posts($args);
-
+    $lesson_id = get_post_meta($assignment_id, 'lxp_lesson_id', true);
     global $wpdb;
-    foreach ($lessons as $key => $lesson) {
-        $current_lesson_id = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "tiny_lms_grades WHERE lesson_id = " . $lesson->ID . " AND user_id= " . $local_user_id);
+    $current_lesson_id = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "tiny_lms_grades WHERE lesson_id = " . $lesson_id . " AND user_id= " . $local_user_id);
         if( empty($current_lesson_id) == false ){
             $give_lesson = $current_lesson_id[0];
         }
-    }
     $lesson_score = (isset($give_lesson->score)) ? ($give_lesson->score * 100 .' / 100') : '---';
 }
 ?>
@@ -95,7 +80,7 @@ if ($submit_status) {
                     <img src="<?php echo $treks_src; ?>/assets/img/check-g.svg" alt="" class="check-g" />
                 </div>
             <?php } else { ?>
-                <p>Student has not attempted yet.</p>
+                <p>Student has not submitted yet.</p>
             <?php } ?>
         </div>
     </div> 

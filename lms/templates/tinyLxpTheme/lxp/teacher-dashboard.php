@@ -350,11 +350,11 @@
     crossorigin="anonymous"></script>
   
   <script type="text/javascript">
-    function fetch_assignment_stats(assignment_id, trek, segment, statuses, start, end) {
+    function fetch_assignment_stats(assignment_id, course_title, lesson_title, statuses, start, end) {
 
-      jQuery('#student-progress-trek-title').text(trek);
-      jQuery('#student-progress-trek-segment').text(segment);
+      jQuery('#student-progress-trek-title').text(course_title);
       jQuery('#student-progress-trek-segment-char').text('L');
+      jQuery('#student-progress-trek-segment').text(lesson_title);
 
       // starting date and time
       let start_date = new Date(start);

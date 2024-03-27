@@ -210,6 +210,10 @@ class Rest_Lxp_Assignment_Submission
                 update_post_meta($assignment_submission_post_id, 'score_max', $score['max']);
                 update_post_meta($assignment_submission_post_id, 'score_raw', $score['raw']);
                 update_post_meta($assignment_submission_post_id, 'score_scaled', $score['scaled']);
+                $activity_type = get_post_meta($assignment_post->ID, 'assignment_type');
+                if ( $activity_type[0] == 'video_activity') {
+                    self::grades_score_video_activity($assignment_post->ID, $userId, $score['scaled']);
+                }
 
                 // get 'completion' and 'duration' key values from 'result' $request parameter and add as assignment submission post meta data
                 $completion = $request->get_param('result')['completion'];
@@ -220,6 +224,21 @@ class Rest_Lxp_Assignment_Submission
             } else {
                 return wp_send_json_error("Assignment Submission Creation Failed!");
             }
+        }
+    }
+
+    public static function grades_score_video_activity($assignment_id, $student_id, $score) {
+        global $wpdb;
+        $lesson_id = get_post_meta($assignment_id, 'lxp_lesson_id', true);
+        $response = $wpdb->get_results("SELECT id FROM " . $wpdb->prefix . "tiny_lms_grades WHERE user_id = " . $student_id . "AND lesson_id= " . $lesson_id);
+        if ($response) {
+            $wpdb->query("UPDATE " . $wpdb->prefix . "tiny_lms_grades SET score = " . $score . " where id=" . $response[0]->id);
+        } else {
+            $wpdb->insert($wpdb->prefix . 'tiny_lms_grades', array(
+                'lesson_id' => $lesson_id,
+                'user_id' => $student_id,
+                'score' => $score,
+            ));
         }
     }
 }
