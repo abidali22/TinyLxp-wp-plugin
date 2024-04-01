@@ -1,6 +1,6 @@
 <?php
   $livePath = dirname( __FILE__ );
-  require_once $livePath.'/lxp/functions.php';
+  // require_once $livePath.'/lxp/functions.php';
   lxp_login_check();
   $treks_src = content_url().'/plugins/TinyLxp-wp-plugin/lms/templates/tinyLxpTheme/treks-src/';
 
@@ -403,7 +403,7 @@
             <iframe style="border: none;width: 100%;height: 400px;" class="" src="<?php echo site_url() ?>?lti-platform&post=<?php echo $_GET['lesson_id'] ?>&id=jcfvxikc&is_summary=1&student_id=<?php echo $_GET['student_id'] ?>"  allowfullscreen></iframe>
           <?php
           } else {
-            ( $assignment_type[0] == 'video_activity' ) ? include $livePath.'/lxp/teacher-video-grade.php' 
+            ( isset($assignment_type[0]) && $assignment_type[0] == 'video_activity' ) ? include $livePath.'/lxp/teacher-video-grade.php' 
               : include $livePath.'/lxp/teacher-grade.php';
           }
         ?>

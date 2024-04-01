@@ -211,7 +211,7 @@ class Rest_Lxp_Assignment_Submission
                 update_post_meta($assignment_submission_post_id, 'score_raw', $score['raw']);
                 update_post_meta($assignment_submission_post_id, 'score_scaled', $score['scaled']);
                 $activity_type = get_post_meta($assignment_post->ID, 'assignment_type');
-                if ( $activity_type[0] == 'video_activity') {
+                if ( $activity_type[0] == 'video_activity' ) {
                     self::grades_score_video_activity($assignment_post->ID, $userId, $score['scaled']);
                 }
 

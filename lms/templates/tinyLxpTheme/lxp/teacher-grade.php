@@ -4,11 +4,6 @@ global $treks_src;
 // global $args;
 
 $assignment_id = intval($_GET['assignment']);
-$slides =  $args['slides'];
-$slidesData = $slides->data;
-$slides = $slides->slides;
-$slides_pages = array_chunk($slides, 4);
-
 $student_id = 0;
 if ( (isset($_GET['student']) && intval($_GET['student']) > 0) ) {
   $student_id = intval($_GET['student']);
@@ -31,6 +26,10 @@ $mark_as_graded = $assignment_submission ? get_post_meta($assignment_submission[
     <!-- Teachers Table -->
     <h1 class="stu_heading">Submissions</h1>
     <?php if ($assignment_submission) {
+        $slides =  $args['slides'];
+        $slidesData = $slides->data;
+        $slides = $slides->slides;
+        $slides_pages = array_chunk($slides, 4);
     ?>
         <div class="row justify-content-end">
             <div class="col-md-3">
@@ -69,12 +68,11 @@ $mark_as_graded = $assignment_submission ? get_post_meta($assignment_submission[
         data-bs-interval="false"
     >
         <div class="carousel-inner" style="height: 350px;">
-            <?php foreach ($slides_pages as $page_key => $slide_page) { ?>
+            <?php if($assignment_submission) { ?>
                 <div class="carousel-item<?php echo $page_key == 0 ? ' active' : ''; ?>">
                     <div class="slider_cards_flex">
                         <?php 
-                        if($assignment_submission)
-                        {
+                        foreach ($slides_pages as $page_key => $slide_page) {
                             foreach ($slide_page as $slide_key => $slide) { 
                             $no_right_border = count($slide_page) == $slide_key + 1 ? ' no-right-border' : '';
                         ?>
@@ -120,12 +118,13 @@ $mark_as_graded = $assignment_submission ? get_post_meta($assignment_submission[
                             <?php } ?>
                         <?php } ?>
                         
-                        <?php } else {?>
-                            <p>Student has not attempted yet.</p>
                         <?php } ?>
+                            
                     </div>
                 </div>
-            <?php } ?>   
+            <?php } else { ?>   
+                <center>Student has not attempted yet.</center>
+            <?php } ?>
         </div>
 
         <button
@@ -152,13 +151,6 @@ $mark_as_graded = $assignment_submission ? get_post_meta($assignment_submission[
         </button>
     </div>
 
-    <!-- <div class="student_buttons">
-        <div class="total_label">
-        <h2>Total score:</h2>
-        <span>0/19</span>
-        </div>
-        <button class="save_btn">Save</button>
-    </div> -->
     </div>
     <!-- Classes Table -->
     <div

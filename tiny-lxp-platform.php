@@ -70,22 +70,22 @@ function run_tiny_lxp_platform()
 }
 
 // Function to run on plugin activation
-function my_plugin_activation_function() {
-    $theme = wp_get_theme('TinyLxp-wp-theme');
+// function my_plugin_activation_function() {
+//     $theme = wp_get_theme('TinyLxp-wp-theme');
 
-    if ($theme->exists()) {
-        switch_theme('TinyLxp-wp-theme');
-    }
-}
+//     if ($theme->exists()) {
+//         switch_theme('TinyLxp-wp-theme');
+//     }
+// }
 
 // Function to run on plugin deactivation
-function my_plugin_deactivation_function() {
-    $theme = wp_get_theme('twentytwentytwo');
+// function my_plugin_deactivation_function() {
+//     $theme = wp_get_theme('twentytwentytwo');
 
-    if ($theme->exists()) {
-        switch_theme('twentytwentytwo');
-    }
-}
+//     if ($theme->exists()) {
+//         switch_theme('twentytwentytwo');
+//     }
+// }
 
 // Register activation hook
 register_activation_hook(__FILE__, 'my_plugin_activation_function');

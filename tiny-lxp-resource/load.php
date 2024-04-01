@@ -34,6 +34,7 @@ TL_Assingment_Submission_Post_Type::instance();
 
 function tinyLxp_page_templates($template) {
     // Check if the current page is a specific page
+    require_once plugin_dir_path(dirname( __FILE__ )). '/lms/templates/tinyLxpTheme/lxp/functions.php';
     if (is_home() && is_front_page()) {
         return plugin_dir_path(dirname( __FILE__ )).'lms/templates/tinyLxpTheme/index.php';
     } elseif (is_page('login')) {

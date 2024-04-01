@@ -1,6 +1,6 @@
 <?php
   $livePath = dirname( __FILE__ );
-  require_once $livePath.'/lxp/functions.php';
+  // require_once $livePath.'/lxp/functions.php';
 	lxp_login_check();
 
 

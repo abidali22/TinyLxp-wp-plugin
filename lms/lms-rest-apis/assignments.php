@@ -161,12 +161,12 @@ class Rest_Lxp_Assignment
 		
 		$course_id = $request->get_param('course_id');
 		$course_post = get_post($course_id);
-
 		$lesson_ids = json_decode($request->get_param('lesson_ids'));
-		// $lessons_title = json_decode($request->get_param('lessons_title'));
 		$class_id = $request->get_param('class_id');
 		$group_id = $request->get_param('group_id');
 		$calendar_selection_info = json_decode($request->get_param('calendar_selection_info'));
+		$assignment_teacher_id = $request->get_param('teacher_id');
+		$assignment_post_id = intval($request->get_param('assignment_post_id'));
 		
 		$start = new DateTime($calendar_selection_info->start);
 		$end = new DateTime($calendar_selection_info->end);
@@ -182,8 +182,6 @@ class Rest_Lxp_Assignment
 		foreach ($lesson_ids as $lesson_id) {
 			$lesson_post = get_post($lesson_id);
 			// ============= Assignment Post =================================
-			$assignment_teacher_id = $request->get_param('teacher_id');
-			$assignment_post_id = intval($request->get_param('assignment_post_id'));
 			$assignment_name = $lesson_post->post_title . ' - ' . $course_post->post_title;
 			
 			$assignment_post_arg = array(
@@ -266,7 +264,7 @@ class Rest_Lxp_Assignment
 				add_post_meta($assignment_post_id, 'end_time', $end_time, true);
 			}
 
-			if(is_object(self::get_assignment_lesson_slides( $assignment_post_id ))) {
+			if(is_object(get_assignment_lesson_slides( $assignment_post_id ))) {
 				add_post_meta($assignment_post_id, 'assignment_type', 'slides_activity');
 			} else {
 				add_post_meta($assignment_post_id, 'assignment_type', 'video_activity');
@@ -326,7 +324,7 @@ class Rest_Lxp_Assignment
 			}
 			$lxp_student_admin_id = get_post_meta($student->ID, 'lxp_student_admin_id', true);
 			$userdata = get_userdata($lxp_student_admin_id);
-			if ($assignment_type[0] == 'video_activity') {
+			if ( isset($assignment_type[0]) && $assignment_type[0] == 'video_activity') {
 				global $wpdb;
 				$lesson_id = get_post_meta($assignment_id, 'lxp_lesson_id', true);
 				$grade_data = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "tiny_lms_grades WHERE lesson_id = " . $lesson_id . " AND user_id= " . $lxp_student_admin_id);
@@ -526,50 +524,5 @@ class Rest_Lxp_Assignment
             'user_pass' =>$_POST['login_pass']
          );
          wp_send_json_success (wp_update_user($user_data));
-		 
-	}
-
-	public static function get_assignment_lesson_slides($assignment_post_id) {
-		$course = get_post(get_post_meta($assignment_post_id, 'course_id', true));
-		$lxp_lesson_post = get_post(get_post_meta($assignment_post_id, 'lxp_lesson_id', true));
-		$lesson_query = new WP_Query( array( 
-			'post_type' => TL_LESSON_CPT, 
-			'post_status' => array( 'publish' ),
-			'posts_per_page'   => -1,        
-			'meta_query' => array(
-				array('key' => 'tl_course_id', 'value' => $course->ID, 'compare' => '=')
-			)
-		) );
-		$activity_id = 0;
-		foreach ($lesson_query->get_posts() as $lesson) {
-			if ( $lesson->ID == $lxp_lesson_post->ID ) {
-				$tool_url_parts = parse_url(get_post_meta($lesson->ID, 'lti_tool_url', true));
-				if (isset($tool_url_parts['query'])) {
-					$q = [];
-					parse_str($tool_url_parts['query'], $q);
-					$activity_id = isset($q['activity']) ? $q['activity'] : 0;
-				}
-			}        
-		}
-	
-		$curriki_studio_host = 'https://studio.edtechmasters.us';
-		// get tekversion post meta data based on $course->ID
-		$tekversion = get_post_meta($course->ID, 'tekversion', true);
-		if ($tekversion == '2021') {
-			$curriki_studio_host = 'https://rpaprivate.edtechmasters.us';
-		}
-		$args = array('headers' => array(
-			'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzNDMiLCJqdGkiOiI5MDcwOTk0YmIxMDA3NGJiMjAyNjJiYjFkMzZlZmIzMjk4MGZmNTBlZjg2MjQyYWVjMGU1MmU5OTYzYTM5ZDgwODU4MDlhNTEyNTcyZDZkNyIsImlhdCI6MTY4NDA3MzQ3Ny4xNzAyODUsIm5iZiI6MTY4NDA3MzQ3Ny4xNzAyOSwiZXhwIjoxNzE1Njk1ODc3LjE2MDYxNiwic3ViIjoiMiIsInNjb3BlcyI6W119.Lvu-Ar22TFuDbCg0X1yg2dXtdUBo-3F4gXvZx_U2I4z1yEYyIbi81BVMV_KhMJhlZ77_W7oSJYFfTP6LXpMUdESoNL8rqb0POqSv4mOh2whAARfOvev34KGHijbpxXP2qgup8BIoh5yZWwKhYEP1yqrk1MdGdYlo6jEwXXn0PnpeXLdC5f-OCqCFfwJGMjhoTQENrvW50-WoQEpA5ziSAw98D1Jy6Q-KqN-PqIcTZYZ6QGOIfxyoJrSDhky8TbF_aT_QA124Q8b382VvcltOTX0m9TYBge-vQdHn3anE-J0czLTa7is6EHHOmX6DM2eobj96FtffiIsRi_DZ11EIMzbXMA1t2PgUMjybqWSPh441CSwiawSe321r4vB8bVbJXYjiBHEgHquYCmREeMpId5sgGn4ddKC8LinqVazmsIPgE6_ifW09Udp_XEPdB4bevUXtCI1KZV349a7DeI6UPj1IDA0rkxtMPzRvT-G9bghDsWjoTZU0SNDIsIdJGRvCn6KjIKu3PgA_s8T5s5tsU0VWDUO1UrKFl0_A9EsW8z2icC39qobFp-J_kFagJKihefmsMZQd3adVNjukG5XjJjL8qnGg6uYzAV7_RBdDjLjXe2Z30O1Ly576T-WqIWoof5cFAkLcRF96l7Wywg46fwkDWksw8jgiE6_-JF3uRkI'
-		));
-		$response = wp_remote_get($curriki_studio_host . '/api/api/v1/activities/' . $activity_id . '/h5p/cp', $args);
-		$code = wp_remote_retrieve_response_code($response);
-		$data =  array();
-		if ($code === 200) {
-			$data = json_decode(wp_remote_retrieve_body($response));
-			$data->slides = array_filter($data->slides, function($item) {
-				return strtolower($item->title) !== 'you did it!';
-			});
-		}
-		return $data;
 	}
 }
