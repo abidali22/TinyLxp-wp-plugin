@@ -167,7 +167,7 @@ class Rest_Lxp_Assignment
 		$calendar_selection_info = json_decode($request->get_param('calendar_selection_info'));
 		$assignment_teacher_id = $request->get_param('teacher_id');
 		$assignment_post_id = intval($request->get_param('assignment_post_id'));
-		
+		require_once plugin_dir_path(dirname( __FILE__ )). 'templates/tinyLxpTheme/lxp/functions.php';
 		$start = new DateTime($calendar_selection_info->start);
 		$end = new DateTime($calendar_selection_info->end);
 		
