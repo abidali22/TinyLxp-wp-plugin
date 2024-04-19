@@ -52,7 +52,7 @@ require_once( LMS__PLUGIN_DIR . 'lms-rest-apis/lms-rest-api.php' );
 		add_action( 'init', array( $this, 'register' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_action( 'save_post', array( $this, 'save_tl_post' ), 10, 2 );
-		add_action( 'the_content', array( $this, 'tl_post_content' ));
+		// add_action( 'the_content', array( $this, 'tl_post_content' ));
 		add_action( 'rest_'.$this->_post_type.'_query', array( $this, 'post_meta_request_params' ),10, 2 );
 		add_action( 'rest_insert_'.$this->_post_type, array( $this, 'insert_post_api' ),10, 2 );
 		add_action( 'rest_api_init', array( 'LMS_REST_API', 'init' ) );

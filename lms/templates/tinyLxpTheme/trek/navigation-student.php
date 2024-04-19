@@ -20,9 +20,9 @@
       <img src="<?php echo $treks_src; ?>/assets/img/nav_reports.svg" />
       <a href="<?php echo site_url("assignments"); ?>">Assignments</a>
     </li>
-    <li class="<?php echo ( $post->post_name === "calendar" ) ? "nav-section-selected" : ""; ?>">
-      <img src="<?php echo $treks_src; ?>/assets/img/calendar.svg" />
-      <a href="<?php echo site_url("calendar"); ?>">Calendar</a>
-    </li>
+    <!-- <li class="<?php //echo ( $post->post_name === "calendar" ) ? "nav-section-selected" : ""; ?>">
+      <img src="<?php //echo $treks_src; ?>/assets/img/calendar.svg" />
+      <a href="<?php //echo site_url("calendar"); ?>">Calendar</a>
+    </li> -->
   </ul>
 </nav>

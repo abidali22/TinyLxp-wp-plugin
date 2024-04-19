@@ -255,8 +255,12 @@ $statuses_count = array_reduce($assignments, function($carry, $assignment) use (
                       ?>
                       <?php if ($assignment_grade == 'true') { ?>
                         <span class="grade-label graded-report">Grade</span>
+                      <?php } elseif ($status === 'Completed') { ?>
+                        <span class="grade-label submit-report">Submitted</span>
+                      <?php } elseif ($status === 'In Progress') { ?>
+                        <span class="grade-label pending-report">In Progress</span>
                       <?php } else { ?>
-                        <span class="grade-label <?php echo $status === 'Completed' ? 'submit' : 'pending'; ?>-report"> <?php echo $status === 'Completed' ? 'Submitted' : $status; ?> </span>
+                        <span class="grade-label reviewed-report">To Do</span>
                       <?php } ?>
                     </td>
                     <td>

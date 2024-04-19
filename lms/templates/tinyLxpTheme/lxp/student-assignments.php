@@ -77,7 +77,7 @@
     <section class="main-container b-space">
         <!-- Nav Section -->
         <nav class="nav-section">
-            <?php include $livePath.'/trek/navigation.php';  ?>
+            <?php include $livePath.'/trek/navigation-student.php'; ?>
         </nav>
     </section>
     <section class="calendar-container">

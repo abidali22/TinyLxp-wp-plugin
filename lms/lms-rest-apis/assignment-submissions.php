@@ -210,9 +210,9 @@ class Rest_Lxp_Assignment_Submission
                 update_post_meta($assignment_submission_post_id, 'score_max', $score['max']);
                 update_post_meta($assignment_submission_post_id, 'score_raw', $score['raw']);
                 update_post_meta($assignment_submission_post_id, 'score_scaled', $score['scaled']);
-                $activity_type = get_post_meta($assignment_post->ID, 'assignment_type');
-                if ( $activity_type[0] == 'video_activity' ) {
-                    self::grades_score_video_activity($assignment_submission_post_id, $userId, $score['scaled']);
+                $activity_type = get_post_meta($assignment_post->ID, 'assignment_type', true);
+                if ( $activity_type == 'video_activity' ) {
+                    self::grades_score_video_activity($assignmentId, $userId, $score['scaled']);
                 }
 
                 // get 'completion' and 'duration' key values from 'result' $request parameter and add as assignment submission post meta data
