@@ -183,6 +183,8 @@ class Rest_Lxp_Assignment
 			$lesson_post = get_post($lesson_id);
 			// ============= Assignment Post =================================
 			$assignment_name = $lesson_post->post_title . ' - ' . $course_post->post_title;
+			$assignment_teacher_id = $request->get_param('teacher_id');
+			$assignment_post_id = intval($request->get_param('assignment_post_id'));
 			
 			$assignment_post_arg = array(
 				'post_title'    => wp_strip_all_tags($assignment_name),

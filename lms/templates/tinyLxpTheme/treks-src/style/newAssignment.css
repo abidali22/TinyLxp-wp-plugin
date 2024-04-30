@@ -480,6 +480,9 @@
 .tags-body-detail span {
   color: #ca2738;
 }
+.tags-body-detail {
+  width: 87%;
+}
 .third-card-box {
   display: flex;
   align-items: center;

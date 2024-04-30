@@ -160,14 +160,7 @@ body {
     padding-bottom: 8px; */
   border-bottom: 1px solid #eaedf1;
 }
-.recent-treks-section-div .recent-treks-header h2 {
-  /* font-family: "Nunito";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 24px;
-    color: #000000; */
-}
+
 .recent-treks-section-div .recent-treks-header a {
   /* font-family: "Nunito";
     font-style: normal;
@@ -267,6 +260,7 @@ body {
   border-bottom: 1px solid #eaedf1;
 }
 .assignments-table-cs-td-poly .polygon-shap {
+  float: left;
   width: 48px;
   height: 48px;
   background-color: #1fa5d4;
@@ -277,9 +271,9 @@ body {
   align-items: center;
   justify-content: center;
 }
-.assignments-table-cs-td-poly {
+/* .assignments-table-cs-td-poly {
   display: flex;
-}
+} */
 .assignments-table-cs-td-poly div:nth-child(2) span {
   margin-left: 8px;
   display: block;

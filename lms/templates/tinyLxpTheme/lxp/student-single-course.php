@@ -294,7 +294,7 @@ while (have_posts()) : the_post();
           <div class="my-trk-detail-img">
           <?php
               if ( has_post_thumbnail( $post->ID ) ) {
-                  echo get_the_post_thumbnail($post->ID, "medium", array( 'class' => 'rounded' )); 
+                  echo get_the_post_thumbnail($post->ID, "thumbnail", array( 'class' => 'rounded' )); 
               } else {
               ?>
               <img width="300" height="180" src="<?php echo $treks_src; ?>/assets/img/tr_main.jpg" class="rounded wp-post-image" />

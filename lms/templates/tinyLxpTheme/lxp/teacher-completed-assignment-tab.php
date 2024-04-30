@@ -78,6 +78,7 @@
           <td>
             <?php 
               $title = str_replace("'", "`", $course->post_title);
+              $lxp_lesson_post->post_title = str_replace('"', "`", $lxp_lesson_post->post_title);
               echo $title; 
               $course_post_image = has_post_thumbnail( $course->ID ) ? get_the_post_thumbnail_url($course->ID) : $treks_src.'/assets/img/tr_main.jpg';                       
             ?>

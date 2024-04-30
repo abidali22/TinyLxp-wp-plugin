@@ -392,7 +392,7 @@
 
             formData.append('calendar_selection_info', JSON.stringify({start, end}));
             jQuery("#assignment-create-btn").attr("disabled", "disabled");
-
+            jQuery("#assignment-create-btn").html(`<i class="fa fa-spinner fa-spin"></i> Create`);
             $.ajax({
                 method: "POST",
                 enctype: 'multipart/form-data',
@@ -405,7 +405,7 @@
                 //resetWizard();
                 //bootstrap.Tab.getOrCreateInstance(document.querySelector('#step-1-tab')).show();
                 console.log("assignment created successfully.");
-                jQuery("#assignment-create-btn").removeAttr("disabled");
+                // jQuery("#assignment-create-btn").removeAttr("disabled");
                 window.location = "<?php echo site_url("assignments"); ?>";
             }).fail(function (response) {
                 console.error(response);

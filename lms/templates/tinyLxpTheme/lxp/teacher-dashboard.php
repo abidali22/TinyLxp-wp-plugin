@@ -275,7 +275,7 @@
                   $class_post = get_post(get_post_meta($assignment->ID, 'class_id', true));
                   $lxp_lesson_post = get_post(get_post_meta($assignment->ID, 'lxp_lesson_id', true));
                   $course = get_post(get_post_meta($assignment->ID, 'course_id', true));
-                  $lesson_segment = implode("-", explode(" ", strtolower($lxp_lesson_post->post_title))) ;
+                  // $lesson_segment = implode("-", explode(" ", strtolower($lxp_lesson_post->post_title))) ;
                   
                   $student_stats = lxp_assignment_stats($assignment->ID);
                   $statuses = array("To Do", "In Progress");
@@ -302,6 +302,7 @@
                   <td>
                     <?php 
                       $title = str_replace("'", "`", $course->post_title);
+                      $lxp_lesson_post->post_title = str_replace('"', "`", $lxp_lesson_post->post_title);
                       echo $title; 
                       $course_post_image = has_post_thumbnail( $course->ID ) ? get_the_post_thumbnail_url($course->ID) : $treks_src.'/assets/img/tr_main.jpg';                       
                     ?>
@@ -309,7 +310,6 @@
                   <td>
                     <div class="assignments-table-cs-td-poly">
                       <div class="polygon-shap">
-                        <!-- <span><?php echo $lxp_lesson_post->post_title[0]; ?></span> -->
                         <span>L</span>
                       </div>
                       <div>

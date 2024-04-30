@@ -377,7 +377,7 @@ $lessons = lxp_get_lessons_by_course($course_id);
                         <span>L</span>
                     </div>
                     <div class="tags-body-detail">
-                        <p data-id="` + lxp_lesson.ID + `" id="lesson_body_id_` + lxp_lesson.ID + `" class="lesson-name">` + lxp_lesson.post_title + `</p>
+                        <p data-id="` + lxp_lesson.ID + `" id="lesson_body_id_` + lxp_lesson.ID + `" title="` + lxp_lesson.post_title + `" class="lesson-name">` + lxp_lesson.post_title + `</p>
                     </div>
                 </div>
             </button>

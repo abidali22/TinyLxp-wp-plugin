@@ -532,10 +532,6 @@ function lxp_check_assignment_submission($assignment_id, $student_post_id) {
     $assignment_post = get_post($assignment_id);
     $user_post = get_post($student_post_id);
     $userId = get_post_meta($user_post->ID, 'lxp_student_admin_id', true);
-    $assignmentType = get_post_meta($assignment_id, 'assignment_type', true);
-    if (!in_array($student_post_id, get_post_meta($assignment_id, 'attempted_students')) && $assignmentType == 'video_activity') {
-        add_post_meta($assignment_id, 'attempted_students', $student_post_id);
-    }
     
     $assignment_submission_get_query = new WP_Query( array( 'post_type' => TL_ASSIGNMENT_SUBMISSION_CPT , 'posts_per_page'   => -1, 'post_status' => array( 'publish' ), 
             'meta_query' => array(
