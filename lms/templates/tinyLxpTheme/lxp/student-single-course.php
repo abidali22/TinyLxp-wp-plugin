@@ -8,10 +8,10 @@ while (have_posts()) : the_post();
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php the_title(); ?></title>
-    <link href="<?php echo $treks_src; ?>/style/common.css" rel="stylesheet" />
+    <link href="<?php echo $treks_src; ?>/style/studentSingleCourse.css" rel="stylesheet" />
     <link href="<?php echo $treks_src; ?>/style/treksstyle.css" rel="stylesheet" />
-    <link href="<?php echo $treks_src; ?>/style/style-trek-section.css" rel="stylesheet" />
-    <link href="<?php echo $treks_src; ?>/style/trek-section.css" rel="stylesheet" />
+    <!-- <link href="<?php //echo $treks_src; ?>/style/style-trek-section.css" rel="stylesheet" />
+    <link href="<?php //echo $treks_src; ?>/style/trek-section.css" rel="stylesheet" /> -->
     <link rel="stylesheet" href="<?php echo $treks_src; ?>/style/header-section.css" />
     <link rel="stylesheet" href="<?php echo $treks_src; ?>/style/studentTreksOverview.css" />
     
@@ -61,6 +61,9 @@ while (have_posts()) : the_post();
         padding: 6px;
         text-decoration: auto;
         font-size: 0.85rem;
+      }
+      .central-cncpt-section{
+        padding-top: 10px;
       }
       .central-cncpt-section h1 {
         font-size: 1.6rem;
@@ -229,7 +232,10 @@ while (have_posts()) : the_post();
         cursor: pointer;
       }
 
-
+      a { text-decoration: none; }
+      .student-over-tab-content{
+        margin-top: 0px;
+      }
     </style>
   </head>
   <body>
@@ -306,7 +312,16 @@ while (have_posts()) : the_post();
           <div class="my-trk-detail-prep">
             <!-- Title -->
             <div class="detail-prep-title">
-              <h2><?php the_title(); ?></h2>
+              <span class='course-label'><?php the_title(); ?></span>
+              <img src="<?php echo $treks_src; ?>/assets/img/bc_arrow_right.svg" />
+              <span class='section-label' id='course-section'></span>
+              <img src="<?php echo $treks_src; ?>/assets/img/bc_arrow_right.svg" />
+              <span id='section-lesson'></span> <br>
+              <div class="time-date-box">
+                <span class="date-time" id="student-progress-trek-start-time"></span>
+                <span style="padding: 4px 8px; font-weight:bold;" >To</span>
+                <span class="date-time" id="student-progress-trek-end-time"></span>
+              </div>
             </div>
             <!-- Description -->
             <div class="detail-prep-desc">
@@ -315,6 +330,19 @@ while (have_posts()) : the_post();
           </div>
         </div>
       </section>
+      <!-- <div class="course-time-box">
+        <img class="bc-img-1" src="<?php echo $treks_src; ?>/assets/img/bc_img.svg" />
+        <span class='course-label'><?php the_title(); ?></span>
+        <img src="<?php echo $treks_src; ?>/assets/img/bc_arrow_right.svg" />
+        <span class='section-label' id='course-section'></span>
+        <img src="<?php echo $treks_src; ?>/assets/img/bc_arrow_right.svg" />
+        <span id='section-lesson'></span> <br>
+        <div class="time-date-box">
+          <span class="date-time" id="student-progress-trek-start-time"></span>
+          <span style="padding: 4px 8px; font-weight:bold;" >To</span>
+          <span class="date-time" id="student-progress-trek-end-time"></span>
+        </div>
+      </div> -->
       <section class="central-cncpt-section trek-section-Assignments">
         <div class="student-over-tab-content">
           <div class="tab-pane">
@@ -334,6 +362,28 @@ while (have_posts()) : the_post();
       integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
       crossorigin="anonymous"
     ></script>
+    <script>
+      jQuery(document).ready(function() {
+          let hiddenSection = jQuery('#currentSection').val();
+          jQuery('#course-section').text(hiddenSection);
+          let hiddenLesson = jQuery('#currentLesson').val();
+          jQuery('#section-lesson').text(hiddenLesson);
+
+          // starting date and time
+          let start_date = new Date(jQuery('#startDateTime').val());
+          let start_date_string = start_date.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' });
+          let start_time_string = start_date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+          jQuery('#student-progress-trek-start-time').text(start_date_string + ' ' + start_time_string);
+          // ending date and time
+          let end_date = new Date(jQuery('#endDateTime').val());
+          let end_date_string = end_date.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' });
+          let end_time_string = end_date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+          jQuery('#student-progress-trek-end-time').text(end_date_string + ' ' + end_time_string);
+        });
+      function go_to_url(url) {
+        window.location = url;
+      }
+    </script>
     <script src="<?php echo $treks_src; ?>/js/Animated-Circular-Progress-Bar-with-jQuery-Canvas-Circle-Progress/dist/circle-progress.js"></script>
     <script src="<?php echo $treks_src; ?>/js/custom.js"></script>
     <script

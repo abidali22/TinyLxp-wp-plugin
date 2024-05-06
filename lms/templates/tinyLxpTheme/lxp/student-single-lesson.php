@@ -2,6 +2,10 @@
 
 if (isset($_GET['assignment_id'])) {
 	$student_post = lxp_get_student_post(get_current_user_id());
+	$assignmentType = get_post_meta($_GET['assignment_id'], 'assignment_type', true);
+	if (!in_array($student_post->ID, get_post_meta($_GET['assignment_id'], 'attempted_students')) && $assignmentType == 'video_activity') {
+		add_post_meta($_GET['assignment_id'], 'attempted_students', $student_post->ID);
+	}
 	lxp_check_assignment_submission($_GET['assignment_id'], $student_post->ID);
 }
 $content = get_post_meta($post->ID);

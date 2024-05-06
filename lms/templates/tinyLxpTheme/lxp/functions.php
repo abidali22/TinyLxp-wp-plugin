@@ -349,7 +349,8 @@ function lxp_get_student_assignments($student_post_id)
 
 function lxp_get_assignments_courses($assignments)
 {
-    $courses = array_map(function ($assignment) { return get_post($assignment->course_id)->ID; }, $assignments);
+    // $courses = array_map(function ($assignment) { return get_post($assignment->course_id)->ID; }, $assignments); abid comment it 6May2024 undefined id error was showing
+    $courses = array_map(function ($assignment) { return $assignment->course_id; }, $assignments);
     $query = new WP_Query( array( 'post_type' => TL_TREK_CPT , 'posts_per_page'   => -1, 'post_status' => array( 'publish' ), 'post__in' => array_values(array_unique($courses)), 'orderby' => 'meta_value_num', 'order' => 'ASC' ) );
     return $query->get_posts();
 }
