@@ -236,6 +236,13 @@ while (have_posts()) : the_post();
       .student-over-tab-content{
         margin-top: 0px;
       }
+      .tooltip-inner {
+        max-width: 1000px !important;
+        font-size: 15px;
+        background: #FFFFFF;
+        color: rgb(0, 0, 0, .7);
+        border: 1px solid #cecece;
+      }
     </style>
   </head>
   <body>
@@ -391,7 +398,13 @@ while (have_posts()) : the_post();
       integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
       crossorigin="anonymous"
     ></script>
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
+    <script>
+      // Initialize tooltips
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+      })
+    </script>
   </body>
 </html>
 <?php endwhile; ?>

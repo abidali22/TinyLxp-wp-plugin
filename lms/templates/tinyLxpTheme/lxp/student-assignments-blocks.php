@@ -50,7 +50,7 @@
           <div id="collapse-<?php echo $sectionNum; ?>" class="accordion-collapse collapse <?php echo $sectionLable; ?>" data-bs-parent="#accordionExample">
             <?php
               if (isset($_GET['assignment_id']) && $_GET['assignment_id'] == $singleAssignment->ID) {
-                $nextLessonLink = !next($assignments) ? get_post_permalink($courseId).'?assignment_id='.next($assignments)->ID : '#';
+                // $nextLessonLink = !next($assignments) ? get_post_permalink($courseId).'?assignment_id='.next($assignments)->ID : '#';
                 $previousLessonLink = array_key_exists($key - 1, $assignments) ? get_post_permalink($courseId).'?assignment_id='.$assignments[$key -1]->ID : '#';
                 $nextLessonLink = array_key_exists($key + 1, $assignments) ? get_post_permalink($courseId).'?assignment_id='.$assignments[$key +1]->ID : '#';
                 $lessonColor = '#eee';
@@ -68,10 +68,10 @@
               <input type="hidden" value="<?php echo $singleSection; ?>" id="currentSection">
               <input type="hidden" value="<?php echo $lxpLessonPost->post_title; ?>" id="currentLesson">
             <?php } ?>
-              <div class="accordion-body" style="background: <?php echo $lessonColor; ?>;">
+              <div class="accordion-body" style="background: <?php echo $lessonColor; ?>;" onMouseOver="this.style.background='#eee'" onMouseOut="this.style.background='<?php echo $lessonColor; ?>'">
                 <div class="polygon-shap" style="background-color: #1fa5d4">
                   <span>L</span>
-                </div>&nbsp; &nbsp;<a href="<?php echo $curntessonLink ?>"><?php echo $lxpLessonPost->post_title.'<br>'; ?></a>
+                </div>&nbsp; &nbsp;<a href="<?php echo $curntessonLink ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="<?php echo $lxpLessonPost->post_title ?>"><?php echo mb_strimwidth($lxpLessonPost->post_title, 0, 33, "..."); ?></a>
               </div>
           </div>
           <?php 
@@ -152,11 +152,7 @@
   <input type="hidden" id="startDateTime" value="<?php echo $start; ?>" />
   <input type="hidden" id="endDateTime" value="<?php echo $end; ?>" />
   <iframe style="border: none;width: 100%;height: 706px;" class="" src="<?php echo site_url() ?>?lti-platform&post=<?php echo $post->ID ?>&id=<?php echo $attrId ?><?php echo $queryParam ?>" allowfullscreen></iframe>
-  <div class="input_section">
-    <div class="btn_box profile_buttons">
-      <button class="btn profile_btn" type="button" <?php echo ($previousLessonLink == '#') ? 'disabled' : '' ?> onclick="go_to_url('<?php echo $previousLessonLink; ?>')" aria-label="Close" >Previous</button>
-
-      <button class="btn profile_btn" <?php echo ($nextLessonLink == '#') ? 'disabled' : '' ?> onclick="go_to_url('<?php echo $nextLessonLink; ?>')" style="float: right;" >Next</button>
-    </div>
-  </div>
+    <button class="btn btn-primary btn-lg" type="button" <?php echo ($previousLessonLink == '#') ? 'disabled' : '' ?> onclick="go_to_url('<?php echo $previousLessonLink; ?>')" aria-label="Close" >Previous</button>
+    <button class="btn btn-primary btn-lg" <?php echo ($nextLessonLink == '#') ? 'disabled' : '' ?> onclick="go_to_url('<?php echo $nextLessonLink; ?>')" style="float: right;" >Up Next</button>
+  
 </div>

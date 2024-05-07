@@ -408,7 +408,7 @@ class Rest_Lxp_Assignment
 			$event["title"] = $lxp_lesson_post->post_title;
 			$event["segment"] = implode("-", explode(" ", strtolower($lxp_lesson_post->post_title))) ;
 			$event['course'] = $course ? $course->post_title : '';
-			$event['course_post_image'] = get_the_post_thumbnail_url($course->ID); 
+			$event['course_post_image'] = get_the_post_thumbnail_url($course ? $course->ID : ''); 
 			$event["calendar_selection_info"] = json_encode($calendar_selection_info);
 			return $event;
 		}, $assignment_query->get_posts());
@@ -428,7 +428,7 @@ class Rest_Lxp_Assignment
 			$calendar_selection_info = json_decode(get_post_meta($assignment->ID, 'calendar_selection_info', true));
 			$lxp_lesson_post = get_post(get_post_meta($assignment->ID, 'lxp_lesson_id', true));
 			$course = get_post(get_post_meta($assignment->ID, 'course_id', true));
-			$args = array( 'posts_per_page' => -1, 'post_type' => TL_LESSON_CPT, 'meta_query' => array(array('key'   => 'tl_course_id', 'value' =>  $course->ID)));
+			$args = array( 'posts_per_page' => -1, 'post_type' => TL_LESSON_CPT, 'meta_query' => array(array('key'   => 'tl_course_id', 'value' =>  $course ? $course->ID : '')));
 			$lessons = get_posts($args);
 			$digital_journal_link = null;
 			foreach($lessons as $lesson){ 

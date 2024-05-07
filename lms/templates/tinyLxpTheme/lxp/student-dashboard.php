@@ -214,6 +214,7 @@ $statuses_count = array_reduce($assignments, function($carry, $assignment) use (
                   <?php
                     foreach ($assignments as $assignment) { 
                       $course = get_post(get_post_meta($assignment->ID, 'course_id', true));
+                      if (is_object($course)) {
                       $lxp_lesson_post = get_post(get_post_meta($assignment->ID, 'lxp_lesson_id', true));                      
                       $segmentColor = "#1fa5d4";
                       $status_items = array_filter($assignments_submissions, function($submission) use ($assignment) {
@@ -280,7 +281,7 @@ $statuses_count = array_reduce($assignments, function($carry, $assignment) use (
                       </div>
                     </td>
                   </tr>
-                <?php } ?>
+                <?php } } ?>
               </tbody>
             </table>
           </div>

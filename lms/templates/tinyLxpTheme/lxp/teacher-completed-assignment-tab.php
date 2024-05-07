@@ -30,6 +30,8 @@
     <tbody>
       <?php 
         foreach ($assignments as $assignment) { 
+          $course = get_post(get_post_meta($assignment->ID, 'course_id', true));
+          if (is_object($course)) {
           $calendar_selection_info = json_decode(get_post_meta($assignment->ID, 'calendar_selection_info', true));
           $start = '';
           if (!is_null($calendar_selection_info) && property_exists($calendar_selection_info, 'start') && gettype($calendar_selection_info->start) === 'string') {
@@ -47,7 +49,7 @@
 
           $class_post = get_post(get_post_meta($assignment->ID, 'class_id', true));
           $lxp_lesson_post = get_post(get_post_meta($assignment->ID, 'lxp_lesson_id', true));
-          $course = get_post(get_post_meta($assignment->ID, 'course_id', true));
+          // $course = get_post(get_post_meta($assignment->ID, 'course_id', true));
           // $lesson_segment = implode("-", explode(" ", strtolower($lxp_lesson_post->post_title))) ;
           
           $student_stats = lxp_assignment_stats($assignment->ID);
@@ -110,7 +112,7 @@
             <div class="student-stats-link"><a href="#" onclick="fetch_assignment_stats(<?php echo $assignment->ID; ?>, '<?php echo $title; ?>', '<?php echo $lxp_lesson_post->post_title; ?>', ['Graded'], '<?php echo $start; ?>', '<?php echo $end; ?>')"><?php echo $students_graded; ?>/<?php echo count($student_stats); ?></a></div>
           </td>
         </tr>  
-      <?php } } ?>
+      <?php } } } ?>
     </tbody>
   </table>
 </div>
