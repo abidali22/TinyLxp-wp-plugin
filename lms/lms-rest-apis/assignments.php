@@ -401,15 +401,17 @@ class Rest_Lxp_Assignment
 			$lxp_lesson_post = get_post(get_post_meta($assignment->ID, 'lxp_lesson_id', true));
 			$course = get_post(get_post_meta($assignment->ID, 'course_id', true));
 			$event = array();
-			$event["id"] = $assignment->ID;
-			$event["start"] = $calendar_selection_info->start;
-			$event["end"] = $calendar_selection_info->end;
-			$event["allDay"] = $calendar_selection_info && property_exists($calendar_selection_info, 'allDay') ? $calendar_selection_info->allDay : false;
-			$event["title"] = $lxp_lesson_post->post_title;
-			$event["segment"] = implode("-", explode(" ", strtolower($lxp_lesson_post->post_title))) ;
-			$event['course'] = $course ? $course->post_title : '';
-			$event['course_post_image'] = get_the_post_thumbnail_url($course ? $course->ID : ''); 
-			$event["calendar_selection_info"] = json_encode($calendar_selection_info);
+			if ($lxp_lesson_post && $course) {
+				$event["id"] = $assignment->ID;
+				$event["start"] = $calendar_selection_info->start;
+				$event["end"] = $calendar_selection_info->end;
+				$event["allDay"] = $calendar_selection_info && property_exists($calendar_selection_info, 'allDay') ? $calendar_selection_info->allDay : false;
+				$event["title"] = $lxp_lesson_post->post_title;
+				$event["segment"] = implode("-", explode(" ", strtolower($lxp_lesson_post->post_title))) ;
+				$event['course'] = $course ? $course->post_title : '';
+				$event['course_post_image'] = get_the_post_thumbnail_url($course ? $course->ID : ''); 
+				$event["calendar_selection_info"] = json_encode($calendar_selection_info);
+			}
 			return $event;
 		}, $assignment_query->get_posts());
 	}
@@ -438,15 +440,17 @@ class Rest_Lxp_Assignment
 			}
 			$digital_journal_link = $digital_journal_link ? $digital_journal_link . '?assignment_id=' . $assignment->ID : '';
 			$event = array();
-			$event["id"] = $assignment->ID;
-			$event["start"] = $calendar_selection_info->start;
-			$event["end"] = $calendar_selection_info->end;
-			$event["allDay"] = $calendar_selection_info && property_exists($calendar_selection_info, 'allDay') ? $calendar_selection_info->allDay : false;
-			$event["title"] = $lxp_lesson_post->post_title;
-			$event["segment"] = implode("-", explode(" ", strtolower($lxp_lesson_post->post_title))) ;
-			$event['course'] = $course ? $course->post_title : '';
-			$event["calendar_selection_info"] = json_encode($calendar_selection_info);
-			$event["digital_journal_link"] = $digital_journal_link;
+			if ($lxp_lesson_post && $course) {
+				$event["id"] = $assignment->ID;
+				$event["start"] = $calendar_selection_info->start;
+				$event["end"] = $calendar_selection_info->end;
+				$event["allDay"] = $calendar_selection_info && property_exists($calendar_selection_info, 'allDay') ? $calendar_selection_info->allDay : false;
+				$event["title"] = $lxp_lesson_post->post_title;
+				$event["segment"] = implode("-", explode(" ", strtolower($lxp_lesson_post->post_title))) ;
+				$event['course'] = $course ? $course->post_title : '';
+				$event["calendar_selection_info"] = json_encode($calendar_selection_info);
+				$event["digital_journal_link"] = $digital_journal_link;
+			}
 			return $event;
 		}, $assignment_query->get_posts());
 	}
