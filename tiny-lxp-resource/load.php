@@ -89,11 +89,20 @@ function get_all_courses_for_enrollment() {
         echo '<div class="recent-posts-custom-layout">';
         while ($query->have_posts()) {
             $query->the_post();
+            $thumbnail_id = get_post_thumbnail_id();
+            $thumbnail_path = get_attached_file($thumbnail_id);
             echo '<div class="post-item">';
-            if (has_post_thumbnail()) {
+            if (has_post_thumbnail() && file_exists($thumbnail_path)) {
                 echo '<div class="post-thumbnail">';
                 echo '<a href="' . get_permalink() . '">';
                 echo get_the_post_thumbnail(get_the_ID(), "medium", array( 'class' => 'rounded' )); // Display the post thumbnail
+                echo '</a>';
+                echo '</div>';
+            } else {
+                $treks_src = content_url().'/plugins/TinyLxp-wp-plugin/lms/templates/tinyLxpTheme/treks-src/';
+                echo '<div class="post-thumbnail">';
+                echo '<a href="' . get_permalink() . '">';
+                echo '<img width="300" height="180" style="height:313px" src="'.$treks_src.'/assets/img/tr_main.jpg" class="rounded wp-post-image" />';
                 echo '</a>';
                 echo '</div>';
             }
