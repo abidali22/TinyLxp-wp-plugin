@@ -74,3 +74,42 @@ function tinyLxp_page_templates($template) {
 add_filter('template_include', 'tinyLxp_page_templates', 99);
 
 add_filter('show_admin_bar', '__return_false');
+
+function get_all_courses_for_enrollment() {
+    $args = array(
+        'posts_per_page'   => -1,
+        'post_type'        => TL_TREK_CPT,
+        'orderby'        => 'meta_value_num',
+        'order' => 'asc'
+    );
+    $query = new WP_Query($args);
+    ob_start();
+    // Check if there are any posts to display
+    if ($query->have_posts()) {
+        echo '<div class="recent-posts-custom-layout">';
+        while ($query->have_posts()) {
+            $query->the_post();
+            echo '<div class="post-item">';
+            if (has_post_thumbnail()) {
+                echo '<div class="post-thumbnail">';
+                echo '<a href="' . get_permalink() . '">';
+                echo get_the_post_thumbnail(get_the_ID(), "medium", array( 'class' => 'rounded' )); // Display the post thumbnail
+                echo '</a>';
+                echo '</div>';
+            }
+            echo '<div class="post-content">';
+            echo '<h2 class="post-title"><a href="' . get_permalink() . '">' . get_the_title() . '</a></h2>';
+            echo '<p class="post-excerpt">' . get_the_excerpt() . '</p>';
+            echo '</div>'; // Close post-content
+            echo '</div>'; // Close post-item
+        }
+        echo '</div>'; // Close recent-posts-custom-layout
+    } else {
+        echo '<p>No posts found.</p>';
+    }
+    // Restore original post data
+    wp_reset_postdata();
+    // Return the content
+    return ob_get_clean();
+}
+add_shortcode('enrolment_courses', 'get_all_courses_for_enrollment');

@@ -88,10 +88,10 @@ function run_tiny_lxp_platform()
 // }
 
 // Register activation hook
-register_activation_hook(__FILE__, 'my_plugin_activation_function');
+// register_activation_hook(__FILE__, 'my_plugin_activation_function');
 
 // Register deactivation hook
-register_deactivation_hook(__FILE__, 'my_plugin_deactivation_function');
+// register_deactivation_hook(__FILE__, 'my_plugin_deactivation_function');
 
 run_tiny_lxp_platform();
 function show_grade_link($actions, $post)
