@@ -67,7 +67,7 @@
       if(empty($located)){
          add_filter( 'single_template', function ( $page_template, $type ) {
             global $post;
-            if ( $post->post_type == "tl_lesson" ) {
+            if ( $post->post_type == TL_LESSON_CPT ) {
                $page_template = dirname( __FILE__ ) . '/templates/course/single-tl_lesson.php';
          }
          return $page_template;
@@ -172,7 +172,7 @@
    public function options_metabox_html($post = null)
    {
       $args = array(
-         'post_type'=> 'tl_course',
+         'post_type'=> TL_COURSE_CPT,
          'orderby'    => 'ID',
          'post_status' => 'publish,draft',
          'order'    => 'DESC',
@@ -226,7 +226,7 @@
    public function tl_post_content($more_link_text = null, $strip_teaser = false)
    {
        $post = get_post();
-       if (isset($post->post_type) && $post->post_type == "tl_lesson") {
+       if (isset($post->post_type) && $post->post_type == TL_LESSON_CPT) {
            $content = get_post_meta($post->ID);
            $attrId =  isset($content['lti_post_attr_id'][0]) ? $content['lti_post_attr_id'][0] : "";
            $title =  isset($content['lti_content_title'][0]) ? $content['lti_content_title'][0] : "";

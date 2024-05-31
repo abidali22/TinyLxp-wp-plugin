@@ -12,7 +12,7 @@
   $courses_count = 6;
   $args = array(
     'posts_per_page'   => 3,
-    'post_type'        => 'tl_course'
+    'post_type'        => TL_COURSE_CPT
   );
 
   $courses_saved = get_post_meta($teacher_post->ID, 'courses_saved');
@@ -40,7 +40,7 @@
   if ( get_userdata(get_current_user_id())->user_email === "guest@rpatreks.com" ) {
     $args = array(
       'include' => '15',
-      'post_type'        => 'tl_course',
+      'post_type'        => TL_COURSE_CPT,
       'order' => 'post__in'
     );
   }

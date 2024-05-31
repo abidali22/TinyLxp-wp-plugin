@@ -302,7 +302,7 @@ function lxp_get_students($students_ids) {
 
 function lxp_get_course_digital_journals($course_id) {
     $journal_query = new WP_Query( array( 
-        'post_type' => "tl_lesson", 
+        'post_type' => TL_LESSON_CPT,
         'post_status' => array( 'publish' ),
         'posts_per_page'   => -1,        
         'meta_query' => array(
@@ -351,7 +351,7 @@ function lxp_get_assignments_courses($assignments)
 {
     // $courses = array_map(function ($assignment) { return get_post($assignment->course_id)->ID; }, $assignments); abid comment it 6May2024 undefined id error was showing
     $courses = array_map(function ($assignment) { return $assignment->course_id; }, $assignments);
-    $query = new WP_Query( array( 'post_type' => TL_TREK_CPT , 'posts_per_page'   => -1, 'post_status' => array( 'publish' ), 'post__in' => array_values(array_unique($courses)), 'orderby' => 'meta_value_num', 'order' => 'ASC' ) );
+    $query = new WP_Query( array( 'post_type' => TL_COURSE_CPT , 'posts_per_page'   => -1, 'post_status' => array( 'publish' ), 'post__in' => array_values(array_unique($courses)), 'orderby' => 'meta_value_num', 'order' => 'ASC' ) );
     return $query->get_posts();
 }
 
@@ -393,7 +393,7 @@ function lxp_get_teacher_saved_courses($teacher_post_id, $treks_saved_ids, $stra
         // get teacher post type 'treks_saved' metadata
         // $treks_saved_ids = get_post_meta($teacher_post_id, 'treks_saved');
         $args = array( 
-            'post_type' => TL_TREK_CPT , 
+            'post_type' => TL_COURSE_CPT , 
             'posts_per_page'   => -1, 
             'post_status' => array( 'publish' ), 
             'post__in' => array_values(array_unique($treks_saved_ids)), 

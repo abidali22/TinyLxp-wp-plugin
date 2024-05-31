@@ -89,7 +89,9 @@
 
 <div style="width: 74%" >
   <?php
-  if (!isset($_GET['assignment_id'])) {
+  if (!isset($_GET['assignment_id']) && $defaultLessonId == '') {
+    echo 'Sorry! This assignment not assigned yet.'; die;
+  }elseif (!isset($_GET['assignment_id'])) {
     $post->ID = $defaultLessonId;   // this is lesson id when page load by default first activity start open
     $_GET['assignment_id'] = $defaultAssignment;
   }
@@ -129,7 +131,7 @@
   $courseTitle = "";
   $coursePermaLink="";
   $args = array(
-    'post_type' => TL_TREK_CPT,
+    'post_type' => TL_COURSE_CPT,
     'orderby'    => 'ID',
     'post_status' => 'publish,draft',
     'order'    => 'DESC',

@@ -2,13 +2,13 @@
 global $treks_src;
 $args = array(
     'posts_per_page'   => -1,
-    'post_type'        => 'tl_course',    
+    'post_type'        => TL_COURSE_CPT,
     'order' => 'asc'
 );
 $treks = get_posts($args);
 ?>
 
-<style style="text/css">
+<style>
     .teacher_input_box {
         padding: 0 0 30px !important;
     }

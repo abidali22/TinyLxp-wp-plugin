@@ -45,7 +45,7 @@
       if(empty($located)){
          add_filter( 'single_template', function ( $page_template, $type ) {
             global $post;
-            if ( $post->post_type == "tl_course" ) {
+            if ( $post->post_type == TL_COURSE_CPT ) {
                $page_template = dirname( __FILE__ ) . '/templates/tinyLxpTheme/single-tl_course.php';
             }
             return $page_template;
@@ -201,7 +201,7 @@
    public function options_metabox_html($post = null) {
       $args = array(
          'posts_per_page'   => -1,
-         'post_type'        => 'tl_lesson',
+         'post_type'        => TL_LESSON_CPT,
          'meta_query' => array(
             array(
                'key'   => 'tl_course_id',
@@ -228,7 +228,7 @@
 
    public function save_tl_post($post_id = null)
    {
-      if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['post_type']) && 'tl_course' == $_POST['post_type']) {  
+      if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['post_type']) && TL_COURSE_CPT == $_POST['post_type']) {  
          $postIds = preg_split('@,@', $_POST['course_removed_lessons'], -1, PREG_SPLIT_NO_EMPTY);
          if($postIds){
             foreach($postIds as $postId){
@@ -247,7 +247,7 @@
    }
    
    function modify_list_row_actions( $actions, $post ) {
-      if ($post->post_type=='tl_course' && current_user_can( 'grades_lxp_course' ))
+      if ($post->post_type== TL_COURSE_CPT && current_user_can( 'grades_lxp_course' ))
           {
               $actions['duplicate'] = '<a href="'. site_url().'/wp-admin/admin.php?page=grades&course_id='.$post->ID.'" title="" rel="permalink">GradeBook</a>';
           }

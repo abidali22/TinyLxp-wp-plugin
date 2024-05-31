@@ -78,7 +78,7 @@ add_filter('show_admin_bar', '__return_false');
 function get_all_courses_for_enrollment() {
     $args = array(
         'posts_per_page'   => -1,
-        'post_type'        => TL_TREK_CPT,
+        'post_type'        => TL_COURSE_CPT,
         'orderby'        => 'meta_value_num',
         'order' => 'asc'
     );
@@ -94,20 +94,20 @@ function get_all_courses_for_enrollment() {
             echo '<div class="post-item">';
             if (has_post_thumbnail() && file_exists($thumbnail_path)) {
                 echo '<div class="post-thumbnail">';
-                echo '<a href="' . get_permalink() . '">';
+                echo '<a href="../selected-course?'.get_post()->post_name.'">';
                 echo get_the_post_thumbnail(get_the_ID(), "medium", array( 'class' => 'rounded' )); // Display the post thumbnail
                 echo '</a>';
                 echo '</div>';
             } else {
                 $treks_src = content_url().'/plugins/TinyLxp-wp-plugin/lms/templates/tinyLxpTheme/treks-src/';
                 echo '<div class="post-thumbnail">';
-                echo '<a href="' . get_permalink() . '">';
+                echo '<a href="../selected-course?'.get_post()->post_name.'">';
                 echo '<img width="300" height="180" style="height:313px" src="'.$treks_src.'/assets/img/tr_main.jpg" class="rounded wp-post-image" />';
                 echo '</a>';
                 echo '</div>';
             }
             echo '<div class="post-content">';
-            echo '<h2 class="post-title"><a href="' . get_permalink() . '">' . get_the_title() . '</a></h2>';
+            echo '<h2 class="post-title"><a href="../selected-course?'.get_post()->post_name.'">' . get_the_title() . '</a></h2>';
             echo '<p class="post-excerpt">' . get_the_excerpt() . '</p>';
             echo '</div>'; // Close post-content
             echo '</div>'; // Close post-item
@@ -122,3 +122,88 @@ function get_all_courses_for_enrollment() {
     return ob_get_clean();
 }
 add_shortcode('enrolment_courses', 'get_all_courses_for_enrollment');
+
+function get_selected_course_data() {
+    function get_custom_query_string() {
+        // Get the current URL
+        $url = home_url( add_query_arg( array() ) );
+        
+        // Parse the URL and extract the query string
+        $query_string = parse_url($url, PHP_URL_QUERY);
+        
+        // Check if the query string exists and matches the desired pattern
+        if ($query_string) {
+            return $query_string;
+        } else {
+            return null;
+        }
+    }
+    $currentPostName = get_custom_query_string();
+
+    if ($currentPostName != null) {
+        $args = array(
+            'name'        => sanitize_title($currentPostName),
+            'post_type'   => TL_COURSE_CPT,
+            'post_status' => 'publish',
+            'posts_per_page' => 1
+        );
+        $query = new WP_Query($args);
+    }
+
+    if (isset($query) && $query->have_posts()) {
+        // Output the HTML with PHP variables
+        echo '<div class="post-container">';
+        echo '<div class="post-thumbnail">';
+        if (has_post_thumbnail($query->post->ID)) {
+            echo '<img src="' . get_the_post_thumbnail_url($query->post->ID) . '" alt="Post Thumbnail">';
+        } else {
+            $treks_src = content_url().'/plugins/TinyLxp-wp-plugin/lms/templates/tinyLxpTheme/treks-src/';
+            echo '<img width="300" height="180" style="height:313px" src="'.$treks_src.'/assets/img/tr_main.jpg" class="rounded wp-post-image" />';
+        }
+        echo '</div>';
+        echo '<div class="post-content">';
+        echo '<h2 class="post-title">' . esc_html($query->post->post_title) . '</h2>';
+        echo '<p class="post-description">' . esc_html(wp_trim_words($query->post->post_content, 40, '...')) . '</p>';
+        echo '<p></p>';
+        echo '<p></p>';
+        echo '<p></p></div>';
+        echo '<button id="loginButton" style="margin-top:25%" class="glow-on-hover" type="button">Enroll Now</button>';
+        echo '</div>';
+    } else {
+        echo '<p>No course found.</p>';
+    }
+
+}
+add_shortcode('selected_course', 'get_selected_course_data');
+
+function get_activity() {
+    $url = home_url( add_query_arg( array() ) );    
+    $url_components = parse_url($url);
+    // Split path into segments
+    if (isset($url_components['path'])) {
+        $path_segments = explode('/', trim($url_components['path'], '/'));
+    }
+    $args = array(
+        'name'        => $path_segments[3],
+        'post_type'   => 'lp_lesson',
+        'post_status' => 'publish',
+        'numberposts' => 1
+    );
+    $posts = get_posts($args);
+    $post = $posts[0];
+    $content = get_post_meta($post->ID);
+    $attrId =  isset($content['lti_post_attr_id'][0]) ? $content['lti_post_attr_id'][0] : "";
+    $title =  isset($content['lti_content_title'][0]) ? $content['lti_content_title'][0] : "";
+    $toolCode =  isset($content['lti_tool_code'][0]) ? $content['lti_tool_code'][0] : "";
+    $customAttr =  isset($content['lti_custom_attr'][0]) ? $content['lti_custom_attr'][0] : "";
+    $toolUrl =  isset($content['lti_tool_url'][0]) ? $content['lti_tool_url'][0] : "";
+    $plugin_name = Tiny_LXP_Platform::get_plugin_name();
+    $content = '<p>' . $post->post_content . '</p>';
+    if ($attrId) {
+        $content .= '<p> [' . $plugin_name . ' tool=' . $toolCode . ' id=' . $attrId . ' title=\"' . $title . '\" url=' . $toolUrl . ' custom=' . $customAttr . ']' . "" . '[/' . $plugin_name . ']  </p>';
+    }
+    $_GET['post'] = $post->ID;
+    $queryParam = '';
+    echo '<iframe style="border: none;width: 100%;height: 706px;" class="" src="'.site_url().'?lti-platform&post='.$post->ID.'&id='.$attrId.$queryParam.'" allowfullscreen></iframe>';
+}
+add_shortcode('selected_activity', 'get_activity');

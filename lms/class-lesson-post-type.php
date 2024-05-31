@@ -67,7 +67,7 @@
       if(empty($located)){
          add_filter( 'single_template', function ( $page_template, $type ) {
             global $post;
-            if ( $post->post_type == "tl_lesson" ) {
+            if ( $post->post_type == TL_LESSON_CPT ) {
                $page_template = dirname( __FILE__ ) . '/templates/tinyLxpTheme/single-tl_lesson.php';
          }
          return $page_template;
@@ -189,7 +189,7 @@
    public function options_metabox_html($post = null)
    {
       $args = array(
-         'post_type'=> 'tl_course',
+         'post_type'=> TL_COURSE_CPT,
          'orderby'    => 'ID',
          'post_status' => 'publish,draft',
          'order'    => 'DESC',
@@ -229,7 +229,7 @@
 
    public function save_tl_post($post_id = null)
    {
-       if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['post_type']) && 'tl_lesson' == $_POST['post_type']) {
+       if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['post_type']) && TL_LESSON_CPT == $_POST['post_type']) {
               if ( isset($_POST['tl_course_id']) && $_POST['tl_course_id'] > 0 ) {
                 $_POST['tl_course_id'] = intval(trim($_POST['tl_course_id']));
                 $course_post_sections = get_post_meta($_POST['tl_course_id'], "lxp_sections", true);
@@ -260,7 +260,7 @@
    public function tl_post_content($more_link_text = null, $strip_teaser = false)
    {
        $post = get_post();
-       if (isset($post->post_type) && $post->post_type == "tl_lesson") {
+       if (isset($post->post_type) && $post->post_type == TL_LESSON_CPT) {
            $content = get_post_meta($post->ID);
            $attrId =  isset($content['lti_post_attr_id'][0]) ? $content['lti_post_attr_id'][0] : "";
            $title =  isset($content['lti_content_title'][0]) ? $content['lti_content_title'][0] : "";

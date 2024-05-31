@@ -2,7 +2,7 @@
     global $treks_src; global $trek_post;
     $args = array(
         'posts_per_page'   => -1,
-        'post_type'        => TL_TREK_CPT,
+        'post_type'        => TL_COURSE_CPT,
         'orderby'        => 'meta_value_num',
         'order' => 'asc'
     );

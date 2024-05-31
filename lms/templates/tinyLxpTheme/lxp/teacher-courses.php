@@ -27,7 +27,7 @@ if ($_GET['filter'] == 'saved') {
     $lxp_visited_treks_to_show = is_array($lxp_visited_treks) && count($lxp_visited_treks) > 0 ? array_reverse($lxp_visited_treks) : array();
     $lxp_visited_treks_to_show = array_filter($lxp_visited_treks_to_show, function ($trek) use ($restricted_courses) { return !in_array($trek, $restricted_courses); });
 
-    $recent_query_args = array( 'post_type' => TL_TREK_CPT , 
+    $recent_query_args = array( 'post_type' => TL_COURSE_CPT , 
                                 'posts_per_page'   => -1,
                                 'post_status' => array( 'publish' ),
                                 'post__in' => $lxp_visited_treks_to_show, 
@@ -39,7 +39,7 @@ if ($_GET['filter'] == 'saved') {
 
 $args = array(
     'posts_per_page'   => -1,
-    'post_type'        => TL_TREK_CPT,
+    'post_type'        => TL_COURSE_CPT,
     'orderby'        => 'meta_value_num',
     'order' => 'asc'
 );
@@ -53,7 +53,7 @@ if(!($sortVal === '' || $sortVal === 'none')) {
 if ( get_userdata(get_current_user_id())->user_email === "guest@rpatreks.com" ) {
     $args = array(
         'include' => '15',
-        'post_type'        => 'tl_course',
+        'post_type'        => TL_COURSE_CPT,
         'order' => 'post__in'
     );
 }

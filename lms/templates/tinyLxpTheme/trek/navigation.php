@@ -12,8 +12,8 @@
     </li>
 
     <?php if($userRole != 'administrator') { ?>
-    <li class="<?php echo $post->post_name === "courses" || $post->post_type === "tl_course" ? "nav-section-selected" : ""; ?>">
-      <img src="<?php echo $treks_src; ?>/assets/img/<?php echo $post->post_name === "courses" || $post->post_type === "tl_course" ? "nav_treks_selected.svg" : "nav_Treks.svg"; ?>" />
+    <li class="<?php echo $post->post_name === "courses" || $post->post_type === TL_COURSE_CPT ? "nav-section-selected" : ""; ?>">
+      <img src="<?php echo $treks_src; ?>/assets/img/<?php echo $post->post_name === "courses" || $post->post_type === TL_COURSE_CPT ? "nav_treks_selected.svg" : "nav_Treks.svg"; ?>" />
       <a href="<?php echo site_url("courses") ?>">Courses</a>
     </li>
     <?php } ?>

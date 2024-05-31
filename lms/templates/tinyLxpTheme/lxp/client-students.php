@@ -186,45 +186,7 @@ if(isset($_GET['school_id']) && isset($_GET['teacher_id'])) {
                 <section class="recent-treks-section-div table-school-section">
 
                     <div class="students-table">
-                        <!-- 
-                        <div class="school-box">
-                            <div class="showing-row-box">
-                                <p class="showing-row-text">Showing 1 - 5 of 25</p>
-                                <div class="row-box">
-                                    <p class="showing-row-text">Rows per page</p>
-                                    <div class="show-page">
-                                        <button class="show-page-button" type="button" id="dropdownMenu2"
-                                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <span class="showing-row-text">5</span>
-                                        </button>
-                                        <img id="dropdownMenu2" data-bs-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false" src="<?php // echo $treks_src; ?>/assets/img//show-down-page.svg" alt="logo" />
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                            <button class="dropdown-item dropdown-class">
-                                                <p class="page-row-para">1</p>
-                                            </button>
-                                            <button class="dropdown-item dropdown-class" type="button">
-                                                <p class="page-row-para">2</p>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row-box">
-                                <p class="showing-row-text">First</p>
-                                <img class="previous-slide-img" src="<?php // echo $treks_src; ?>/assets/img/previous-arrow.svg" alt="logo" />
-                                <div class="slides-boxes">
-                                    <div class="slide-box"><span class="showing-row-text slide-num">1</span></div>
-                                    <div class="slide-box"><span class="showing-row-text slide-num slide-num2">2</span>
-                                    </div>
-                                    <div class="slide-box"><span class="showing-row-text slide-num slide-num2">3</span>
-                                    </div>
-                                </div>
-                                <img class="last-slide-img" src="<?php // echo $treks_src; ?>/assets/img/last-slide.svg" alt="logo" />
-                                <p class="showing-row-text">Last</p>
-                            </div>
-                        </div>
-                        -->
+
                         <table class="table">
                             <thead>
                                 <tr>
@@ -302,7 +264,7 @@ if(isset($_GET['school_id']) && isset($_GET['teacher_id'])) {
                                                 foreach ($student_grades as $grade) {
                                             ?>
                                                 <span><?php echo $grade; ?></span>
-                                            <?php        
+                                            <?php
                                                 }
                                             ?>
                                         </td>
@@ -315,11 +277,8 @@ if(isset($_GET['school_id']) && isset($_GET['teacher_id'])) {
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                                     <button class="dropdown-item" type="button" onclick="onStudentEdit(<?php echo $student->ID; ?>)">
-                                                        <img src="<?php echo $treks_src; ?>/assets/img/edit.svg" alt="logo" />
-                                                        Edit</button>
-                                                    <!-- <button class="dropdown-item" type="button">
-                                                        <img src="<?php // echo $treks_src; ?>/assets/img/delete.svg" alt="logo" />
-                                                        Delete</button> -->
+                                                        <img src="<?php echo $treks_src; ?>/assets/img/edit.svg" alt="logo" />Edit
+                                                    </button>
                                                 </div>
                                             </div>
                                         </td>
@@ -327,26 +286,6 @@ if(isset($_GET['school_id']) && isset($_GET['teacher_id'])) {
                                 <?php } ?>
                             </tbody>
                         </table>
-                        <!-- 
-                        <div class="school-box">
-                            <div class="showing-row-box">
-                                <p class="showing-row-text">Showing 1 - 5 of 25</p>
-                            </div>
-                            <div class="row-box">
-                                <p class="showing-row-text">First</p>
-                                <img class="previous-slide-img" src="<?php // echo $treks_src; ?>/assets/img/previous-arrow.svg" alt="logo" />
-                                <div class="slides-boxes">
-                                    <div class="slide-box"><span class="showing-row-text slide-num">1</span></div>
-                                    <div class="slide-box"><span class="showing-row-text slide-num slide-num2">2</span>
-                                    </div>
-                                    <div class="slide-box"><span class="showing-row-text slide-num slide-num2">3</span>
-                                    </div>
-                                </div>
-                                <img class="last-slide-img" src="<?php // echo $treks_src; ?>/assets/img/last-slide.svg" alt="logo" />
-                                <p class="showing-row-text">Last</p>
-                            </div>
-                        </div>
-                         -->
                     </div>
                 </section>
             </section>

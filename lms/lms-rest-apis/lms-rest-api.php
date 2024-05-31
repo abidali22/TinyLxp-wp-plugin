@@ -268,7 +268,7 @@ class LMS_REST_API
 		foreach ($treks as $trek) {
 			$courseId = get_post_meta($trek->ID, 'tl_course_id', true);
 			$lesson_query = new WP_Query( array( 
-				'post_type' => "tl_lesson", 
+				'post_type' => TL_LESSON_CPT, 
 				'post_status' => array( 'publish' ),
 				'posts_per_page'   => -1,        
 				'meta_query' => array(
