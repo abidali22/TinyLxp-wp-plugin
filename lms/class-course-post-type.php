@@ -16,7 +16,7 @@
    /**
     * @var string
     */
-   protected $_post_type = TL_COURSE_CPT;
+   protected $_post_type = 'tl_course';
 
    /**
     * Get Instance
@@ -78,14 +78,14 @@
       
       $args = array(
          'labels'             => $labels,
-         'public'             => true,
+         'public'             => false,
          'query_var'          => true,
-         'publicly_queryable' => true,
-         'show_ui'            => true,
+         'publicly_queryable' => false,
+         'show_ui'            => false,
          'has_archive'        => true,
-         'show_in_menu'       => true,
-         'show_in_admin_bar'  => true,
-         'show_in_nav_menus'  => true,
+         'show_in_menu'       => false,
+         'show_in_admin_bar'  => false,
+         'show_in_nav_menus'  => false,
          'rewrite'            => array(
             'slug'       => 'tl/courses',
             'with_front' => false
@@ -128,11 +128,11 @@
          'hierarchical'          => false,
          'labels'                => $labels,
          'show_ui'               => true,
-         'show_admin_column'     => true,
+         'show_admin_column'     => false,
          'query_var'             => true,
-         'rewrite'               => array( 'slug' => 'tl_course_tag' ),
+         'rewrite'               => array( 'slug' => 'lp_course_tag' ),
          'show_in_rest'          => true,
-         'rest_base'             => 'tl_course_tag',
+         'rest_base'             => 'lp_course_tag',
          'rest_controller_class' => 'WP_REST_Terms_Controller',
          'capabilities' => array(
             'manage_terms'	=>	'manage_tag_lxp_course',
@@ -144,20 +144,20 @@
 
        register_taxonomy( 
          'tl_course_tag', //taxonomy 
-         $this->_post_type, //post-type
+         TL_COURSE_CPT, //post-type
         $args);
 
-        register_taxonomy( 'tl_course_category', $this->_post_type, array(
+        register_taxonomy( 'tl_course_category', TL_COURSE_CPT, array(
             "hierarchical" => true,
             "label" => "Categories",
             "singular_label" => "Category",
             'query_var' => true,
-            'public' => true,
+            'public' => false,
             'has_archive' => true,
-            'show_ui' => true,
+            'show_ui' => false,
             '_builtin' => true,
-            'show_in_nav_menus' => true,
-            'show_admin_column'     => true,
+            'show_in_nav_menus' => false,
+            'show_admin_column'     => false,
             'rewrite' => array( 'slug' => 'tl_course_category', 'with_front' => false ),
             'show_in_rest'          => true,
             'rest_base'             => 'tl_course_category',
@@ -181,7 +181,7 @@
          'course-options-class',      // Unique ID
          esc_html__( 'Course Options', 'course-options' ),    // Title
          array(self::instance(), 'options_metabox_html'),   // Callback function
-         $this->_post_type,         // Admin page (or post type)
+         TL_COURSE_CPT,         // Admin page (or post type)
          'side',         // Context
          'default',         // Priority
          'show_in_rest' => true,
