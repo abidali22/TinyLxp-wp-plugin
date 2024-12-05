@@ -52,7 +52,7 @@
       
       add_filter('post_type_link', function ( $url, $post ) {
 
-         if ($post->post_type === $this->_post_type) {
+         if ($post->post_type === TL_LESSON_CPT || $post->post_type === LP_LESSON_CPT) {
             $course_id = get_post_meta($post->ID, 'tl_course_id', true);
             $course_post = get_post($course_id);
             if (intval($course_id)) {
@@ -97,8 +97,8 @@
          'publicly_queryable' => true,
          'show_ui'            => true,
          'has_archive'        => true,
-         'show_in_menu'       => true,
-         'show_in_admin_bar'  => true,
+         'show_in_menu'       => false,
+         'show_in_admin_bar'  => false,
          'show_in_nav_menus'  => true,
          'rewrite'            => array(
             'slug'       => 'tl/lessons',
@@ -156,7 +156,7 @@
 
        register_taxonomy( 
          'tl_lesson_tag', //taxonomy 
-         $this->_post_type, //post-type
+         TL_LESSON_CPT, //post-type
         $args);
    }
 
@@ -169,7 +169,7 @@
          'lesson-options-class',      // Unique ID
          esc_html__('Lesson Options', 'lesson-options'),    // Title
          array(self::instance(), 'options_metabox_html'),   // Callback function
-         $this->_post_type,       // Admin page (or post type)
+         TL_LESSON_CPT,       // Admin page (or post type)
          'side',         // Context
          'default',         // Priority
          'show_in_rest' => true,     

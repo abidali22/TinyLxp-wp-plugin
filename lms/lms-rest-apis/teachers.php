@@ -36,13 +36,13 @@ class Rest_Lxp_Teacher
 			)
 		));
 
-		register_rest_route('lms/v1', '/teacher/treks/saved', array(
-			array(
-				'methods' => WP_REST_Server::EDITABLE,
-				'callback' => array('Rest_Lxp_Teacher', 'treks_saved'),
-				'permission_callback' => '__return_true'
-			)
-		));
+		// register_rest_route('lms/v1', '/teacher/treks/saved', array(
+		// 	array(
+		// 		'methods' => WP_REST_Server::EDITABLE,
+		// 		'callback' => array('Rest_Lxp_Teacher', 'treks_saved'),
+		// 		'permission_callback' => '__return_true'
+		// 	)
+		// ));
 
 		register_rest_route('lms/v1', '/teachers', array(
 			array(
@@ -224,19 +224,19 @@ class Rest_Lxp_Teacher
 		return wp_send_json_success(get_post_meta($teacher_post_id, 'restricted_courses'));
 	}
 
-	public static function treks_saved($request) {
-		$teacher_post_id = intval($request->get_param('teacher_post_id'));
-		$is_saved = boolval($request->get_param('is_saved'));
-		$course_id = intval($request->get_param('course_id'));
-		// add/delete teacher 'courses_saved' post metadata
-		if ($is_saved) {
-			add_post_meta($teacher_post_id, 'courses_saved', $course_id);
-		} else {
-			delete_post_meta($teacher_post_id, 'courses_saved', $course_id);
-		}
+	// public static function treks_saved($request) {
+	// 	$teacher_post_id = intval($request->get_param('teacher_post_id'));
+	// 	$is_saved = boolval($request->get_param('is_saved'));
+	// 	$course_id = intval($request->get_param('course_id'));
+	// 	// add/delete teacher 'courses_saved' post metadata
+	// 	if ($is_saved) {
+	// 		add_post_meta($teacher_post_id, 'courses_saved', $course_id);
+	// 	} else {
+	// 		delete_post_meta($teacher_post_id, 'courses_saved', $course_id);
+	// 	}
 
-		return wp_send_json_success(get_post_meta($teacher_post_id, 'courses_saved'));
-	}
+	// 	return wp_send_json_success(get_post_meta($teacher_post_id, 'courses_saved'));
+	// }
 
 	public static function create($request) {		
 		
@@ -488,10 +488,10 @@ class Rest_Lxp_Teacher
 	
 	public static function courses_saved($request) {
 		$teacher_post_id = intval($request->get_param('teacher_post_id'));
-		$is_saved = boolval($request->get_param('is_saved'));
+		$is_saved = $request->get_param('is_saved');
 		$course_id = intval($request->get_param('course_id'));
 		// add/delete treacher 'courses_saved' post metadata
-		if ($is_saved) {
+		if ($is_saved == 0) {
 			add_post_meta($teacher_post_id, 'courses_saved', $course_id);
 		} else {
 			delete_post_meta($teacher_post_id, 'courses_saved', $course_id);

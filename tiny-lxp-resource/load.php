@@ -204,6 +204,26 @@ function get_activity() {
     }
     $_GET['post'] = $post->ID;
     $queryParam = '';
-    echo '<iframe style="border: none;width: 100%;height: 706px;" class="" src="'.site_url().'?lti-platform&post='.$post->ID.'&id='.$attrId.$queryParam.'" allowfullscreen></iframe>';
+    echo '<iframe style="border: none;width: 100%;height: 482px;" class="" src="'.site_url().'?lti-platform&post='.$post->ID.'&id='.$attrId.$queryParam.'" allowfullscreen></iframe>'; //  height = 706 
 }
 add_shortcode('selected_activity', 'get_activity');
+
+function save_course_view_page_id() {
+    // Get the current user ID
+    $user_id = get_current_user_id();
+    // Code to execute when a user is on a single course page
+    if (is_singular('lp_course') && $user_id > 0) {
+        // Get the current course post ID
+        $course_id = get_the_ID();
+        require_once plugin_dir_path(dirname( __FILE__ )). '/lms/templates/tinyLxpTheme/lxp/functions.php';
+        $teacher_post = lxp_get_teacher_post($user_id);
+        // Update the course post meta with the current page ID
+        $lxp_visited_courses = get_post_meta($teacher_post->ID, 'lxp_visited_courses');
+        if (!in_array($course_id, $lxp_visited_courses)) {
+            add_post_meta($teacher_post->ID, 'lxp_visited_courses', $course_id);
+        }
+        // update_post_meta($user_post_id->ID, 'lxp_visited_courses', $course_id);
+    }
+}
+
+add_action('template_redirect', 'save_course_view_page_id');

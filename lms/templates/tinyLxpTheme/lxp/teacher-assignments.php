@@ -109,37 +109,6 @@ $assignments = lxp_get_teacher_assignments($teacher_post->ID);
       <?php include $livePath.'/trek/navigation.php'; ?>
     </nav>
 
-    <!-- Reminders: section-->
-<!--     <section class="reminder-section">
-      <div class="reminder-section-div">
-        
-        <div class="reminder-title reminder-detail">
-          <img src="<?php // echo $treks_src; ?>/assets/img/rm_calendar.svg" />
-          <span>Reminders:</span>
-        </div>
-        
-        <div class="reminder-detail reminder-vli">
-          <span>Physical Properties Thu 9:00 AM</span>
-        </div>
-        
-        <div class="reminder-detail reminder-vli">
-          <span>Forces & Experimental Design Fri 10:00 AM</span>
-        </div>
-        
-        <div class="reminder-detail">
-          <span>Physics Fri 1:00 PM</span>
-        </div>
-        
-        <div class="reminder-detail">
-          <span>Mathematics Mon 11:00 AM</span>
-        </div>
-        
-        <div class="reminder-arrow">
-          <img src="<?php echo $treks_src; ?>/assets/img/rm_arrow down.svg" />
-        </div>
-      </div>
-    </section>
- -->
     <!--Pending Assignments  -->
     <section class="pending-assignments-section">
       <div class="pending-assignments-section-div">
@@ -185,54 +154,6 @@ $assignments = lxp_get_teacher_assignments($teacher_post->ID);
         
       </div>
     </section>
-
-    <!-- Calendar &  Activities Completed Overall -->
-    <!-- 
-    <section class="clen-act-section">
-      <div class="clen-act-section-div">
-        <div class="calendar-portion">
-          <div class="calendar-portion-header section-div-header">
-            <h2>Pending Assignments</h2>
-            <div>
-              <a href="#">See All</a>
-            </div>
-          </div>
-        </div>
-        <div class="activities-portion">
-          <div class="activities-portion-header section-div-header">
-            <h2>Activities Completed Overall</h2>
-          </div>
-
-          <div class="activities-portion-prap">
-            <p>This is the status of all the activities you have assigned.</p>
-
-            <div class="activities-portion-progress">
-               
-                <div class="portion-progress-div">
-                  <div class="recall-progress-bar"></div>
-                  <p>Recall</p>
-                </div>
-
-                <div class="portion-progress-div">
-                  <div class="pa-progress-bar"></div>
-                  <p>Practice A</p>
-                </div>
-
-                <div class="portion-progress-div">
-                  <div class="pb-progress-bar"></div>
-                  <p>Practice B</p>
-                </div>
-
-                <div class="portion-progress-div">
-                  <div class="apply-progress-bar"></div>
-                  <p>Apply</p>
-                </div>
-              </div>
-          </div>
-        </div>
-      </div>
-    </section>
-     -->
   </section>
   <?php include $livePath.'/lxp/assignment-stats-modal.php'; ?>
 

@@ -45,7 +45,7 @@
       if(empty($located)){
          add_filter( 'single_template', function ( $page_template, $type ) {
             global $post;
-            if ( $post->post_type == TL_COURSE_CPT ) {
+            if ( $post->post_type == TL_COURSE_CPT || $post->post_type == LP_COURSE_CPT ) {
                $page_template = dirname( __FILE__ ) . '/templates/tinyLxpTheme/single-tl_course.php';
             }
             return $page_template;
@@ -83,8 +83,8 @@
          'publicly_queryable' => true,
          'show_ui'            => true,
          'has_archive'        => true,
-         'show_in_menu'       => true,
-         'show_in_admin_bar'  => true,
+         'show_in_menu'       => false,
+         'show_in_admin_bar'  => false,
          'show_in_nav_menus'  => true,
          'rewrite'            => array(
             'slug'       => 'tl/courses',
@@ -106,7 +106,7 @@
          )
       );
 
-      $this->register_texonomy();
+      // $this->register_texonomy();
       add_theme_support('post-thumbnails');
       return $args;
    }
@@ -144,10 +144,10 @@
 
        register_taxonomy( 
          'tl_course_tag', //taxonomy 
-         $this->_post_type, //post-type
+         TL_COURSE_CPT, //post-type
         $args);
 
-        register_taxonomy( 'tl_course_category', $this->_post_type, array(
+        register_taxonomy( 'tl_course_category', TL_COURSE_CPT, array(
             "hierarchical" => true,
             "label" => "Categories",
             "singular_label" => "Category",
@@ -181,7 +181,7 @@
          'course-options-class',      // Unique ID
          esc_html__( 'Course Options', 'course-options' ),    // Title
          array(self::instance(), 'options_metabox_html'),   // Callback function
-         $this->_post_type,         // Admin page (or post type)
+         TL_COURSE_CPT,         // Admin page (or post type)
          'side',         // Context
          'default',         // Priority
          'show_in_rest' => true,
@@ -248,24 +248,24 @@
    
    function modify_list_row_actions( $actions, $post ) {
       if ($post->post_type== TL_COURSE_CPT && current_user_can( 'grades_lxp_course' ))
-          {
-              $actions['duplicate'] = '<a href="'. site_url().'/wp-admin/admin.php?page=grades&course_id='.$post->ID.'" title="" rel="permalink">GradeBook</a>';
-          }
-          return $actions;
+         {
+            $actions['duplicate'] = '<a href="'. site_url().'/wp-admin/admin.php?page=grades&course_id='.$post->ID.'" title="" rel="permalink">GradeBook</a>';
+         }
+         return $actions;
    }
 
-   public  function grade_view() {
-      require_once plugin_dir_path(dirname(__FILE__)) . 'lms/templates/course/grades.php';
-   }
+   // public  function grade_view() {
+   //    require_once plugin_dir_path(dirname(__FILE__)) . 'lms/templates/course/grades.php';
+   // }
 
-   public  function grade_book_view() {
-      require_once plugin_dir_path(dirname(__FILE__)) . 'lms/templates/course/grade_book.php';
-   }
+   // public  function grade_book_view() {
+   //    require_once plugin_dir_path(dirname(__FILE__)) . 'lms/templates/course/grade_book.php';
+   // }
 
    public function register_views() {
-      add_menu_page('Customer Request View', 'Customer Requests', 'manage_options',  'grades',  array($this, 'grade_view' ), 'dashicons-tag', 6  );
-      add_menu_page('Customer Request View', 'Customer Requests', 'manage_options',  'gradebook',  array($this, 'grade_book_view' ), 'dashicons-tag', 6  );
-      remove_menu_page('grades');
-      remove_menu_page('gradebook');
+      // add_menu_page('Customer Request View', 'Customer Requests', 'manage_options',  'grades',  array($this, 'grade_view' ), 'dashicons-tag', 6  );
+      // add_menu_page('Customer Request View', 'Customer Requests', 'manage_options',  'gradebook',  array($this, 'grade_book_view' ), 'dashicons-tag', 6  );
+      // remove_menu_page('grades');
+      // remove_menu_page('gradebook');
      }
 }

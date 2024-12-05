@@ -2,7 +2,7 @@
 global $treks_src;
 $args = array(
     'posts_per_page'   => -1,
-    'post_type'        => TL_COURSE_CPT,
+    'post_type'        => LP_COURSE_CPT,
     'order' => 'asc'
 );
 $courses = get_posts($args);

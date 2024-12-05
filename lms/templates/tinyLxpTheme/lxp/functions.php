@@ -351,7 +351,7 @@ function lxp_get_assignments_courses($assignments)
 {
     // $courses = array_map(function ($assignment) { return get_post($assignment->course_id)->ID; }, $assignments); abid comment it 6May2024 undefined id error was showing
     $courses = array_map(function ($assignment) { return $assignment->course_id; }, $assignments);
-    $query = new WP_Query( array( 'post_type' => TL_COURSE_CPT , 'posts_per_page'   => -1, 'post_status' => array( 'publish' ), 'post__in' => array_values(array_unique($courses)), 'orderby' => 'meta_value_num', 'order' => 'ASC' ) );
+    $query = new WP_Query( array( 'post_type' => LP_COURSE_CPT , 'posts_per_page'   => -1, 'post_status' => array( 'publish' ), 'post__in' => array_values(array_unique($courses)), 'orderby' => 'meta_value_num', 'order' => 'ASC' ) );
     return $query->get_posts();
 }
 
@@ -387,16 +387,14 @@ function lxp_assignment_stats($assignment_id) {
     return $students;
 }
 
-function lxp_get_teacher_saved_courses($teacher_post_id, $treks_saved_ids, $strand = '', $sort='', $search='')
+function lxp_get_teacher_saved_courses($args, $courses_saved_ids, $strand = '', $sort='', $search='')
 {
-    if (count($treks_saved_ids) > 0 && is_array($treks_saved_ids)) {
-        // get teacher post type 'treks_saved' metadata
-        // $treks_saved_ids = get_post_meta($teacher_post_id, 'treks_saved');
+    if (count($courses_saved_ids) > 0 && is_array($courses_saved_ids)) {
         $args = array( 
-            'post_type' => TL_COURSE_CPT , 
+            'post_type' => LP_COURSE_CPT , 
             'posts_per_page'   => -1, 
             'post_status' => array( 'publish' ), 
-            'post__in' => array_values(array_unique($treks_saved_ids)), 
+            'post__in' => array_values(array_unique($courses_saved_ids)), 
             // 'meta_key' => 'sort', 
             'orderby' => 'meta_value_num', 
             'order' => 'ASC' );
