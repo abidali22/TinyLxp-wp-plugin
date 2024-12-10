@@ -430,14 +430,14 @@ class Rest_Lxp_Assignment
 			$calendar_selection_info = json_decode(get_post_meta($assignment->ID, 'calendar_selection_info', true));
 			$lxp_lesson_post = get_post(get_post_meta($assignment->ID, 'lxp_lesson_id', true));
 			$course = get_post(get_post_meta($assignment->ID, 'course_id', true));
-			$args = array( 'posts_per_page' => -1, 'post_type' => TL_LESSON_CPT, 'meta_query' => array(array('key'   => 'tl_course_id', 'value' =>  $course ? $course->ID : '')));
-			$lessons = get_posts($args);
-			$digital_journal_link = null;
-			foreach($lessons as $lesson){ 
-				if ( $lxp_lesson_post->ID === $lesson->ID ) {
-					 $digital_journal_link = get_permalink($lesson->ID); 
-				}; 
-			}
+			// $args = array( 'posts_per_page' => -1, 'post_type' => LP_LESSON_CPT, 'meta_query' => array(array('key'   => 'tl_course_id', 'value' =>  $course ? $course->ID : '')));
+			// $lessons = get_posts($args);
+			$digital_journal_link = $lxp_lesson_post->guid;
+			// foreach($lessons as $lesson){ 
+			// 	if ( $lxp_lesson_post->ID === $lesson->ID ) {
+			// 		 $digital_journal_link = get_permalink($lesson->ID); 
+			// 	}; 
+			// }
 			$digital_journal_link = $digital_journal_link ? $digital_journal_link . '?assignment_id=' . $assignment->ID : '';
 			$event = array();
 			if ($lxp_lesson_post && $course) {

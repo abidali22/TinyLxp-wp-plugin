@@ -196,7 +196,7 @@ class Tiny_LXP_Platform_Public
     {
         $debug = false;
         $reason = null;
-        $post = $this->get_post(intval(sanitize_text_field($_GET['post'])));
+        $post = get_post(intval(sanitize_text_field($_GET['post'])));
         $ok = !empty($post);
         if (!$ok) {
            $post =new \stdClass();

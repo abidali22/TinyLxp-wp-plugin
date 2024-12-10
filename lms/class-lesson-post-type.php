@@ -51,8 +51,7 @@
       } );
       
       add_filter('post_type_link', function ( $url, $post ) {
-
-         if ($post->post_type === TL_LESSON_CPT || $post->post_type === LP_LESSON_CPT) {
+         if ($post->post_type === TL_LESSON_CPT) {
             $course_id = get_post_meta($post->ID, 'tl_course_id', true);
             $course_post = get_post($course_id);
             if (intval($course_id)) {
@@ -142,9 +141,9 @@
          'show_ui'               => true,
          'show_admin_column'     => true,
          'query_var'             => true,
-         'rewrite'               => array( 'slug' => 'tl_lesson_tag' ),
+         'rewrite'               => array( 'slug' => 'lp_lesson_tag' ),
          'show_in_rest'          => true,
-         'rest_base'             => 'tl_lesson_tag',
+         'rest_base'             => 'lp_lesson_tag',
          'rest_controller_class' => 'WP_REST_Terms_Controller',
          'capabilities' => array(
             'manage_terms'	=>	'manage_tag_lxp_lesson',
@@ -155,7 +154,7 @@
        );
 
        register_taxonomy( 
-         'tl_lesson_tag', //taxonomy 
+         'lp_lesson_tag', //taxonomy 
          TL_LESSON_CPT, //post-type
         $args);
    }
@@ -196,7 +195,7 @@
          'posts_per_page' => -1 
          );
       $courses = get_posts( $args );
-      $selectedCourse =  isset($_GET['courseid']) ? $_GET['courseid'] : get_post_meta($post->ID, 'tl_course_id', true);
+      $selectedCourse =  isset($_GET['courseid']) ? $_GET['courseid'] : get_post_meta($post->ID, 'lp_course_id', true);
       $disabled = ( $selectedCourse && $selectedCourse > 0 ) ? 'disabled' : '';
       $output = '  <h4>Select Course</h4>';
       $output .= '<select '.$disabled.' name="tl_course_id" style="margin-top:-10px"> 

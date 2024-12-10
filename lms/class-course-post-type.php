@@ -45,7 +45,7 @@
       if(empty($located)){
          add_filter( 'single_template', function ( $page_template, $type ) {
             global $post;
-            if ( $post->post_type == TL_COURSE_CPT || $post->post_type == LP_COURSE_CPT ) {
+            if ( $post->post_type == TL_COURSE_CPT || $post->post_type == TL_COURSE_CPT ) {
                $page_template = dirname( __FILE__ ) . '/templates/tinyLxpTheme/single-tl_course.php';
             }
             return $page_template;
@@ -72,7 +72,7 @@
          'edit_item'          => __( 'Edit Course', 'tinylms' ),
          'update_item'        => __( 'Update Course', 'tinylms' ),
          'search_items'       => __( 'Search LXP Courses', 'tinylms' ),
-         'not_found'          => sprintf( __( 'You haven\'t had any courses yet. Click <a href="%s">Add new</a> to start', 'tinylms' ), admin_url( 'post-new.php?post_type=tl_course' ) ),
+         'not_found'          => sprintf( __( 'You haven\'t had any courses yet. Click <a href="%s">Add new</a> to start', 'tinylms' ), admin_url( 'post-new.php?post_type=lp_course' ) ),
          'not_found_in_trash' => __( 'No course found in Trash', 'tinylms' ),
       );
       
@@ -91,7 +91,7 @@
             'with_front' => false
          ),
          'show_in_rest'       => true,
-         'rest_base'          => 'tl_courses',
+         'rest_base'          => 'lp_courses',
          'supports' => array('title', 'editor', 'author', 'thumbnail'),
          'capability_type' => 'post',
          'capabilities' => array(
@@ -130,9 +130,9 @@
          'show_ui'               => true,
          'show_admin_column'     => true,
          'query_var'             => true,
-         'rewrite'               => array( 'slug' => 'tl_course_tag' ),
+         'rewrite'               => array( 'slug' => 'lp_course_tag' ),
          'show_in_rest'          => true,
-         'rest_base'             => 'tl_course_tag',
+         'rest_base'             => 'lp_course_tag',
          'rest_controller_class' => 'WP_REST_Terms_Controller',
          'capabilities' => array(
             'manage_terms'	=>	'manage_tag_lxp_course',
@@ -143,11 +143,11 @@
        );
 
        register_taxonomy( 
-         'tl_course_tag', //taxonomy 
+         'lp_course_tag', //taxonomy 
          TL_COURSE_CPT, //post-type
         $args);
 
-        register_taxonomy( 'tl_course_category', TL_COURSE_CPT, array(
+        register_taxonomy( 'lp_course_category', TL_COURSE_CPT, array(
             "hierarchical" => true,
             "label" => "Categories",
             "singular_label" => "Category",
@@ -158,9 +158,9 @@
             '_builtin' => true,
             'show_in_nav_menus' => true,
             'show_admin_column'     => true,
-            'rewrite' => array( 'slug' => 'tl_course_category', 'with_front' => false ),
+            'rewrite' => array( 'slug' => 'lp_course_category', 'with_front' => false ),
             'show_in_rest'          => true,
-            'rest_base'             => 'tl_course_category',
+            'rest_base'             => 'lp_course_category',
             'rest_controller_class' => 'WP_REST_Terms_Controller',
             'menu_icon'             => 'dashicons-location',
             'capabilities' => array(
@@ -201,7 +201,7 @@
    public function options_metabox_html($post = null) {
       $args = array(
          'posts_per_page'   => -1,
-         'post_type'        => TL_LESSON_CPT,
+         'post_type'        => LP_LESSON_CPT,
          'meta_query' => array(
             array(
                'key'   => 'tl_course_id',
@@ -211,7 +211,7 @@
       );
       $result = get_posts( $args );
       ?>
-      <a href="<?php echo admin_url().'post-new.php?post_type='.TL_LESSON_CPT.'&courseid='. get_the_ID() ?>" class="button "><span class="dashicons dashicons-plus" style="margin-top: 6px"></span>&nbsp;Add New Lessons</a>
+      <a href="<?php echo admin_url().'post-new.php?post_type='.LP_LESSON_CPT.'&courseid='. get_the_ID() ?>" class="button "><span class="dashicons dashicons-plus" style="margin-top: 6px"></span>&nbsp;Add New Lessons</a>
       <h3>Lessons</h3>
       <input type="hidden" name="course_removed_lessons" id="course_removed_lessons">
       <?php 

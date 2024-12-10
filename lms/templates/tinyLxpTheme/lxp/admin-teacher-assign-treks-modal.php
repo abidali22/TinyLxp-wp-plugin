@@ -2,10 +2,10 @@
 global $treks_src;
 $args = array(
     'posts_per_page'   => -1,
-    'post_type'        => TL_COURSE_CPT,
+    'post_type'        => LP_COURSE_CPT,
     'order' => 'asc'
 );
-$treks = get_posts($args);
+$courses = get_posts($args);
 ?>
 
 <style>
@@ -46,13 +46,13 @@ $treks = get_posts($args);
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($treks as $trek) { ?>
+                                    <?php foreach ($courses as $course) { ?>
                                         <tr>
-                                            <td><input type="checkbox" name="treks[]" value="<?php echo $trek->ID; ?>"></td>
+                                            <td><input type="checkbox" name="treks[]" value="<?php echo $course->ID; ?>"></td>
                                             <td>
                                                 <img width="30" height="30" src="<?php echo $treks_src; ?>/assets/img/tr_main.jpg" class="rounded wp-post-image" /> 
                                                 
-                                                &nbsp <?php echo $trek->post_title; ?></td>
+                                                &nbsp <?php echo $course->post_title; ?></td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>

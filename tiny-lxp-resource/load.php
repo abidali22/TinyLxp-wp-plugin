@@ -65,6 +65,8 @@ function tinyLxp_page_templates($template) {
         $template = plugin_dir_path(dirname( __FILE__ )).'/lms/templates/tinyLxpTheme/page-grade-assignment.php';
     } elseif (is_page('grade-summary')) {
         $template = plugin_dir_path(dirname( __FILE__ )).'/lms/templates/tinyLxpTheme/page-grade-summary.php';
+    } elseif (is_singular('lp_lesson') || isset($_GET['assignment_id'])) {
+        $template = plugin_dir_path(dirname( __FILE__ )) . '/lms/templates/tinyLxpTheme/single-tl_lesson.php';
     }
 
     return $template; // Return the original template if conditions are not met
@@ -78,7 +80,7 @@ add_filter('show_admin_bar', '__return_false');
 function get_all_courses_for_enrollment() {
     $args = array(
         'posts_per_page'   => -1,
-        'post_type'        => TL_COURSE_CPT,
+        'post_type'        => LP_COURSE_CPT,
         'orderby'        => 'meta_value_num',
         'order' => 'asc'
     );
@@ -213,14 +215,19 @@ function save_course_view_page_id() {
     $user_id = get_current_user_id();
     // Code to execute when a user is on a single course page
     if (is_singular('lp_course') && $user_id > 0) {
-        // Get the current course post ID
-        $course_id = get_the_ID();
         require_once plugin_dir_path(dirname( __FILE__ )). '/lms/templates/tinyLxpTheme/lxp/functions.php';
-        $teacher_post = lxp_get_teacher_post($user_id);
-        // Update the course post meta with the current page ID
-        $lxp_visited_courses = get_post_meta($teacher_post->ID, 'lxp_visited_courses');
-        if (!in_array($course_id, $lxp_visited_courses)) {
-            add_post_meta($teacher_post->ID, 'lxp_visited_courses', $course_id);
+        $userdata = get_userdata($user_id);
+        $userRole = count($userdata->roles) > 0 ? array_values($userdata->roles)[0] : '';
+        if ($userRole == 'lxp_teacher') {
+            // Get the current course post ID
+            $course_id = get_the_ID();
+            
+            $teacher_post = lxp_get_teacher_post($user_id);
+            // Update the course post meta with the current page ID
+            $lxp_visited_courses = get_post_meta($teacher_post->ID, 'lxp_visited_courses');
+            if (!in_array($course_id, $lxp_visited_courses)) {
+                add_post_meta($teacher_post->ID, 'lxp_visited_courses', $course_id);
+            }
         }
         // update_post_meta($user_post_id->ID, 'lxp_visited_courses', $course_id);
     }

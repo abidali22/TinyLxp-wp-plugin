@@ -505,7 +505,7 @@ function get_assignment_lesson_slides($assignment_post_id) {
         }        
     }
 
-    $curriki_studio_host = 'https://studio.edtechmasters.us';
+    $curriki_studio_host = 'https://studio.edtechmasters.us';//http://localhost:3000/
     // get tekversion post meta data based on $course->ID
     $tekversion = get_post_meta($course->ID, 'tekversion', true);
     if ($tekversion == '2021') {
