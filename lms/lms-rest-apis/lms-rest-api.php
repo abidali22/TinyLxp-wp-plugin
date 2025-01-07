@@ -9,6 +9,7 @@ require_once( LMS__PLUGIN_DIR . 'lms-rest-apis/groups.php' );
 require_once( LMS__PLUGIN_DIR . 'lms-rest-apis/assignments.php' );
 require_once( LMS__PLUGIN_DIR . 'lms-rest-apis/assignment-submissions.php' );
 require_once( LMS__PLUGIN_DIR . 'lms-rest-apis/courses.php' );
+require_once( LMS__PLUGIN_DIR . 'lms-rest-apis/edlink-apis.php' );
 
 class LMS_REST_API
 {
@@ -32,6 +33,7 @@ class LMS_REST_API
 		Rest_Lxp_Assignment::init();
 		Rest_Lxp_Assignment_Submission::init();
 		Rest_Lxp_Course::init();
+		Rest_Lxp_Edlink_API::init();
 
 		register_rest_route('lms/v1', '/scores', array(
 			array(

@@ -1,14 +1,13 @@
 <?php
 $livePath = dirname( __FILE__ );
 $treks_src = content_url().'/plugins/TinyLxp-wp-plugin/lms/templates/tinyLxpTheme/treks-src/';
-// Start the loop.
-// $courseId =  isset($_GET['courseid']) ? $_GET['courseid'] : get_post_meta($post->ID, 'tl_course_id', true);
-// $args = array(
-// 	'posts_per_page'   => -1,
-// 	'post_type'        => 'tl_trek',
-//   'order' => 'asc'
-// );
-// $treks = get_posts($args);
+// Get the Edlink API Settings
+$edlink_options = get_option('edlink_options');
+$edlink_sso_link = '';
+if (isset($edlink_options['edlink_application_id']) && $edlink_options['edlink_application_id'] != '' && isset($edlink_options['edlink_application_secrets']) && $edlink_options['edlink_application_secrets'] != '' && isset($edlink_options['edlink_sso_enable']) && $edlink_options['edlink_sso_enable'] == 1
+  ) {
+      $edlink_sso_link = 'https://ed.link/sso/login?client_id='.$edlink_options['edlink_application_id'].'&redirect_uri='.site_url().'/edlink-integration'.'&response_type=code';
+}
 while (have_posts()) : the_post();
 ?>
 
@@ -41,6 +40,19 @@ while (have_posts()) : the_post();
       }
       .login-submit input#wp-submit {
         padding: 6px 9px 6px 8px;
+      }
+      .custom-login-button {
+          background-color: #0073aa;
+          color: white;
+          padding: 8px 12px;
+          border-radius: 5px;
+          text-decoration: none;
+          margin-left: 10px;
+      }
+
+      .custom-login-button:hover {
+          background-color: #005a8c;
+          color: white;
       }
     </style>
 </head>
@@ -116,6 +128,25 @@ while (have_posts()) : the_post();
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
     crossorigin="anonymous"></script>
+    <?php    
+      if (isset($edlink_sso_link) && $edlink_sso_link != '') { 
+    ?>
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            var loginButton = $('#wp-submit'); // Find the Log In button using jQuery
+            if (loginButton.length) {
+                var customButton = $('<a>', { // Create a custom button element using jQuery
+                    href: '<?php echo $edlink_sso_link; ?>', // Set link URL
+                    text: 'Login With Edlink', // Set button text
+                    style: 'background-color: #0073aa; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px;',
+                    css: { 'margin-left': '10px' } // Add spacing with inline CSS
+                });
+
+                loginButton.after(customButton); // Insert custom button next to Log In button
+            }
+        });
+    </script>
+  <?php } ?>
 </body>
 
 </html>

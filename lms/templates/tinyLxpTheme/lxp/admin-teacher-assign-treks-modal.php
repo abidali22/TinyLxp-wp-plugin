@@ -116,7 +116,7 @@ $courses = get_posts($args);
         });
     });
 
-    function onTeacherAssignCoursesClick(teacher_post_id) {
+    function onTeacherRestrictCoursesClick(teacher_post_id) {
         jQuery("#teacher_post_id").val(teacher_post_id);
 
         let host = window.location.hostname === 'localhost' ? window.location.origin + '/wordpress' : window.location.origin;
