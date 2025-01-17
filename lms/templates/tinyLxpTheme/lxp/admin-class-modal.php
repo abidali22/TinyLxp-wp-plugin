@@ -10,7 +10,7 @@ if (!empty($args['district_post'])) {
     $edlink_access_token = (isset($_GET['district_id']) && isset($_GET['district_id']) > 0) ? get_post_meta($_GET['district_id'], 'lxp_edlink_provider_access_token', true) : '';
 }
 ?>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="modal fade classes-modal" id="classModal" tabindex="-1" aria-labelledby="classModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered class-modal">
         <div class="modal-content">
@@ -36,6 +36,7 @@ if (!empty($args['district_post'])) {
                     ?>
                             <input type="hidden" id="inputEdlinkClassSecId" name="edlink_class_sec_id"/>
                             <div class="label_box" id="edlink_error" style="color:#dc3545"></div>
+                            <div class="label_box" id="people_loader" style="color: #0000ff"></div>
                     <?php        
                         }
                     ?>
@@ -404,6 +405,7 @@ if (!empty($args['district_post'])) {
 
     function getEdlinkClassAndSections($type) {
         jQuery("#edlink-class-action").attr("disabled", true);
+        jQuery("#people_loader").html('<i class="fa fa-spinner fa-spin" style="font-size:25px"></i> Loading ...');
         var access_token = '<?php echo $edlink_access_token; ?>';
         var edlink_school_id = '<?php echo $edlink_school_id; ?>';
         $.ajax({
@@ -426,6 +428,7 @@ if (!empty($args['district_post'])) {
                 jQuery("#edlinkInputClassSecName").html('<option value="0">--- Select ---</option>');
                 jQuery("#inputEdlinkClassSecId").val("");
             }        
+            jQuery("#people_loader").html('');
         });
     }
 

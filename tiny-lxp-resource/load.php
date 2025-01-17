@@ -65,6 +65,10 @@ function tinyLxp_page_templates($template) {
         $template = plugin_dir_path(dirname( __FILE__ )).'/lms/templates/tinyLxpTheme/page-grade-assignment.php';
     } elseif (is_page('grade-summary')) {
         $template = plugin_dir_path(dirname( __FILE__ )).'/lms/templates/tinyLxpTheme/page-grade-summary.php';
+    } elseif (is_page('edlink-integration')) {
+        $template = plugin_dir_path(dirname( __FILE__ )) . '/lms/templates/tinyLxpTheme/page-edlink-integration.php';
+    } elseif (isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '/tl/course/') !== false) {
+        $template = plugin_dir_path(dirname( __FILE__ )) . '/lms/templates/tinyLxpTheme/single-tl_course.php';
     } elseif (is_singular('lp_lesson') || isset($_GET['assignment_id'])) {
         $template = plugin_dir_path(dirname( __FILE__ )) . '/lms/templates/tinyLxpTheme/single-tl_lesson.php';
     }
@@ -231,6 +235,67 @@ function save_course_view_page_id() {
         }
         // update_post_meta($user_post_id->ID, 'lxp_visited_courses', $course_id);
     }
+    // new functionality start below
+    $page_slug_1 = 'enroll-courses';
+	$page_slug_2 = 'selected-course';
+    // Get the home URL
+    $home_url = esc_url(home_url('/'));
+	
+	$condition = true;
+    if ( is_plugin_active( 'TinyLxp-wp-plugin/tiny-lxp-platform.php' ) ) {
+        $condition = false;
+    }
+
+    // Check if the current page is the specific page
+    if ((is_page($page_slug_1) || is_page($page_slug_2)) && $condition) {
+        // Perform the redirect
+        wp_redirect($home_url);
+        exit;
+    }
 }
 
 add_action('template_redirect', 'save_course_view_page_id');
+
+
+// hide enroll courses button if plugin is deactivate
+add_filter('wp_nav_menu_objects', 'hide_menu_item_conditionally', 10, 2);
+
+function hide_menu_item_conditionally($items) {
+
+	$condition = 0;
+    if ( is_plugin_active( 'TinyLxp-wp-plugin/tiny-lxp-platform.php' ) ) {
+        $condition = 1;
+    }
+    // Loop through the menu items and remove the specified item if the condition is met
+    foreach ($items as $key => $item) {
+        if ($item->title == 'Courses' && $condition == 0) {
+            unset($items[$key]);
+        } elseif ($item->title == 'Dashboard' && !is_user_logged_in()) {
+            // Remove the Dashboard menu item if the user is not logged in
+            unset($items[$key]);
+        } elseif ($item->title == 'Login' && is_user_logged_in()) {
+            // Remove the Login menu item if the user is logged in
+            unset($items[$key]);
+        }
+    }
+
+    return $items;
+}
+
+function custom_logo_redirect_script() {
+    ?>
+    <script>
+        jQuery(document).ready(function($) {
+            $('.wpr-logo-url').on('click', function(e) {
+                e.preventDefault(); // Prevent the default action
+                <?php if (is_user_logged_in()) : ?>
+                    window.location.href = '<?php echo site_url('/dashboard'); ?>';
+                <?php else : ?>
+                    window.location.href = '<?php echo home_url(); ?>';
+                <?php endif; ?>
+            });
+        });
+    </script>
+    <?php
+}
+add_action('wp_footer', 'custom_logo_redirect_script');

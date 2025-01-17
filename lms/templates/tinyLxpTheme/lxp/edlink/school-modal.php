@@ -165,7 +165,7 @@
     function getEdlinkSchools() {
         jQuery("#saveEdlinkSchoolBtn").attr("disabled", true);
         jQuery("#edlink_loader").html('<i class="fa fa-spinner fa-spin" style="font-size:25px"></i> Loading ...');
-        jQuery("#people_loader").html('<i class="fa fa-spinner fa-spin" style="font-size:25px"></i> Loading ...');
+        // jQuery("#people_loader").html('<i class="fa fa-spinner fa-spin" style="font-size:25px"></i> Loading ...');
         var access_token = '<?php echo $edlink_access_token; ?>';
         $.ajax({
             method: "POST",            

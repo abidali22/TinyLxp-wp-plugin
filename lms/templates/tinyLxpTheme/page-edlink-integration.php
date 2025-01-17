@@ -1,5 +1,6 @@
 <?php	
-	$treks_src = get_stylesheet_directory_uri() . '/treks-src';	
+	$treks_src = content_url().'/plugins/TinyLxp-wp-plugin/lms/templates/tinyLxpTheme/treks-src/';
+	$livePath = dirname( __FILE__ );
 	$error = '';		
 	// Get the authorization code from the query string
 	$edlink_options = get_option('edlink_options');
@@ -63,7 +64,7 @@
 						wp_set_auth_cookie($user->ID);   // Set the authentication cookies
 						
 						// Optional: Redirect the user after login
-						wp_redirect(home_url());  // Redirect to the homepage (or any URL you prefer)
+						wp_redirect('dashboard');  // Redirect to the homepage (or any URL you prefer)
 						exit;
 					}
 				}
@@ -128,14 +129,7 @@
     <!-- Header Section -->
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <div class="header-logo-search">
-                    <!-- logo -->
-                    <div class="header-logo">
-                        <img src="<?php echo $treks_src; ?>/assets/img/header_logo.svg" alt="svg" />
-                    </div>
-                </div>
-            </a>
+			<?php include $livePath.'/trek/header-logo.php'; ?>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
