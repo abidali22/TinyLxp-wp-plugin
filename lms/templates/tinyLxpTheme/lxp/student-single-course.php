@@ -63,7 +63,7 @@ while (have_posts()) : the_post();
         font-size: 0.85rem;
       }
       .central-cncpt-section{
-        padding-top: 30px;
+        padding-top: 5%;
       }
       .central-cncpt-section h1 {
         font-size: 1.6rem;

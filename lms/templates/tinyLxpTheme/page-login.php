@@ -54,6 +54,52 @@ while (have_posts()) : the_post();
           background-color: #005a8c;
           color: white;
       }
+      #loginform{
+        margin-top: 20px;
+      }
+
+      .edlink-container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            /*box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);*/
+            width: 90%;
+            max-width: 31%;
+            margin: 0% 0% -4% 37%;
+        }
+        .edlink-btn a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            border: 1px solid;
+            text-decoration: none;
+            font-size: 16px;
+            background: #fff;
+            border-radius: 5px;
+        }
+        .edlink-btn img {
+            height: 20px;
+            margin-right: 8px;
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #000;
+        }
+        .divider:not(:empty)::before {
+            margin-right: 10px;
+        }
+        .divider:not(:empty)::after {
+            margin-left: 10px;
+        }
     </style>
 </head>
 
@@ -93,22 +139,39 @@ while (have_posts()) : the_post();
       <div class="recent-treks-section-div">
         <!--  TREKs header-->
         <div class="recent-treks-header section-div-header">
-          <h2>Login</h2>
+          <h2>Sign in to TinyLXP</h2>
           
         </div>
         <div class="lxp-login-container">
           <!-- TREKs cards -->
+          <?php    
+            if (!is_user_logged_in() && isset($edlink_sso_link) && $edlink_sso_link != '') { 
+          ?>
+          <div class="edlink-container">
+              <div class="edlink-btn">
+                  <a href="<?php echo $edlink_sso_link ?>" class="btn btn-lg">
+                      <img src="<?php echo $treks_src; ?>/assets/img/edlink_img.png" alt="Edlink Logo" />
+                      Sign In With Edlink
+                  </a>
+              </div>
+              <div class="divider">OR</div>
+          </div>
+          <?php
+            }
+          ?>
           <div class="recent-treks-cards-list">
             
             <?php   if (is_user_logged_in()) { ?>
-              <a href="<?php echo wp_logout_url("login"); ?>">Logout</a>
+              You are already logged in
+              <a class="btn btn-xs btn-secondary" href="<?php echo wp_logout_url("login"); ?>">Logout</a>
             <?php   } ?>
 
             <?php
               if (!is_user_logged_in()) {
-                $redirect_to = isset($_GET['redirect']) ? urldecode($_GET['redirect']) : site_url("/dashboard");
+                $redirect_to = isset($_GET['redirect']) ? urldecode($_GET['redirect']) : site_url("/dashboard/");
                 $args = array(
                   'echo' => true,
+                  'label_log_in' => 'Sign In With Email', // Change the button text
                   'label_username' => 'Email &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                   'redirect' => $redirect_to
                 );
@@ -128,25 +191,6 @@ while (have_posts()) : the_post();
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
     crossorigin="anonymous"></script>
-    <?php    
-      if (isset($edlink_sso_link) && $edlink_sso_link != '') { 
-    ?>
-    <script type="text/javascript">
-        jQuery(document).ready(function($) {
-            var loginButton = $('#wp-submit'); // Find the Log In button using jQuery
-            if (loginButton.length) {
-                var customButton = $('<a>', { // Create a custom button element using jQuery
-                    href: '<?php echo $edlink_sso_link; ?>', // Set link URL
-                    text: 'Login With Edlink', // Set button text
-                    style: 'background-color: #0073aa; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px;',
-                    css: { 'margin-left': '10px' } // Add spacing with inline CSS
-                });
-
-                loginButton.after(customButton); // Insert custom button next to Log In button
-            }
-        });
-    </script>
-  <?php } ?>
 </body>
 
 </html>

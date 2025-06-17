@@ -104,24 +104,11 @@ if (isset($_GET['inactive']) && $_GET['inactive'] === 'true') {
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
             integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
             
-        <!-- <style type="text/css">
-            .treks-card {
-                width: 300px !important;
+        <style type="text/css">
+            .admin_district_cards {
+                margin-bottom: 30px;
             }
-
-            .fc-content {
-                padding: 7px;
-            }
-
-            .eventCloseBtn {
-                padding: 3px;
-                font-size: 18px;
-            }
-
-            .treks-card-link {
-                text-decoration: none !important;
-            }
-        </style> -->
+        </style>
     </head>
 
     <body>
@@ -165,259 +152,259 @@ if (isset($_GET['inactive']) && $_GET['inactive'] === 'true') {
         <div class="welcome-content">
             <h2 class="welcome-heading">Districts</h2>
             <p class="welcome-text">Manage your Districts</p>
-            <form class="row g-3 recent-treks-section-div">
-                <?php 
-                    if (isset($edlink_options['edlink_application_id']) && $edlink_options['edlink_application_id'] != '' && isset($edlink_options['edlink_application_secrets']) && $edlink_options['edlink_application_secrets'] != '' && isset($edlink_options['edlink_sso_enable']) && $edlink_options['edlink_sso_enable'] == 1
-                    ) {
-                ?>
-                    <div class="col-md-4">
-                        <label for="district_type" class="form-label">Integration</label>
-                        <select id="district_type" name="district_type" class="form-select" onChange="javascript:onChangeDistrictType();">                        
-                            <?php 
-                                if (isset($_GET['district_type']) && $_GET['district_type'] == 'edlink') {
-                            ?>
-                                    <option value="tinylxp">TinyLxp</option>
-                                    <option value="edlink" selected="selected">Edlink</option>
-                            <?php        
-
-                                } else {
-                            ?>
-                                    <option value="tinylxp">TinyLxp</option>
-                                    <option value="edlink">Edlink</option>
-                            <?php
-                                }
-                            ?>
-                        </select>                    
-                    </div>
-                <?php } ?>    
-                <div class="col-md-8">
-                    <?php 
-                        if (isset($_GET['district_type']) && $_GET['district_type'] == 'edlink') {
-                            $model_id = 'addEdlinkDistrictModal';
-                        } else {
-                            $model_id = 'addDistrictModal';
-                        }
-                    ?>
-                    <button class="add-heading" type="button" id="<?php echo $model_id; ?>" class="primary-btn" style="margin-top: 25px;">Add New District</button>
-                </div>
-            </form>
         </div>
 
         <!-- Districts: section-->
         <section class="district-section">
-            <section class="district_teacher_cards">
+            <section class="admin_district_cards">
+                <form class="row g-3 recent-treks-section-div">
+                    <?php 
+                        if (isset($edlink_options['edlink_application_id']) && $edlink_options['edlink_application_id'] != '' && isset($edlink_options['edlink_application_secrets']) && $edlink_options['edlink_application_secrets'] != '' && isset($edlink_options['edlink_sso_enable']) && $edlink_options['edlink_sso_enable'] == 1
+                        ) {
+                    ?>
+                        <div class="col-md-4">
+                            <label for="district_type" class="form-label">Integration</label>
+                            <select id="district_type" name="district_type" class="form-select" onChange="javascript:onChangeDistrictType();">                        
+                                <?php 
+                                    if (isset($_GET['district_type']) && $_GET['district_type'] == 'edlink') {
+                                ?>
+                                        <option value="tinylxp">TinyLxp</option>
+                                        <option value="edlink" selected="selected">Edlink</option>
+                                <?php        
 
+                                    } else {
+                                ?>
+                                        <option value="tinylxp">TinyLxp</option>
+                                        <option value="edlink">Edlink</option>
+                                <?php
+                                    }
+                                ?>
+                            </select>                    
+                        </div>
+                    <?php } ?>    
+                    <div class="col-md-8">
+                        <?php 
+                            if (isset($_GET['district_type']) && $_GET['district_type'] == 'edlink') {
+                                $model_id = 'addEdlinkDistrictModal';
+                            } else {
+                                $model_id = 'addDistrictModal';
+                            }
+                        ?>
+                        <button class="add-heading" type="button" id="<?php echo $model_id; ?>" class="primary-btn" style="margin-top: 25px;">Add New District</button>
+                    </div>
+                </form>
+            </section>
                 <!-- Admin District Table Section -->
-                <section class="recent-treks-section-div table-district-section">
-                    <!-- bootstrap Active and Inactive tabs -->
-                    <ul class="nav nav-tabs mb-3" id="settingsTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link<?php echo !isset($_GET['inactive']) ? ' active':''; ?>" id="active-tab" data-bs-toggle="tab" href="#active" role="tab" aria-controls="active" aria-selected="true">Active</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link<?php echo isset($_GET['inactive']) ? ' active' : ''; ?>" id="inactive-tab" data-bs-toggle="tab" href="#inactive" role="tab" aria-controls="inactive" aria-selected="false">Inactive</a>
-                        </li>
-                    </ul>
-                    
-                    <div class="students-table">
-                        <div class="district-box">
-                            <div class="showing-row-box">
-                                <!-- <p class="showing-row-text">Showing 1 - 5 of 25</p> -->
-                                <!-- 
-                                <div class="row-box">
-                                    <p class="showing-row-text">Rows per page</p>
-                                    <div class="show-page">
-                                        <button class="show-page-button" type="button" id="dropdownMenu2"
-                                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <span class="showing-row-text">5</span>
+            <section class="recent-treks-section-div table-district-section">
+                <!-- bootstrap Active and Inactive tabs -->
+                <ul class="nav nav-tabs mb-3" id="settingsTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link<?php echo !isset($_GET['inactive']) ? ' active':''; ?>" id="active-tab" data-bs-toggle="tab" href="#active" role="tab" aria-controls="active" aria-selected="true">Active</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link<?php echo isset($_GET['inactive']) ? ' active' : ''; ?>" id="inactive-tab" data-bs-toggle="tab" href="#inactive" role="tab" aria-controls="inactive" aria-selected="false">Inactive</a>
+                    </li>
+                </ul>
+                
+                <div class="students-table">
+                    <div class="district-box">
+                        <div class="showing-row-box">
+                            <!-- <p class="showing-row-text">Showing 1 - 5 of 25</p> -->
+                            <!-- 
+                            <div class="row-box">
+                                <p class="showing-row-text">Rows per page</p>
+                                <div class="show-page">
+                                    <button class="show-page-button" type="button" id="dropdownMenu2"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="showing-row-text">5</span>
+                                    </button>
+                                    <img id="dropdownMenu2" data-bs-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false" src="<?php // echo $treks_src; ?>/assets/img//show-down-page.svg" alt="logo" />
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                        <button class="dropdown-item dropdown-class">
+                                            <p class="page-row-para">1</p>
                                         </button>
-                                        <img id="dropdownMenu2" data-bs-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false" src="<?php // echo $treks_src; ?>/assets/img//show-down-page.svg" alt="logo" />
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                            <button class="dropdown-item dropdown-class">
-                                                <p class="page-row-para">1</p>
-                                            </button>
-                                            <button class="dropdown-item dropdown-class" type="button">
-                                                <p class="page-row-para">2</p>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div> -->
-
-                            </div>
-                            <!-- <div class="row-box">
-                                <p class="showing-row-text">First</p>
-                                <img class="previous-slide-img" src="<?php // echo $treks_src; ?>/assets/img/previous-arrow.svg" alt="logo" />
-                                <div class="slides-boxes">
-                                    <div class="slide-box"><span class="showing-row-text slide-num">1</span></div>
-                                    <div class="slide-box"><span class="showing-row-text slide-num slide-num2">2</span>
-                                    </div>
-                                    <div class="slide-box"><span class="showing-row-text slide-num slide-num2">3</span>
+                                        <button class="dropdown-item dropdown-class" type="button">
+                                            <p class="page-row-para">2</p>
+                                        </button>
                                     </div>
                                 </div>
-                                <img class="last-slide-img" src="<?php // echo $treks_src; ?>/assets/img/last-slide.svg" alt="logo" />
-                                <p class="showing-row-text">Last</p>
                             </div> -->
+
                         </div>
-                        <table class="table teacher_table">
-                            <thead>
+                        <!-- <div class="row-box">
+                            <p class="showing-row-text">First</p>
+                            <img class="previous-slide-img" src="<?php // echo $treks_src; ?>/assets/img/previous-arrow.svg" alt="logo" />
+                            <div class="slides-boxes">
+                                <div class="slide-box"><span class="showing-row-text slide-num">1</span></div>
+                                <div class="slide-box"><span class="showing-row-text slide-num slide-num2">2</span>
+                                </div>
+                                <div class="slide-box"><span class="showing-row-text slide-num slide-num2">3</span>
+                                </div>
+                            </div>
+                            <img class="last-slide-img" src="<?php // echo $treks_src; ?>/assets/img/last-slide.svg" alt="logo" />
+                            <p class="showing-row-text">Last</p>
+                        </div> -->
+                    </div>
+                    <table class="table teacher_table">
+                        <thead>
+                            <tr>
+                                <th class="">
+                                    <div class="th1">
+                                        District
+                                        <img src="<?php echo $treks_src; ?>/assets/img/showing.svg" alt="logo" />
+                                    </div>
+                                </th>
+                                <?php 
+                                    if (isset($_GET['district_type']) && $_GET['district_type'] == 'edlink') {
+                                ?>
+                                        <th>
+                                            <div class="th1 th2">
+                                                Provider
+                                                <img src="<?php echo $treks_src; ?>/assets/img/showing.svg" alt="logo" />
+                                            </div>
+                                        </th>
+                                <?php
+                                    }
+                                ?>
+                                <th>
+                                    <div class="th1 th2">
+                                        Administrator
+                                        <img src="<?php echo $treks_src; ?>/assets/img/showing.svg" alt="logo" />
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="th1 th3">
+                                        ID
+                                        <img src="<?php echo $treks_src; ?>/assets/img/showing.svg" alt="logo" />
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="th1 th4">
+                                        Schools
+                                        <img src="<?php echo $treks_src; ?>/assets/img/showing.svg" alt="logo" />
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="th1 th4">
+                                        Teachers
+                                        <img src="<?php echo $treks_src; ?>/assets/img/showing.svg" alt="logo" />
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="th1 th5">
+                                        Students
+                                        <img src="<?php echo $treks_src; ?>/assets/img/showing.svg" alt="logo" />
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="th1 th5">
+                                        Region / District
+                                        <img src="<?php echo $treks_src; ?>/assets/img/showing.svg" alt="logo" />
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php 
+                                foreach ($district_posts as $district) {
+                                    $district_type = get_post_meta($district->ID, 'lxp_district_type', true);
+                                    $edlink_provider_id = get_post_meta($district->ID, 'lxp_edlink_provider_id', true);
+                                    $edlink_provider_name = get_post_meta($district->ID, 'lxp_edlink_provider_name', true);
+                                    $edlink_provider_access_token = get_post_meta($district->ID, 'lxp_edlink_provider_access_token', true);
+                                    $edlink_district_id = get_post_meta($district->ID, 'lxp_edlink_district_id', true);
+                            ?>
                                 <tr>
-                                    <th class="">
-                                        <div class="th1">
-                                            District
-                                            <img src="<?php echo $treks_src; ?>/assets/img/showing.svg" alt="logo" />
+                                    <td class="user-box">
+                                        <div class="table-user">
+                                            <img src="<?php echo $treks_src; ?>/assets/img/profile-icon.png" alt="district" />
+                                            <div class="user-about">
+                                                <h5><?php echo $district->post_title ?></h5>
+                                            </div>
                                         </div>
-                                    </th>
+                                    </td>
                                     <?php 
                                         if (isset($_GET['district_type']) && $_GET['district_type'] == 'edlink') {
                                     ?>
-                                            <th>
-                                                <div class="th1 th2">
-                                                    Provider
-                                                    <img src="<?php echo $treks_src; ?>/assets/img/showing.svg" alt="logo" />
-                                                </div>
-                                            </th>
+                                            <td>
+                                                <div class="table-status"><?php echo $edlink_provider_name; ?></div>
+                                            </td>
                                     <?php
                                         }
                                     ?>
-                                    <th>
-                                        <div class="th1 th2">
-                                            Administrator
-                                            <img src="<?php echo $treks_src; ?>/assets/img/showing.svg" alt="logo" />
-                                        </div>
-                                    </th>
-                                    <th>
-                                        <div class="th1 th3">
-                                            ID
-                                            <img src="<?php echo $treks_src; ?>/assets/img/showing.svg" alt="logo" />
-                                        </div>
-                                    </th>
-                                    <th>
-                                        <div class="th1 th4">
-                                            Schools
-                                            <img src="<?php echo $treks_src; ?>/assets/img/showing.svg" alt="logo" />
-                                        </div>
-                                    </th>
-                                    <th>
-                                        <div class="th1 th4">
-                                            Teachers
-                                            <img src="<?php echo $treks_src; ?>/assets/img/showing.svg" alt="logo" />
-                                        </div>
-                                    </th>
-                                    <th>
-                                        <div class="th1 th5">
-                                            Students
-                                            <img src="<?php echo $treks_src; ?>/assets/img/showing.svg" alt="logo" />
-                                        </div>
-                                    </th>
-                                    <th>
-                                        <div class="th1 th5">
-                                            Region / District
-                                            <img src="<?php echo $treks_src; ?>/assets/img/showing.svg" alt="logo" />
-                                        </div>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php 
-                                    foreach ($district_posts as $district) {
-                                        $district_type = get_post_meta($district->ID, 'lxp_district_type', true);
-                                        $edlink_provider_id = get_post_meta($district->ID, 'lxp_edlink_provider_id', true);
-                                        $edlink_provider_name = get_post_meta($district->ID, 'lxp_edlink_provider_name', true);
-                                        $edlink_provider_access_token = get_post_meta($district->ID, 'lxp_edlink_provider_access_token', true);
-                                        $edlink_district_id = get_post_meta($district->ID, 'lxp_edlink_district_id', true);
-                                ?>
-                                    <tr>
-                                        <td class="user-box">
-                                            <div class="table-user">
-                                                <img src="<?php echo $treks_src; ?>/assets/img/profile-icon.png" alt="district" />
-                                                <div class="user-about">
-                                                    <h5><?php echo $district->post_title ?></h5>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <?php 
-                                            if (isset($_GET['district_type']) && $_GET['district_type'] == 'edlink') {
-                                        ?>
-                                                <td>
-                                                    <div class="table-status"><?php echo $edlink_provider_name; ?></div>
-                                                </td>
-                                        <?php
-                                            }
-                                        ?>
-                                        <td>
-                                            <div class="table-status"><?php echo get_userdata(get_post_meta($district->ID, 'lxp_district_admin', true))->display_name; ?></div>
-                                        </td>
-                                        <td><?php echo $district->ID; ?></td>
-                                        <td><?php 
-                                            $schools = lxp_get_district_schools($district->ID);
-                                            echo count($schools);
-                                        ?></td>
-                                        <td><?php
-                                            // reduce array of schools to array of teachers
-                                            $teachers = array_reduce($schools, function ($carry, $school) {
-                                                $school_teachers = lxp_get_school_teachers($school->ID);
-                                                return array_merge($carry, $school_teachers);
-                                            }, array()); 
-                                            echo count($teachers);
-                                        ?></td>
-                                        <td><?php 
-                                            // reduce array of schools to array of students
-                                            $students = array_reduce($schools, function ($carry, $school) {
-                                                $school_students = lxp_get_school_students($school->ID);
-                                                return array_merge($carry, $school_students);
-                                            }, array());
-                                            echo count($students);
-                                        ?></td>
-                                        <td>Texas</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="dropdown_btn" type="button" id="dropdownMenu2"
-                                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <img src="<?php echo $treks_src; ?>/assets/img/dots.svg" alt="logo" />
+                                    <td>
+                                        <div class="table-status"><?php echo get_userdata(get_post_meta($district->ID, 'lxp_district_admin', true))->display_name; ?></div>
+                                    </td>
+                                    <td><?php echo $district->ID; ?></td>
+                                    <td><?php 
+                                        $schools = lxp_get_district_schools($district->ID);
+                                        echo count($schools);
+                                    ?></td>
+                                    <td><?php
+                                        // reduce array of schools to array of teachers
+                                        $teachers = array_reduce($schools, function ($carry, $school) {
+                                            $school_teachers = lxp_get_school_teachers($school->ID);
+                                            return array_merge($carry, $school_teachers);
+                                        }, array()); 
+                                        echo count($teachers);
+                                    ?></td>
+                                    <td><?php 
+                                        // reduce array of schools to array of students
+                                        $students = array_reduce($schools, function ($carry, $school) {
+                                            $school_students = lxp_get_school_students($school->ID);
+                                            return array_merge($carry, $school_students);
+                                        }, array());
+                                        echo count($students);
+                                    ?></td>
+                                    <td>Texas</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="dropdown_btn" type="button" id="dropdownMenu2"
+                                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <img src="<?php echo $treks_src; ?>/assets/img/dots.svg" alt="logo" />
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                <button class="dropdown-item" type="button" onclick="onDistrictEdit(
+                                                    <?php echo $district->ID; ?>,
+                                                    '<?php echo $district_type; ?>',
+                                                    '<?php echo $edlink_provider_id; ?>',
+                                                    '<?php echo $edlink_provider_name; ?>',
+                                                    '<?php echo $edlink_provider_access_token; ?>',
+                                                    '<?php echo $edlink_district_id; ?>'
+                                                    )"><img src="<?php echo $treks_src; ?>/assets/img/edit.svg" alt="logo" />Edit</button>
+                                                <!-- <button class="dropdown-item" type="button"><img src="<?php // echo $treks_src; ?>/assets/img/delete.svg" alt="logo" />Delete</button> -->
+                                                <button class="dropdown-item" type="button" onclick="onSettingsClick(<?php echo $district->ID; ?>, 'district')">
+                                                    <img src="<?php echo $treks_src; ?>/assets/img/edit.svg" alt="logo" />
+                                                    Settings
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                                    <button class="dropdown-item" type="button" onclick="onDistrictEdit(
-                                                        <?php echo $district->ID; ?>,
-                                                        '<?php echo $district_type; ?>',
-                                                        '<?php echo $edlink_provider_id; ?>',
-                                                        '<?php echo $edlink_provider_name; ?>',
-                                                        '<?php echo $edlink_provider_access_token; ?>',
-                                                        '<?php echo $edlink_district_id; ?>'
-                                                        )"><img src="<?php echo $treks_src; ?>/assets/img/edit.svg" alt="logo" />Edit</button>
-                                                    <!-- <button class="dropdown-item" type="button"><img src="<?php // echo $treks_src; ?>/assets/img/delete.svg" alt="logo" />Delete</button> -->
-                                                    <button class="dropdown-item" type="button" onclick="onSettingsClick(<?php echo $district->ID; ?>, 'district')">
-                                                        <img src="<?php echo $treks_src; ?>/assets/img/edit.svg" alt="logo" />
-                                                        Settings
-                                                    </button>
-                                                </div>
                                             </div>
-                                        </td>
-                                    </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
-                        <div class="district-box">
-                            <!-- <div class="showing-row-box">
-                                <p class="showing-row-text">Showing 1 - 5 of 25</p>
-                            </div> -->
-                            <!-- <div class="row-box">
-                                <p class="showing-row-text">First</p>
-                                <img class="previous-slide-img" src="<?php // echo $treks_src; ?>/assets/img/previous-arrow.svg" alt="logo" />
-                                <div class="slides-boxes">
-                                    <div class="slide-box"><span class="showing-row-text slide-num">1</span></div>
-                                    <div class="slide-box"><span class="showing-row-text slide-num slide-num2">2</span>
-                                    </div>
-                                    <div class="slide-box"><span class="showing-row-text slide-num slide-num2">3</span>
-                                    </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                    <div class="district-box">
+                        <!-- <div class="showing-row-box">
+                            <p class="showing-row-text">Showing 1 - 5 of 25</p>
+                        </div> -->
+                        <!-- <div class="row-box">
+                            <p class="showing-row-text">First</p>
+                            <img class="previous-slide-img" src="<?php // echo $treks_src; ?>/assets/img/previous-arrow.svg" alt="logo" />
+                            <div class="slides-boxes">
+                                <div class="slide-box"><span class="showing-row-text slide-num">1</span></div>
+                                <div class="slide-box"><span class="showing-row-text slide-num slide-num2">2</span>
                                 </div>
-                                <img class="last-slide-img" src="<?php // echo $treks_src; ?>/assets/img/last-slide.svg" alt="logo" />
-                                <p class="showing-row-text">Last</p>
-                            </div> -->
-                        </div>
+                                <div class="slide-box"><span class="showing-row-text slide-num slide-num2">3</span>
+                                </div>
+                            </div>
+                            <img class="last-slide-img" src="<?php // echo $treks_src; ?>/assets/img/last-slide.svg" alt="logo" />
+                            <p class="showing-row-text">Last</p>
+                        </div> -->
                     </div>
-                </section>
+                </div>
             </section>
+            
         </section>
     </section>
 

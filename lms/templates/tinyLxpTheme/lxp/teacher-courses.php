@@ -273,7 +273,8 @@ while (have_posts()) : the_post();
                                         </div>
                                         <?php
                                             if(get_the_post_thumbnail($course->ID, "medium", array( 'class' => 'rounded' ))){
-                                                echo get_the_post_thumbnail($course->ID, "medium", array( 'class' => 'rounded' ));
+                                                echo get_the_post_thumbnail($course->ID, "medium", array( 'class' => 'rounded',
+                                                'style' => 'width:300px;' ));
                                             } else {
                                                 ?>
                                                 <img width="300" height="180" src="<?php echo $treks_src; ?>/assets/img/tr_main.jpg" class="rounded wp-post-image" />
@@ -318,7 +319,8 @@ while (have_posts()) : the_post();
                                         </div>
                                         <?php 
                                             if (get_the_post_thumbnail($course->ID, "medium", array( 'class' => 'rounded' ))) {
-                                                echo get_the_post_thumbnail($course->ID, "medium", array( 'class' => 'rounded' ));
+                                                echo get_the_post_thumbnail($course->ID, "medium", array( 'class' => 'rounded',
+                                                'style' => 'width:300px;' ));
                                             } else {
                                                 ?>
                                                 <img width="300" height="180" src="<?php echo $treks_src; ?>/assets/img/tr_main.jpg" class="rounded wp-post-image" />

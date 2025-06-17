@@ -10,11 +10,14 @@ if ( isset($_GET['q']) && strlen($_GET['q']) > 0 ) {
     $args = array(
         'posts_per_page'   => -1,
         'post_type'        => TL_COURSE_CPT,
-        'meta_key'        => 'sort',
+        // 'meta_key'        => 'sort',
         'orderby'        => 'meta_value_num',
         'order' => 'asc'
     );
     $args['s'] = urldecode($_GET['q']);  
+    // $loop = new WP_Query( $args );
+    // echo $loop->request;
+    // die;
     $treks = get_posts($args);
     
     unset($args['s']);

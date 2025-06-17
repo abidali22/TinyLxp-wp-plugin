@@ -9,8 +9,8 @@ $treks = array();
 if ( isset($_GET['q']) && strlen($_GET['q']) > 0 ) {
     $args = array(
         'posts_per_page'   => -1,
-        'post_type'        => 'tl_trek',
-        'meta_key'        => 'sort',
+        'post_type'        => TL_COURSE_CPT,
+        // 'meta_key'        => 'sort',
         'orderby'        => 'meta_value_num',
         'order' => 'asc'
     );

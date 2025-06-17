@@ -1,6 +1,7 @@
 <?php
 require_once plugin_dir_path(dirname(__FILE__)) . 'tiny-lxp-resource/Activity.php';
 require_once plugin_dir_path(dirname(__FILE__)) . 'lms/tl-constants.php';
+require_once plugin_dir_path(dirname(__FILE__)) . 'lms/xapi-constants.php';
 require_once plugin_dir_path(dirname(__FILE__)) . 'lms/class-abstract-tl-post-type.php';
 require_once plugin_dir_path(dirname(__FILE__)) . 'lms/class-course-post-type.php';
 require_once plugin_dir_path(dirname(__FILE__)) . 'lms/class-lesson-post-type.php';
@@ -57,6 +58,8 @@ function tinyLxp_page_templates($template) {
         $template = plugin_dir_path(dirname( __FILE__ )).'/lms/templates/tinyLxpTheme/page-assignments.php';
     } elseif (is_page('assignment')) {
         $template = plugin_dir_path(dirname( __FILE__ )).'/lms/templates/tinyLxpTheme/page-assignment.php';
+    } elseif (is_page('search')) {
+        $template = plugin_dir_path(dirname( __FILE__ )).'/lms/templates/tinyLxpTheme/page-search.php';
     } elseif (is_page('calendar')) {
         $template = plugin_dir_path(dirname( __FILE__ )).'/lms/templates/tinyLxpTheme/page-calendar.php';
     } elseif (is_page('grades')) {
