@@ -16,7 +16,7 @@
    /**
     * @var string
     */
-   protected $_post_type = TL_LESSON_CPT;
+   protected $_post_type = 'tl_lesson';
 
    /**
     * Get Instance
@@ -91,14 +91,14 @@
       
       $args = array(
          'labels'             => $labels,
-         'public'             => true,
+         'public'             => false,
          'query_var'          => true,
          'publicly_queryable' => true,
-         'show_ui'            => true,
+         'show_ui'            => false,
          'has_archive'        => true,
          'show_in_menu'       => false,
          'show_in_admin_bar'  => false,
-         'show_in_nav_menus'  => true,
+         'show_in_nav_menus'  => false,
          'rewrite'            => array(
             'slug'       => 'tl/lessons',
             'with_front' => false

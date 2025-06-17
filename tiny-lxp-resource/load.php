@@ -194,12 +194,13 @@ function get_activity() {
     }
     $args = array(
         'name'        => $path_segments[3],
-        'post_type'   => 'lp_lesson',
+        'post_type'   => LP_LESSON_CPT,
         'post_status' => 'publish',
         'numberposts' => 1
     );
     $posts = get_posts($args);
     $post = $posts[0];
+    $_GET['post'] = $post->ID;
     $content = get_post_meta($post->ID);
     $attrId =  isset($content['lti_post_attr_id'][0]) ? $content['lti_post_attr_id'][0] : "";
     $title =  isset($content['lti_content_title'][0]) ? $content['lti_content_title'][0] : "";
@@ -211,7 +212,7 @@ function get_activity() {
     if ($attrId) {
         $content .= '<p> [' . $plugin_name . ' tool=' . $toolCode . ' id=' . $attrId . ' title=\"' . $title . '\" url=' . $toolUrl . ' custom=' . $customAttr . ']' . "" . '[/' . $plugin_name . ']  </p>';
     }
-    $_GET['post'] = $post->ID;
+    
     $queryParam = '';
     echo '<iframe style="border: none;width: 100%;height: 482px;" class="" src="'.site_url().'?lti-platform&post='.$post->ID.'&id='.$attrId.$queryParam.'" allowfullscreen></iframe>'; //  height = 706 
 }

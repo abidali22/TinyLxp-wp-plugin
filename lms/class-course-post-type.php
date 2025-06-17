@@ -16,7 +16,7 @@
    /**
     * @var string
     */
-   protected $_post_type = TL_COURSE_CPT;
+   protected $_post_type = 'tl_course';
 
    /**
     * Get Instance
@@ -82,14 +82,14 @@
       
       $args = array(
          'labels'             => $labels,
-         'public'             => true,
+         'public'             => false,
          'query_var'          => true,
-         'publicly_queryable' => true,
-         'show_ui'            => true,
+         'publicly_queryable' => false,
+         'show_ui'            => false,
          'has_archive'        => true,
          'show_in_menu'       => false,
          'show_in_admin_bar'  => false,
-         'show_in_nav_menus'  => true,
+         'show_in_nav_menus'  => false,
          'rewrite'            => array(
             'slug'       => 'tl/courses',
             'with_front' => false
@@ -132,7 +132,7 @@
          'hierarchical'          => false,
          'labels'                => $labels,
          'show_ui'               => true,
-         'show_admin_column'     => true,
+         'show_admin_column'     => false,
          'query_var'             => true,
          'rewrite'               => array( 'slug' => 'lp_course_tag' ),
          'show_in_rest'          => true,
@@ -152,17 +152,19 @@
         $args);
 
         register_taxonomy( 'lp_course_category', TL_COURSE_CPT, array(
+
             "hierarchical" => true,
             "label" => "Categories",
             "singular_label" => "Category",
             'query_var' => true,
-            'public' => true,
+            'public' => false,
             'has_archive' => true,
-            'show_ui' => true,
+            'show_ui' => false,
             '_builtin' => true,
             'show_in_nav_menus' => true,
             'show_admin_column'     => true,
             'rewrite' => array( 'slug' => 'lp_course_category', 'with_front' => false ),
+
             'show_in_rest'          => true,
             'rest_base'             => 'lp_course_category',
             'rest_controller_class' => 'WP_REST_Terms_Controller',

@@ -256,7 +256,7 @@ class Tiny_LXP_Platform_Public
                 $reason = __('Invalid url attribute', Tiny_LXP_Platform::get_plugin_name());
             }
         }
-        if(isset($post->post_type) && $post->post_type == TL_LESSON_CPT && !$ok){
+        if(isset($post->post_type) && $post->post_type == LP_LESSON_CPT && !$ok){
             $link_atts['tool'] = get_post_meta($post->ID, 'lti_tool_code', true); 
             $link_atts['title'] =  get_post_meta($post->ID, 'lti_content_title', true); 
             $link_atts['url'] = get_post_meta($post->ID, 'lti_tool_url', true); 
